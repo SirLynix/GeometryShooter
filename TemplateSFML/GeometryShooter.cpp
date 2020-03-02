@@ -9,6 +9,7 @@
 #include "Weapon.h"
 
 using namespace std;
+using namespace sf;
 string getAppPath();
 string getAssetPath();
 void InputForMovePlayer(sf::Event event, Player* player);
