@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile) : weaponDamage(weaponDamage), speed(speed), origin(origin), targetProjectile(targetProjectile)
+Projectile::Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJETILE_OF projectilOf) : weaponDamage(weaponDamage), speed(speed), origin(origin), targetProjectile(targetProjectile), projectileOf(projectilOf)
 {
 	this->projectile.setRadius(5);
 	this->projectile.setFillColor(sf::Color(255, 255, 255));

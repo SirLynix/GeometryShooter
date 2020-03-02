@@ -6,7 +6,7 @@
 
 const int radiusPlayer = 20;
 
-Player::Player(int _posX, int _posY, Weapon* weapon) : Character(100, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true) {
+Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true) {
 
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setRadius(radiusPlayer);

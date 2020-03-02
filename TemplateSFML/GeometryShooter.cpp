@@ -61,13 +61,14 @@ int main()
 
 		}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 			sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
-			game->player->weapon->Shoot(projPos, &game->listProjectile);
+			game->player->weapon->Shoot(projPos, &game->listProjectile,PROJETILE_OF::PLAYER);
 			
 		}
 
 		game->MoveAllEnemy();
+		game->AllEnemyShoot();
 		game->MoveAllProjectiles();
 		game->CollisionProjectile();
 		game->UpdateTime(deltaTime);

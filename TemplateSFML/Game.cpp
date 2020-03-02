@@ -1,12 +1,13 @@
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 #include "Game.h"
 #include "Enemy.h"
 #include "Zombie.h"
 #include "Archer.h"
 #include "Weapon.h"
 #include "Projectile.h"
-#include <iostream>
+#include "Gun.h"
 
 float Clamp(float f, float limitMax, float limitMin);
 float Abs(float f);
@@ -103,7 +104,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 		if (y < borneMin) {
 			y = borneMin;
 		}
-		Enemy* enemyArcher = new Archer(x, y, thicknessesEnemy, new Weapon(10, 2.0f, 1.0f));
+		Enemy* enemyArcher = new Archer(x, y, thicknessesEnemy, new Gun());
 		if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyArcher->rectangle.getGlobalBounds()))
 		{
 			this->AddEnemy(enemyArcher);
@@ -117,6 +118,13 @@ void Game::UpdateTime(float _deltaTime)
 	this->deltaTime = _deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
+
+	std::list<Enemy*>::iterator it = this->listEnemy.begin();
+	while (it != this->listEnemy.end()) {
+		(*it)->weapon->UpdateFireRate(_deltaTime);
+		it++;
+	}
+
 }
 
 void Game::MoveAllEnemy()
@@ -128,9 +136,19 @@ void Game::MoveAllEnemy()
 		(*it)->UpdatePos(nextX, nextY);
 
 		if (!(*it)->IsOnColliderWithEnemy(this->listEnemy)) {
+			(*it)->weapon->UpdateOrigineProjectile(sf::Vector2f((*it)->posX,(*it)->posY));
 			(*it)->UpdateTarget(sf::Vector2f(this->player->posX, this->player->posY));
 			(*it)->PerformAction(this->deltaTime);
 		}
+		it++;
+	}
+}
+
+void Game::AllEnemyShoot()
+{
+	std::list<Enemy*>::iterator it = this->listEnemy.begin();
+	while (it != this->listEnemy.end()) {
+		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJETILE_OF::ENEMY);
 		it++;
 	}
 }
@@ -153,25 +171,28 @@ void Game::CollisionProjectile() {
 	while (it != this->listProjectile.end()) {
 
 		projectRemove = false;
+		if ((*it)->projectileOf == PROJETILE_OF::PLAYER) {
+			it2 = this->listEnemy.begin();
+			while (it2 != this->listEnemy.end()) {
+				if (it == this->listProjectile.end()) {
+					return;
+				}
+				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
-		it2 = this->listEnemy.begin();
-		while (it2 != this->listEnemy.end()) {
-			if (it == this->listProjectile.end()) {
-				return;
-			} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+					(*it2)->TakeDommage((*it)->weaponDamage);
 
-				(*it2)->TakeDommage((*it)->weaponDamage);
+					(*it)->~Projectile();
+					projectRemove = true;
+					it = listProjectile.erase(it);
+				}
 
-				(*it)->~Projectile();
-				projectRemove = true;
-				it = listProjectile.erase(it);
-			}
-
-			if ((*it2)->vie <= 0) {
-				(*it2)->~Enemy();
-				it2 = listEnemy.erase(it2);
-			} else {
-				it2++;
+				if ((*it2)->vie <= 0) {
+					(*it2)->~Enemy();
+					it2 = listEnemy.erase(it2);
+				}
+				else {
+					it2++;
+				}
 			}
 		}
 
@@ -185,6 +206,17 @@ void Game::CollisionProjectile() {
 				it = listProjectile.erase(it);
 			}
 			it3++;
+		}
+
+		if (!projectRemove && (*it)->projectileOf == PROJETILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
+			this->player->TakeDommage((*it)->weaponDamage);
+			(*it)->~Projectile();
+			projectRemove = true;
+			it = listProjectile.erase(it);
+		}
+
+		if ( this->player->vie <= 0 ) {
+			this->player->SetTypeMovment(ACTION::DEAD);
 		}
 
 		if (!projectRemove) {

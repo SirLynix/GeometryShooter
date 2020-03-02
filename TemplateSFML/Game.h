@@ -30,5 +30,5 @@ public:
 	void MoveAllProjectiles();
 	void CollisionProjectile();
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
-
+	void AllEnemyShoot();
 };
