@@ -6,7 +6,7 @@
 
 enum class ACTION
 {
-	UP, DOWN, LEFT, RIGHT, NONE, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT
+	UP, DOWN, LEFT, RIGHT, NONE, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, IDLE
 };
 
 class Player : public Character
