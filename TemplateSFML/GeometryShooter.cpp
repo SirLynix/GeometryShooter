@@ -7,6 +7,10 @@
 #include "Game.h"
 #include "Player.h"
 #include "Weapon.h"
+#include "Shotgun.h"
+#include "MachineGun.h"
+#include "Gun.h"
+#include "GrenadeLauncher.h"
 
 using namespace std;
 using namespace sf;
@@ -24,7 +28,7 @@ int main()
 	sf::Clock clock;
 	sf::Mouse mouse;
 
-	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Weapon(10, 2.0f, 0.1f)), window.getSize().x, window.getSize().y, &window);
+	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new ShotGun()), window.getSize().x, window.getSize().y, &window);
 
 	float deltaTime;
 
