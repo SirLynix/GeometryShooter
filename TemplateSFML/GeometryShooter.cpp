@@ -55,15 +55,16 @@ int main()
 				game->CreateWave(5, 0);
 			}
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-				sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
-				Projectile* pojectile = game->player->weapon->CreateProjectile(projPos);
-				if (pojectile != nullptr) {
-					game->listProjectile.push_back(pojectile);
-				}
-			}
-
 		}
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
+			Projectile* pojectile = game->player->weapon->CreateProjectile(projPos);
+			if (pojectile != nullptr) {
+				game->listProjectile.push_back(pojectile);
+			}
+		}
+
 		game->MoveAllEnemy();
 		game->MoveAllProjectiles();
 		game->CollisionProjectile();
