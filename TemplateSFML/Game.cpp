@@ -87,7 +87,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 		if (y < borneMin) {
 			y = borneMin;
 		}
-		Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(10, 2, 0));
+		Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(10, 2, -1));
 		if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 		{
 			this->AddEnemy(enemyZombie);
