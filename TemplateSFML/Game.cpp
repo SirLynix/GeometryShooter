@@ -93,7 +93,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 			if (y < borneMin) {
 				y = borneMin;
 			}
-			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(10, 2, -1));
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1));
 			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 			{
 				enemiSpawn = true;
@@ -239,6 +239,26 @@ void Game::CollisionProjectile() {
 		}
 
 		if (!projectRemove) {
+			it++;
+		}
+
+	}
+}
+
+void Game::CollisionEnemy() {
+
+	std::list<Enemy*>::iterator it = this->listEnemy.begin();
+	while (it != this->listEnemy.end()) {
+
+		if ( IsOnCollider((*it)->rectangle.getGlobalBounds(),this->player->cercle.getGlobalBounds()) ) {
+			this->player->TakeDommage((*it)->weapon->weaponDamage);
+			if (this->player->vie <= 0) {
+				this->player->SetTypeMovment(ACTION::DEAD);
+			}
+			(*it)->~Enemy();
+			it = this->listEnemy.erase(it);
+		}
+		else {
 			it++;
 		}
 

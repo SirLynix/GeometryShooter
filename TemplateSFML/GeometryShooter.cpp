@@ -71,6 +71,7 @@ int main()
 		game->AllEnemyShoot();
 		game->MoveAllProjectiles();
 		game->CollisionProjectile();
+		game->CollisionEnemy();
 		game->UpdateTime(deltaTime);
 
 		view.setCenter(game->player->posX, game->player->posY);

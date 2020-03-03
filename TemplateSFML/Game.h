@@ -27,6 +27,7 @@ public:
 	void CreateWave(int nbZombie, int nbArcher);
 	void UpdateTime(float _deltaTime);
 	void MoveAllEnemy();
+	void CollisionEnemy();
 	void MoveAllProjectiles();
 	void CollisionProjectile();
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
