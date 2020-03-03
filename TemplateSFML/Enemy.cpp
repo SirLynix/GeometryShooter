@@ -46,7 +46,7 @@ bool Enemy::IsOnColliderWithEnemy(std::list<Enemy*> listEnemy)
 	bool isCollider = false;
 	std::list<Enemy*>::iterator it = listEnemy.begin();
 	while (it != listEnemy.end()) {
-		if ((*it) == this != this->rectangle.getGlobalBounds().intersects((*it)->rectangle.getGlobalBounds())) {
+		if ((*it) != this && this->rectangle.getGlobalBounds().intersects((*it)->rectangle.getGlobalBounds())) {
 			isCollider = true;
 		}
 		it++;

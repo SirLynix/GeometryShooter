@@ -76,38 +76,52 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 
 	int x;
 	int y;
-
+	bool enemiSpawn = false;
+	int nbEssaieSpawn = 0;
 	for (int i = 0; i < nbZombie; i++)
 	{
-		x = rand() % (borneMaxX + 1);
-		y = rand() % (borneMaxY + 1);
-		if (x < borneMin) {
-			x = borneMin;
-		}
-		if (y < borneMin) {
-			y = borneMin;
-		}
-		Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(10, 2, -1));
-		if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
-		{
-			this->AddEnemy(enemyZombie);
+		enemiSpawn = false;
+		nbEssaieSpawn = 0;
+
+		while ( !enemiSpawn && nbEssaieSpawn < 5 ) {
+			nbEssaieSpawn++;
+			x = rand() % (borneMaxX + 1);
+			y = rand() % (borneMaxY + 1);
+			if (x < borneMin) {
+				x = borneMin;
+			}
+			if (y < borneMin) {
+				y = borneMin;
+			}
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(10, 2, -1));
+			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
+			{
+				enemiSpawn = true;
+				this->AddEnemy(enemyZombie);
+			}
 		}
 	}
 
 	for (int i = 0; i < nbArcher; i++)
 	{
-		x = rand() % (borneMaxX + 1);
-		y = rand() % (borneMaxY + 1);
-		if (x < borneMin) {
-			x = borneMin;
-		}
-		if (y < borneMin) {
-			y = borneMin;
-		}
-		Enemy* enemyArcher = new Archer(x, y, thicknessesEnemy, new Gun());
-		if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyArcher->rectangle.getGlobalBounds()))
-		{
-			this->AddEnemy(enemyArcher);
+		enemiSpawn = false;
+		nbEssaieSpawn = 0;
+		while (!enemiSpawn && nbEssaieSpawn < 5) {
+			nbEssaieSpawn++;
+			x = rand() % (borneMaxX + 1);
+			y = rand() % (borneMaxY + 1);
+			if (x < borneMin) {
+				x = borneMin;
+			}
+			if (y < borneMin) {
+				y = borneMin;
+			}
+			Enemy* enemyArcher = new Archer(x, y, thicknessesEnemy, new Gun());
+			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyArcher->rectangle.getGlobalBounds()))
+			{
+				enemiSpawn = true;
+				this->AddEnemy(enemyArcher);
+			}
 		}
 	}
 }
@@ -131,15 +145,20 @@ void Game::MoveAllEnemy()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
+
+		(*it)->UpdateTarget(sf::Vector2f(this->player->posX, this->player->posY));
+		(*it)->weapon->UpdateOrigineProjectile(sf::Vector2f((*it)->posX, (*it)->posY));
+
 		float nextX = (*it)->GetNextMovementX() * this->deltaTime * 10000 * (*it)->speed;
 		float nextY = (*it)->GetNextMovementY() * this->deltaTime * 10000 * (*it)->speed;
 		(*it)->UpdatePos(nextX, nextY);
 
 		if (!(*it)->IsOnColliderWithEnemy(this->listEnemy)) {
-			(*it)->weapon->UpdateOrigineProjectile(sf::Vector2f((*it)->posX,(*it)->posY));
-			(*it)->UpdateTarget(sf::Vector2f(this->player->posX, this->player->posY));
 			(*it)->PerformAction(this->deltaTime);
 		}
+
+		(*it)->UpdatePos(-nextX, -nextY);
+
 		it++;
 	}
 }
