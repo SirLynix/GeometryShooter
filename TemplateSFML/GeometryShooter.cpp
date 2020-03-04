@@ -14,7 +14,7 @@ void InputForMovePlayer(sf::Event event, Player* player);
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer");
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer", Style::Fullscreen);
 
 	sf::View view(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x - 200, window.getSize().y - 200));
 	window.setView(view);
@@ -70,13 +70,7 @@ int main()
 		sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
-<<<<<<< HEAD
 			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJETILE_OF::PLAYER);
-=======
-			sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
-			game->player->weapon->Shoot(projPos, &game->listProjectile, PROJETILE_OF::PLAYER);
-
->>>>>>> c304342f63d8f35054de5159acddf7d574c0a149
 		}
 
 		double angle = atan2(mousePos.y - game->player->cercle.getPosition().y, mousePos.x - game->player->cercle.getPosition().x);

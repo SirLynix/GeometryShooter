@@ -31,12 +31,9 @@ public:
 	void SetTypeMovment(ACTION _newAction);
 	bool CheckForMovement(ACTION _action);
 	void SetComboMovement(ACTION _action);
-<<<<<<< HEAD
 	void SetWeapon(Weapon* weapon);
 	void RotationPlayer(float angleRotation);
-=======
 	void SpeedDown();
->>>>>>> c304342f63d8f35054de5159acddf7d574c0a149
 private:
 	void UpdateCerclePos();
 };

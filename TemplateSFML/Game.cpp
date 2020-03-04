@@ -16,27 +16,7 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : 
 {
 	srand(time(NULL));
 	int nbTiles = 100;
-<<<<<<< HEAD
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
-=======
-	sf::RectangleShape*** echiquier = new sf::RectangleShape * *[nbTiles];
-	for (size_t i = 0; i < nbTiles; i++)
-	{
-		echiquier[i] = new sf::RectangleShape * [nbTiles];
-
-		for (size_t j = 0; j < nbTiles; j++)
-		{
-			echiquier[i][j] = new sf::RectangleShape{};
-			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(20, 20, 20);
-			echiquier[i][j]->setFillColor(color);
-			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
-			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));
-		}
-	}
-
-	this->arena = new Arena(height, width, thicknessesBrique, echiquier, nbTiles, 50);
-	this->arena->CreateArena();
->>>>>>> c304342f63d8f35054de5159acddf7d574c0a149
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
