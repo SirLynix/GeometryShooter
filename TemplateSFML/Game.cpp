@@ -27,7 +27,7 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : 
 		for (size_t j = 0; j < nbTiles; j++)
 		{
 			echiquier[i][j] = new sf::RectangleShape{};
-			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(40, 40, 40);
+			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(20, 20, 20);
 			echiquier[i][j]->setFillColor(color);
 			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
 			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));
@@ -83,7 +83,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 		enemiSpawn = false;
 		nbEssaieSpawn = 0;
 
-		while ( !enemiSpawn && nbEssaieSpawn < 5 ) {
+		while (!enemiSpawn && nbEssaieSpawn < 5) {
 			nbEssaieSpawn++;
 			x = rand() % (borneMaxX + 1);
 			y = rand() % (borneMaxY + 1);
@@ -133,12 +133,27 @@ void Game::UpdateTime(float _deltaTime)
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
 
+	UpdateDash();
+
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 		(*it)->weapon->UpdateFireRate(_deltaTime);
 		it++;
 	}
 
+}
+
+void Game::UpdateDash()
+{
+	printf("%f\n", this->player->speed);
+	if (this->player->cooldown > 0.f && this->player->isDashing) {
+		this->player->cooldown -= deltaTime;
+		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
+	} else {
+		this->player->isDashing = false;
+		this->player->speed = this->player->baseSpeed;
+		this->player->cooldown = .2f;
+	}
 }
 
 void Game::MoveAllEnemy()
@@ -167,7 +182,7 @@ void Game::AllEnemyShoot()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJETILE_OF::ENEMY);
+		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX, this->player->posY), &this->listProjectile, PROJETILE_OF::ENEMY);
 		it++;
 	}
 }
@@ -195,8 +210,7 @@ void Game::CollisionProjectile() {
 			while (it2 != this->listEnemy.end()) {
 				if (it == this->listProjectile.end()) {
 					return;
-				}
-				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
 
@@ -208,8 +222,7 @@ void Game::CollisionProjectile() {
 				if ((*it2)->vie <= 0) {
 					(*it2)->~Enemy();
 					it2 = listEnemy.erase(it2);
-				}
-				else {
+				} else {
 					it2++;
 				}
 			}
@@ -227,14 +240,14 @@ void Game::CollisionProjectile() {
 			it3++;
 		}
 
-		if (!projectRemove && (*it)->projectileOf == PROJETILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
+		if (!projectRemove && (*it)->projectileOf == PROJETILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
 			this->player->TakeDommage((*it)->weaponDamage);
 			(*it)->~Projectile();
 			projectRemove = true;
 			it = listProjectile.erase(it);
 		}
 
-		if ( this->player->vie <= 0 ) {
+		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
 		}
 
@@ -250,15 +263,14 @@ void Game::CollisionEnemy() {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 
-		if ( IsOnCollider((*it)->rectangle.getGlobalBounds(),this->player->cercle.getGlobalBounds()) ) {
+		if (IsOnCollider((*it)->rectangle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
 			this->player->TakeDommage((*it)->weapon->weaponDamage);
 			if (this->player->vie <= 0) {
 				this->player->SetTypeMovment(ACTION::DEAD);
 			}
 			(*it)->~Enemy();
 			it = this->listEnemy.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 

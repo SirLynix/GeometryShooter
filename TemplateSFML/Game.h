@@ -26,6 +26,7 @@ public:
 	void DisplayGame();
 	void CreateWave(int nbZombie, int nbArcher);
 	void UpdateTime(float _deltaTime);
+	void UpdateDash();
 	void MoveAllEnemy();
 	void CollisionEnemy();
 	void MoveAllProjectiles();
