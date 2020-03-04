@@ -16,7 +16,27 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : 
 {
 	srand(time(NULL));
 	int nbTiles = 100;
+<<<<<<< HEAD
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
+=======
+	sf::RectangleShape*** echiquier = new sf::RectangleShape * *[nbTiles];
+	for (size_t i = 0; i < nbTiles; i++)
+	{
+		echiquier[i] = new sf::RectangleShape * [nbTiles];
+
+		for (size_t j = 0; j < nbTiles; j++)
+		{
+			echiquier[i][j] = new sf::RectangleShape{};
+			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(20, 20, 20);
+			echiquier[i][j]->setFillColor(color);
+			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
+			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));
+		}
+	}
+
+	this->arena = new Arena(height, width, thicknessesBrique, echiquier, nbTiles, 50);
+	this->arena->CreateArena();
+>>>>>>> c304342f63d8f35054de5159acddf7d574c0a149
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
@@ -129,12 +149,27 @@ void Game::UpdateTime(float _deltaTime)
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
 
+	UpdateDash();
+
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 		(*it)->weapon->UpdateFireRate(_deltaTime);
 		it++;
 	}
 
+}
+
+void Game::UpdateDash()
+{
+	printf("%f\n", this->player->speed);
+	if (this->player->cooldown > 0.f && this->player->isDashing) {
+		this->player->cooldown -= deltaTime;
+		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
+	} else {
+		this->player->isDashing = false;
+		this->player->speed = this->player->baseSpeed;
+		this->player->cooldown = .2f;
+	}
 }
 
 void Game::MoveAllEnemy()
@@ -191,8 +226,7 @@ void Game::CollisionProjectile() {
 			while (it2 != this->listEnemy.end()) {
 				if (it == this->listProjectile.end()) {
 					return;
-				}
-				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
 
@@ -204,8 +238,7 @@ void Game::CollisionProjectile() {
 				if ((*it2)->vie <= 0) {
 					(*it2)->~Enemy();
 					it2 = listEnemy.erase(it2);
-				}
-				else {
+				} else {
 					it2++;
 				}
 			}
@@ -254,8 +287,7 @@ void Game::CollisionEnemy() {
 			}
 			(*it)->~Enemy();
 			it = this->listEnemy.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 

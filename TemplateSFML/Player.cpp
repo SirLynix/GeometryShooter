@@ -7,7 +7,8 @@
 const int radiusPlayer = 20;
 const float PI = 3.14159265359;
 
-Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true) {
+Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true), isDashing(false), dashFactor(5.f) {
+	this->baseSpeed = this->speed;
 
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setRadius(radiusPlayer);
@@ -21,9 +22,16 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _pos
 	this->spawnCircle.setOrigin(sf::Vector2f(radiusPlayer * 8, radiusPlayer * 8));
 }
 
-void Player::Dash(int _posX, int _posY)
+void Player::Dash()
 {
+	if (!this->isDashing) {
+		this->baseSpeed = this->speed;
+		this->isDashing = true;
+		this->speed *= this->dashFactor;
+	}
+}
 
+void Player::SpeedDown() {
 }
 
 void Player::DrawPlayer(sf::RenderWindow* window)
@@ -101,6 +109,7 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 	}
 	else if (this->typeMovement == ACTION::LEFT) {
 		x = -this->speed;
+<<<<<<< HEAD
 	}
 	else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed, 0;
@@ -120,11 +129,27 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed;
 		y = this->speed;
+=======
+	} else if (this->typeMovement == ACTION::RIGHT) {
+		x = this->speed;
+	} else if (this->typeMovement == ACTION::UP_LEFT) {
+		x = -this->speed / sqrt(2);
+		y = -this->speed / sqrt(2);
+	} else if (this->typeMovement == ACTION::UP_RIGHT) {
+		x = this->speed / sqrt(2);
+		y = -this->speed / sqrt(2);
+	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
+		x = -this->speed / sqrt(2);
+		y = this->speed / sqrt(2);
+	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+		x = this->speed / sqrt(2);
+		y = this->speed / sqrt(2);
+>>>>>>> c304342f63d8f35054de5159acddf7d574c0a149
 	}
 
 	x *= _deltaTime;
 	y *= _deltaTime;
-	bool canMove = true;;
+	bool canMove = true;
 
 	this->cercle.setPosition(sf::Vector2f(this->posX + x, this->posY + y));
 
