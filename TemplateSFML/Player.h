@@ -27,6 +27,8 @@ public:
 	void SetTypeMovment(ACTION _newAction);
 	bool CheckForMovement(ACTION _action);
 	void SetComboMovement(ACTION _action);
+	void SetWeapon(Weapon* weapon);
+	void RotationPlayer(float angleRotation);
 private:
 	void UpdateCerclePos();
 };

@@ -17,6 +17,7 @@ void Projectile::MoveProjectile(float _deltaTime)
 	float moveY = serializableSpeed * sin(angle);
 
 	this->projectile.setPosition(this->projectile.getPosition().x + moveX, this->projectile.getPosition().y + moveY);
+
 }
 
 void Projectile::DisplayProjectile(sf::RenderWindow* window)

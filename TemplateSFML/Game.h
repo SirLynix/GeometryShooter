@@ -5,6 +5,12 @@
 #include "Arena.h";
 #include "Player.h";
 #include "Enemy.h"
+#include "Player.h"
+#include "Weapon.h"
+#include "Shotgun.h"
+#include "MachineGun.h"
+#include "Gun.h"
+#include "GrenadeLauncher.h"
 
 using namespace std;
 
@@ -14,6 +20,7 @@ public:
 	Player* player;
 	list <Enemy*> listEnemy;
 	list <Projectile*> listProjectile;
+	list <Weapon*> listWeapon;
 	Arena* arena;
 	sf::RenderWindow* window;
 	float deltaTime;
@@ -30,6 +37,8 @@ public:
 	void CollisionEnemy();
 	void MoveAllProjectiles();
 	void CollisionProjectile();
+	void CollisionPlayer();
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
 	void AllEnemyShoot();
+	void UpdateGame();
 };
