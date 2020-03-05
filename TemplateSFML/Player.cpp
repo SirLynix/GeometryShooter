@@ -128,18 +128,23 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed;
 		y = this->speed;
-	} else if (this->typeMovement == ACTION::RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed;
-	} else if (this->typeMovement == ACTION::UP_LEFT) {
+	}
+	else if (this->typeMovement == ACTION::UP_LEFT) {
 		x = -this->speed / sqrt(2);
 		y = -this->speed / sqrt(2);
-	} else if (this->typeMovement == ACTION::UP_RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::UP_RIGHT) {
 		x = this->speed / sqrt(2);
 		y = -this->speed / sqrt(2);
-	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
+	}
+	else if (this->typeMovement == ACTION::DOWN_LEFT) {
 		x = -this->speed / sqrt(2);
 		y = this->speed / sqrt(2);
-	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed / sqrt(2);
 		y = this->speed / sqrt(2);
 	}

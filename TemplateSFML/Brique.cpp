@@ -7,7 +7,8 @@ Brique::Brique(int x, int y, SensBrique sens, int _thicknessesBrique, int _width
 	this->rectangle.setFillColor(sf::Color::Red);
 	if (sens == SensBrique::HORIZONTAL) {
 		this->rectangle.setSize(sf::Vector2f(_thicknessesBrique, width));
-	} else {
+	}
+	else {
 		this->rectangle.setSize(sf::Vector2f(width, _thicknessesBrique));
 	}
 

@@ -17,7 +17,7 @@ public:
 	int tileSize;
 
 public:
-	Arena(int _width, int _height, int _thicknessesBrique,int _nbTiles, int _tileSize);
+	Arena(int _width, int _height, int _thicknessesBrique, int _nbTiles, int _tileSize);
 	void CreateArena();
 	void DisplayArena(sf::RenderWindow* window);
 };

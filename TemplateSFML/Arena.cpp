@@ -14,7 +14,7 @@ void Arena::CreateArena() {
 		for (size_t j = 0; j < nbTiles; j++)
 		{
 			echiquier[i][j] = new sf::RectangleShape{};
-			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(40, 40, 40);
+			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(20, 20, 20);
 			echiquier[i][j]->setFillColor(color);
 			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
 			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));

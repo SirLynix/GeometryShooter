@@ -8,11 +8,12 @@
 #include "Weapon.h"
 #include "Projectile.h"
 #include "Gun.h"
+#include "Heal.h"
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
 
-Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : player(_player), window(_window)
+Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string fontForText) : player(_player), window(_window)
 {
 	srand(time(NULL));
 	int nbTiles = 100;
@@ -20,13 +21,21 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : 
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
-	Weapon* newWeapon = new MachineGun();
-	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200,200));
+	this->fontForText = new sf::Font;
+	this->fontForText->loadFromFile(fontForText);
 
+	Weapon* newWeapon = new MachineGun();
+	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
+
 	Weapon* newWeapon2 = new ShotGun();
 	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
 	this->listWeapon.push_back(newWeapon2);
+
+
+	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	//this->listpowerUp.push_back(newPowerUp);
+
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -42,6 +51,13 @@ void Game::RemoveEnemy(Enemy* enemyToRemove)
 void Game::DisplayGame()
 {
 	this->arena->DisplayArena(this->window);
+
+	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
+	while (it4 != this->listpowerUp.end()) {
+		(*it4)->DisplayPowerUp(this->window);
+		it4++;
+	}
+
 	this->player->DrawPlayer(this->window);
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
@@ -126,6 +142,7 @@ void Game::UpdateTime(float _deltaTime)
 {
 	this->totalTime += _deltaTime;
 	this->deltaTime = _deltaTime;
+	this->timeBeforeCallNewWave -= _deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
 
@@ -137,15 +154,16 @@ void Game::UpdateTime(float _deltaTime)
 		it++;
 	}
 
+
 }
 
 void Game::UpdateDash()
 {
-	printf("%f\n", this->player->speed);
 	if (this->player->cooldown > 0.f && this->player->isDashing) {
 		this->player->cooldown -= deltaTime;
 		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
-	} else {
+	}
+	else {
 		this->player->isDashing = false;
 		this->player->speed = this->player->baseSpeed;
 		this->player->cooldown = .2f;
@@ -206,10 +224,11 @@ void Game::CollisionProjectile() {
 			while (it2 != this->listEnemy.end()) {
 				if (it == this->listProjectile.end()) {
 					return;
-				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+				}
+				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
-
+					(*it2)->UpdateUiToPv();
 					(*it)->~Projectile();
 					projectRemove = true;
 					it = listProjectile.erase(it);
@@ -218,7 +237,8 @@ void Game::CollisionProjectile() {
 				if ((*it2)->vie <= 0) {
 					(*it2)->~Enemy();
 					it2 = listEnemy.erase(it2);
-				} else {
+				}
+				else {
 					it2++;
 				}
 			}
@@ -267,7 +287,8 @@ void Game::CollisionEnemy() {
 			}
 			(*it)->~Enemy();
 			it = this->listEnemy.erase(it);
-		} else {
+		}
+		else {
 			it++;
 		}
 
@@ -298,6 +319,42 @@ void Game::UpdateGame() {
 	this->CollisionPlayer();
 	this->CollisionProjectile();
 	this->CollisionEnemy();
+	this->CheckForNewWave();
+	this->AutoCallWave();
+}
+
+void Game::AutoCallWave()
+{
+	if (changeWave && timeBeforeCallNewWave < 0.0f) {
+		changeWave = false;
+		nbWave++;
+		if (nbWave == 1) {
+			CreateWave(2, 0);
+		}
+		if (nbWave == 2) {
+			CreateWave(0, 2);
+		}
+		if (nbWave == 3) {
+			CreateWave(5, 0);
+		}
+		if (nbWave == 4) {
+			CreateWave(0, 5);
+		}
+		if (nbWave == 5) {
+			CreateWave(5, 5);
+		}
+		if (nbWave == 6) {
+			CreateWave(10, 10);
+		}
+	}
+}
+
+void Game::CheckForNewWave()
+{
+	if (this->listEnemy.empty() && !changeWave) {
+		changeWave = true;
+		timeBeforeCallNewWave = 5.0f;
+	}
 }
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)

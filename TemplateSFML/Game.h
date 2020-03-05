@@ -11,6 +11,7 @@
 #include "MachineGun.h"
 #include "Gun.h"
 #include "GrenadeLauncher.h"
+#include "PowerUp.h"
 
 using namespace std;
 
@@ -21,13 +22,19 @@ public:
 	list <Enemy*> listEnemy;
 	list <Projectile*> listProjectile;
 	list <Weapon*> listWeapon;
+	list <PowerUp*> listpowerUp;
 	Arena* arena;
 	sf::RenderWindow* window;
+	sf::Font* fontForText;
 	float deltaTime;
 	float totalTime;
+	float timeBeforeCallNewWave = -1;
+	bool changeWave = false;
+private:
+	int nbWave = 0;
 
 public:
-	Game(Player* _player, int height, int width, sf::RenderWindow* _window);
+	Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string _fontForText);
 	void AddEnemy(Enemy* enemyToAdd);
 	void RemoveEnemy(Enemy* enemyToRemove);
 	void DisplayGame();
@@ -42,4 +49,6 @@ public:
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
 	void AllEnemyShoot();
 	void UpdateGame();
+	void AutoCallWave();
+	void CheckForNewWave();
 };

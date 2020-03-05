@@ -9,7 +9,7 @@ Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate) : origin(sf:
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJETILE_OF projectileOf)
 {
-	if (fireRate < 0 ) {
+	if (fireRate < 0) {
 		return;
 	}
 	if (_fireRate < 0) {
@@ -23,7 +23,7 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 {
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x);
 
-	return new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile,projectileOf);
+	return new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
 }
 
 void Weapon::UpdateOrigineProjectile(sf::Vector2f origin)
