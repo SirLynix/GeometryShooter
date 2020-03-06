@@ -3,7 +3,7 @@
 
 class Gun : public Weapon
 {
-public :
+public:
 	Gun();
 };
 

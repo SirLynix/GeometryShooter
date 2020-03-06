@@ -5,12 +5,18 @@
 #include "Enemy.h"
 
 const int radiusPlayer = 20;
+const float PI = 3.14159265359;
 
+<<<<<<< HEAD
 Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 230.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true) {
+=======
+Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true), isDashing(false), dashFactor(5.f) {
+	this->baseSpeed = this->speed;
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setRadius(radiusPlayer);
-	this->cercle.setOrigin(sf::Vector2f(radiusPlayer, radiusPlayer));
+	this->cercle.setOrigin(radiusPlayer, radiusPlayer);
 	this->cercle.setFillColor(sf::Color::Green);
 
 	this->typeMovement = ACTION::NONE;
@@ -20,15 +26,23 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 230.0f, _pos
 	this->spawnCircle.setOrigin(sf::Vector2f(radiusPlayer * 8, radiusPlayer * 8));
 }
 
-void Player::Dash(int _posX, int _posY)
+void Player::Dash()
 {
+	if (!this->isDashing) {
+		this->baseSpeed = this->speed;
+		this->isDashing = true;
+		this->speed *= this->dashFactor;
+	}
+}
 
+void Player::SpeedDown() {
 }
 
 void Player::DrawPlayer(sf::RenderWindow* window)
 {
 	UpdateCerclePos();
 	window->draw(this->cercle);
+	this->weapon->DrawWeapon(window);
 }
 
 void Player::MoveTo(float _posX, float _posY)
@@ -58,20 +72,27 @@ void Player::SetComboMovement(ACTION _action)
 {
 	if ((_action == ACTION::LEFT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::LEFT)) {
 		this->SetTypeMovment(ACTION::UP_LEFT);
-	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::RIGHT)) {
+	}
+	else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::RIGHT)) {
 		this->SetTypeMovment(ACTION::UP_RIGHT);
-	} else if ((_action == ACTION::LEFT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::LEFT)) {
+	}
+	else if ((_action == ACTION::LEFT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::LEFT)) {
 		this->SetTypeMovment(ACTION::DOWN_LEFT);
-	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::RIGHT)) {
+	}
+	else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::RIGHT)) {
 		this->SetTypeMovment(ACTION::DOWN_RIGHT);
 	}
+}
+
+void Player::SetWeapon(Weapon* weapon)
+{
+	this->weapon = weapon;
 }
 
 void Player::UpdateCerclePos()
 {
 	this->spawnCircle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
-	this->weapon->UpdateOrigineProjectile(sf::Vector2f(this->posX, this->posY));
 }
 
 void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _deltaTime)
@@ -86,29 +107,55 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 
 	if (this->typeMovement == ACTION::UP) {
 		y = -this->speed;
-	} else if (this->typeMovement == ACTION::DOWN) {
+	}
+	else if (this->typeMovement == ACTION::DOWN) {
 		y = this->speed;
-	} else if (this->typeMovement == ACTION::LEFT) {
+	}
+	else if (this->typeMovement == ACTION::LEFT) {
 		x = -this->speed;
-	} else if (this->typeMovement == ACTION::RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed, 0;
-	} else if (this->typeMovement == ACTION::UP_LEFT) {
+	}
+	else if (this->typeMovement == ACTION::UP_LEFT) {
 		x = -this->speed;
 		y = -this->speed;
-	} else if (this->typeMovement == ACTION::UP_RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::UP_RIGHT) {
 		x = this->speed;
 		y = -this->speed;
-	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
+	}
+	else if (this->typeMovement == ACTION::DOWN_LEFT) {
 		x = -this->speed;
 		y = this->speed;
-	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+	}
+	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed;
 		y = this->speed;
+	}
+	else if (this->typeMovement == ACTION::RIGHT) {
+		x = this->speed;
+	}
+	else if (this->typeMovement == ACTION::UP_LEFT) {
+		x = -this->speed / sqrt(2);
+		y = -this->speed / sqrt(2);
+	}
+	else if (this->typeMovement == ACTION::UP_RIGHT) {
+		x = this->speed / sqrt(2);
+		y = -this->speed / sqrt(2);
+	}
+	else if (this->typeMovement == ACTION::DOWN_LEFT) {
+		x = -this->speed / sqrt(2);
+		y = this->speed / sqrt(2);
+	}
+	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+		x = this->speed / sqrt(2);
+		y = this->speed / sqrt(2);
 	}
 
 	x *= _deltaTime;
 	y *= _deltaTime;
-	bool canMove = true;;
+	bool canMove = true;
 
 	this->cercle.setPosition(sf::Vector2f(this->posX + x, this->posY + y));
 
@@ -133,4 +180,16 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 	if (canMove) {
 		this->MoveTo(x, y);
 	}
+}
+
+void Player::RotationPlayer(float angleRotation) {
+
+	this->weapon->rectangle.setRotation(angleRotation * (180 / PI) + 90);
+
+	float angleWeapon = 90 * (PI / 180);
+	float distanceWeaponFactor = 1.0f;
+	float posXOrigineFire = (this->posX + cos(angleRotation + angleWeapon) * this->cercle.getRadius() * distanceWeaponFactor);
+	float posYOrigineFire = (this->posY + sin(angleRotation + angleWeapon) * this->cercle.getRadius() * distanceWeaponFactor);
+
+	this->weapon->UpdateOrigineProjectile(sf::Vector2f(posXOrigineFire, posYOrigineFire));
 }

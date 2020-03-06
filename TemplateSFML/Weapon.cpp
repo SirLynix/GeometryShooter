@@ -5,7 +5,7 @@ Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate) : origin(sf:
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
-	if (fireRate < 0 ) {
+	if (fireRate < 0) {
 		return;
 	}
 	if (_fireRate < 0) {
@@ -19,6 +19,7 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 {
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x);
 
+<<<<<<< HEAD
 	
 	if (projectileOf == PROJECTILE_OF::ENEMY)
 	{
@@ -31,13 +32,22 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
 		return projectile;
 	}	
+=======
+	return new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 }
 
 void Weapon::UpdateOrigineProjectile(sf::Vector2f origin)
 {
 	this->origin = origin;
+	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
 }
 
 void Weapon::UpdateFireRate(float deltaTime) {
 	this->_fireRate -= deltaTime;
+}
+
+void Weapon::DrawWeapon(sf::RenderWindow* window)
+{
+	window->draw(this->rectangle);
 }

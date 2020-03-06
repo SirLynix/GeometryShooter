@@ -5,11 +5,14 @@
 class Weapon
 {
 public:
+	sf::RectangleShape rectangle;
 	sf::Mouse targetProjectile;
 	sf::Vector2f origin;
 	int weaponDamage;
 	float speedBullet;
 	float fireRate;
+	float widthWeapon;
+	float heightWeapon;
 
 protected:
 	float _fireRate;
@@ -20,4 +23,5 @@ public:
 	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf);
 	void UpdateOrigineProjectile(sf::Vector2f origin);
 	void UpdateFireRate(float deltaTime);
+	void DrawWeapon(sf::RenderWindow* window);
 };

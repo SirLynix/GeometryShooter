@@ -20,7 +20,7 @@ void InputForMovePlayer(sf::Event event, Player* player);
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer");
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer", Style::Fullscreen);
 
 	sf::View view(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x - 200, window.getSize().y - 200));
 	window.setView(view);
@@ -28,7 +28,11 @@ int main()
 	sf::Clock clock;
 	sf::Mouse mouse;
 
+<<<<<<< HEAD
 	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new GrenadeLauncher()), window.getSize().x, window.getSize().y, &window);
+=======
+	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Gun()), window.getSize().x, window.getSize().y, &window, getAssetPath() + "\\arial.ttf");
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 
 	float deltaTime;
 
@@ -47,32 +51,30 @@ int main()
 
 			InputForMovePlayer(event, game->player);
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E) {
-				game->CreateWave(5, 5);
-			}
-
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A) {
-				game->CreateWave(0, 5);
-			}
-
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
-				game->CreateWave(5, 0);
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) {
+				game->player->Dash();
 			}
 
 		}
 
+		sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
+<<<<<<< HEAD
 			sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
 			game->player->weapon->Shoot(projPos, &game->listProjectile,PROJECTILE_OF::PLAYER);
 			
+=======
+			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJETILE_OF::PLAYER);
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 		}
 
-		game->MoveAllEnemy();
-		game->AllEnemyShoot();
-		game->MoveAllProjectiles();
-		game->CollisionProjectile();
-		game->CollisionEnemy();
+		double angle = atan2(mousePos.y - game->player->cercle.getPosition().y, mousePos.x - game->player->cercle.getPosition().x);
+
+		game->player->RotationPlayer(angle);
+
 		game->UpdateTime(deltaTime);
+		game->UpdateGame();
 
 		view.setCenter(game->player->posX, game->player->posY);
 		window.setView(view);

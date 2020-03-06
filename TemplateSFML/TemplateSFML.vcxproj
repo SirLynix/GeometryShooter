@@ -164,8 +164,10 @@
     <ClInclude Include="Grenade.h" />
     <ClInclude Include="GrenadeLauncher.h" />
     <ClInclude Include="Gun.h" />
+    <ClInclude Include="Heal.h" />
     <ClInclude Include="MachineGun.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="Weapon.h" />
@@ -182,8 +184,10 @@
     <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="GrenadeLauncher.cpp" />
     <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="Heal.cpp" />
     <ClCompile Include="MachineGun.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="GeometryShooter.cpp" />
     <ClCompile Include="Shotgun.cpp" />

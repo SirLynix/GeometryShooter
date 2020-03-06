@@ -8,38 +8,42 @@
 #include "Weapon.h"
 #include "Projectile.h"
 #include "Gun.h"
+<<<<<<< HEAD
 #include "Arc.h"
 #include "Grenade.h"
 
 float Clamp(float f, float limitMax, float limitMin);
 float Abs(float f);
+=======
+#include "Heal.h"
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
 
-Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window) : player(_player), window(_window)
+Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string fontForText) : player(_player), window(_window)
 {
 	srand(time(NULL));
 	int nbTiles = 100;
-	sf::RectangleShape*** echiquier = new sf::RectangleShape * *[nbTiles];
-	for (size_t i = 0; i < nbTiles; i++)
-	{
-		echiquier[i] = new sf::RectangleShape * [nbTiles];
-
-		for (size_t j = 0; j < nbTiles; j++)
-		{
-			echiquier[i][j] = new sf::RectangleShape{};
-			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(40, 40, 40);
-			echiquier[i][j]->setFillColor(color);
-			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
-			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));
-		}
-	}
-
-	this->arena = new Arena(height, width, thicknessesBrique, echiquier, nbTiles, 50);
-	this->arena->CreateArena();
+	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
+
+	this->fontForText = new sf::Font;
+	this->fontForText->loadFromFile(fontForText);
+
+	Weapon* newWeapon = new MachineGun();
+	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
+	this->listWeapon.push_back(newWeapon);
+
+	Weapon* newWeapon2 = new ShotGun();
+	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
+	this->listWeapon.push_back(newWeapon2);
+
+
+	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	//this->listpowerUp.push_back(newPowerUp);
+
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -55,6 +59,13 @@ void Game::RemoveEnemy(Enemy* enemyToRemove)
 void Game::DisplayGame()
 {
 	this->arena->DisplayArena(this->window);
+
+	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
+	while (it4 != this->listpowerUp.end()) {
+		(*it4)->DisplayPowerUp(this->window);
+		it4++;
+	}
+
 	this->player->DrawPlayer(this->window);
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
@@ -62,11 +73,18 @@ void Game::DisplayGame()
 		it++;
 	}
 
+	std::list<Weapon*>::iterator it3 = this->listWeapon.begin();
+	while (it3 != this->listWeapon.end()) {
+		(*it3)->DrawWeapon(this->window);
+		it3++;
+	}
+
 	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
 	while (it2 != this->listProjectile.end()) {
 		(*it2)->DisplayProjectile(this->window);
 		it2++;
 	}
+
 }
 
 void Game::CreateWave(int nbZombie, int nbArcher)
@@ -85,7 +103,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 		enemiSpawn = false;
 		nbEssaieSpawn = 0;
 
-		while ( !enemiSpawn && nbEssaieSpawn < 5 ) {
+		while (!enemiSpawn && nbEssaieSpawn < 5) {
 			nbEssaieSpawn++;
 			x = rand() % (borneMaxX + 1);
 			y = rand() % (borneMaxY + 1);
@@ -132,8 +150,11 @@ void Game::UpdateTime(float _deltaTime)
 {
 	this->totalTime += _deltaTime;
 	this->deltaTime = _deltaTime;
+	this->timeBeforeCallNewWave -= _deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
+
+	UpdateDash();
 
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
@@ -141,6 +162,7 @@ void Game::UpdateTime(float _deltaTime)
 		it++;
 	}
 
+<<<<<<< HEAD
 	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
 	while (it2 != this->listProjectile.end()) {
 		if ((*it2)->canExplode)
@@ -155,6 +177,22 @@ void Game::UpdateTime(float _deltaTime)
 		it2++;
 	}
 
+=======
+
+}
+
+void Game::UpdateDash()
+{
+	if (this->player->cooldown > 0.f && this->player->isDashing) {
+		this->player->cooldown -= deltaTime;
+		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
+	}
+	else {
+		this->player->isDashing = false;
+		this->player->speed = this->player->baseSpeed;
+		this->player->cooldown = .2f;
+	}
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 }
 
 void Game::MoveAllEnemy()
@@ -183,7 +221,11 @@ void Game::AllEnemyShoot()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
+<<<<<<< HEAD
 		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJECTILE_OF::ENEMY);
+=======
+		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX, this->player->posY), &this->listProjectile, PROJETILE_OF::ENEMY);
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 		it++;
 	}
 }
@@ -221,6 +263,7 @@ void Game::CollisionProjectile() {
 				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
+<<<<<<< HEAD
 					if ((*it)->typeProjectile == TYPE_PROJECTILE::BULLET)
 					{
 						(*it)->~Projectile();
@@ -234,6 +277,12 @@ void Game::CollisionProjectile() {
 						
 					}
 					
+=======
+					(*it2)->UpdateUiToPv();
+					(*it)->~Projectile();
+					projectRemove = true;
+					it = listProjectile.erase(it);
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 				}
 
 				if ((*it2)->vie <= 0) {
@@ -250,7 +299,12 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
+<<<<<<< HEAD
 			} else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+=======
+			}
+			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 				(*it)->~Projectile();
 				projectRemove = true;
 				it = listProjectile.erase(it);
@@ -258,14 +312,18 @@ void Game::CollisionProjectile() {
 			it3++;
 		}
 
+<<<<<<< HEAD
 		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
+=======
+		if (!projectRemove && (*it)->projectileOf == PROJETILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
+>>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 			this->player->TakeDommage((*it)->weaponDamage);
 			(*it)->~Projectile();
 			projectRemove = true;
 			it = listProjectile.erase(it);
 		}
 
-		if ( this->player->vie <= 0 ) {
+		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
 		}
 
@@ -281,7 +339,7 @@ void Game::CollisionEnemy() {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 
-		if ( IsOnCollider((*it)->rectangle.getGlobalBounds(),this->player->cercle.getGlobalBounds()) ) {
+		if (IsOnCollider((*it)->rectangle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
 			this->player->TakeDommage((*it)->weapon->weaponDamage);
 			if (this->player->vie <= 0) {
 				this->player->SetTypeMovment(ACTION::DEAD);
@@ -296,23 +354,72 @@ void Game::CollisionEnemy() {
 	}
 }
 
+void Game::CollisionPlayer() {
+
+	std::list<Weapon*>::iterator it = this->listWeapon.begin();
+	while (it != this->listWeapon.end()) {
+
+		if (IsOnCollider((*it)->rectangle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
+			this->player->weapon->~Weapon();
+			this->player->SetWeapon((*it));
+			it = this->listWeapon.erase(it);
+		}
+		else {
+			it++;
+		}
+
+	}
+}
+
+void Game::UpdateGame() {
+	this->MoveAllEnemy();
+	this->AllEnemyShoot();
+	this->MoveAllProjectiles();
+	this->CollisionPlayer();
+	this->CollisionProjectile();
+	this->CollisionEnemy();
+	this->CheckForNewWave();
+	this->AutoCallWave();
+}
+
+void Game::AutoCallWave()
+{
+	if (changeWave && timeBeforeCallNewWave < 0.0f) {
+		changeWave = false;
+		nbWave++;
+		if (nbWave == 1) {
+			CreateWave(2, 0);
+		}
+		if (nbWave == 2) {
+			CreateWave(0, 2);
+		}
+		if (nbWave == 3) {
+			CreateWave(5, 0);
+		}
+		if (nbWave == 4) {
+			CreateWave(0, 5);
+		}
+		if (nbWave == 5) {
+			CreateWave(5, 5);
+		}
+		if (nbWave == 6) {
+			CreateWave(10, 10);
+		}
+	}
+}
+
+void Game::CheckForNewWave()
+{
+	if (this->listEnemy.empty() && !changeWave) {
+		changeWave = true;
+		timeBeforeCallNewWave = 5.0f;
+	}
+}
+
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)
 {
 	if (firstRect.intersects(secondeRect)) {
 		return true;
 	}
 	return false;
-}
-
-float Clamp(float f, float limitMax, float limitMin) {
-	if (Abs(f) > limitMax) {
-		f = (float)limitMax * (f / Abs(f));
-	} else if (Abs(f) < limitMin) {
-		f = (float)limitMin * (f / Abs(f));
-	}
-	return f;
-}
-
-float Abs(float f) {
-	return f > 0 ? f : -f;
 }
