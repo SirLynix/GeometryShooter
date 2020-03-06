@@ -16,8 +16,8 @@ protected:
 
 public:
 	Weapon(int weaponDamage, float speedBullet, float fireRate);
-	virtual void Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJETILE_OF projectileOf);
-	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJETILE_OF projectileOf);
+	virtual void Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf);
+	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf);
 	void UpdateOrigineProjectile(sf::Vector2f origin);
 	void UpdateFireRate(float deltaTime);
 };

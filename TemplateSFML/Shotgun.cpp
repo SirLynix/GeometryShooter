@@ -4,7 +4,7 @@ ShotGun::ShotGun() : Weapon(1, 1.0f, 1.0f) {
 
 }
 
-void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJETILE_OF projectileOf)
+void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
 	if (_fireRate < 0) {
 		listProjectile->push_back(new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf));
@@ -18,7 +18,7 @@ void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listP
 	
 }
 
-Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset,PROJETILE_OF projectileOf)
+Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset,PROJECTILE_OF projectileOf)
 {
 	int max = 5 + (this->speedBullet * 100);
 	int min = -5 + (this->speedBullet * 100);

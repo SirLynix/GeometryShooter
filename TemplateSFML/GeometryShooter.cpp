@@ -28,7 +28,7 @@ int main()
 	sf::Clock clock;
 	sf::Mouse mouse;
 
-	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new ShotGun()), window.getSize().x, window.getSize().y, &window);
+	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new GrenadeLauncher()), window.getSize().x, window.getSize().y, &window);
 
 	float deltaTime;
 
@@ -63,7 +63,7 @@ int main()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 			sf::Vector2f projPos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));
-			game->player->weapon->Shoot(projPos, &game->listProjectile,PROJETILE_OF::PLAYER);
+			game->player->weapon->Shoot(projPos, &game->listProjectile,PROJECTILE_OF::PLAYER);
 			
 		}
 

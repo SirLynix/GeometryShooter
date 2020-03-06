@@ -1,9 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class PROJETILE_OF
+enum class PROJECTILE_OF
 {
 	PLAYER, ENEMY
+};
+
+enum class TYPE_PROJECTILE
+{
+	GRENADE, BULLET
 };
 
 class Projectile
@@ -14,9 +19,21 @@ public:
 	sf::CircleShape projectile;
 	sf::Vector2f origin;
 	sf::Vector2f targetProjectile;
-	PROJETILE_OF projectileOf;
+	PROJECTILE_OF projectileOf;
+	TYPE_PROJECTILE typeProjectile;
+	bool canExplode;
+	bool toDestruct = false;
+	float explosionCooldown = -1.0f;
+	float projectileCooldown = 0.25f;
+	bool colorChange = false;
+	
 public:
-	Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJETILE_OF projectileOf);
-	void MoveProjectile(float _deltaTime);
+	Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf);
+	virtual void MoveProjectile(float _deltaTime);
 	void DisplayProjectile(sf::RenderWindow* window);
+	void UpdateRadius(float _deltaTime);
+	void UpdateExplosionCooldown(float _deltaTime);
+	virtual void SetExplosionSettings();
+	void ChangeColor();
+	
 };
