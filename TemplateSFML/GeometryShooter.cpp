@@ -28,7 +28,7 @@ int main()
 	sf::Clock clock;
 	sf::Mouse mouse;
 
-	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new GrenadeLauncher()), window.getSize().x, window.getSize().y, &window, getAssetPath() + "\\arial.ttf");
+	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Gun()), window.getSize().x, window.getSize().y, &window, getAssetPath() + "\\arial.ttf");
 
 	float deltaTime;
 
