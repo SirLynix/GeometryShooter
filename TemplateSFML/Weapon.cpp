@@ -19,7 +19,7 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 {
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x);
 
-<<<<<<< HEAD
+
 	
 	if (projectileOf == PROJECTILE_OF::ENEMY)
 	{
@@ -32,9 +32,7 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
 		return projectile;
 	}	
-=======
-	return new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
+
 }
 
 void Weapon::UpdateOrigineProjectile(sf::Vector2f origin)

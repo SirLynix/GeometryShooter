@@ -8,15 +8,9 @@
 #include "Weapon.h"
 #include "Projectile.h"
 #include "Gun.h"
-<<<<<<< HEAD
 #include "Arc.h"
 #include "Grenade.h"
-
-float Clamp(float f, float limitMax, float limitMin);
-float Abs(float f);
-=======
 #include "Heal.h"
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
@@ -162,7 +156,7 @@ void Game::UpdateTime(float _deltaTime)
 		it++;
 	}
 
-<<<<<<< HEAD
+
 	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
 	while (it2 != this->listProjectile.end()) {
 		if ((*it2)->canExplode)
@@ -177,7 +171,7 @@ void Game::UpdateTime(float _deltaTime)
 		it2++;
 	}
 
-=======
+
 
 }
 
@@ -192,7 +186,7 @@ void Game::UpdateDash()
 		this->player->speed = this->player->baseSpeed;
 		this->player->cooldown = .2f;
 	}
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
+
 }
 
 void Game::MoveAllEnemy()
@@ -221,11 +215,7 @@ void Game::AllEnemyShoot()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-<<<<<<< HEAD
 		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJECTILE_OF::ENEMY);
-=======
-		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX, this->player->posY), &this->listProjectile, PROJETILE_OF::ENEMY);
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 		it++;
 	}
 }
@@ -263,7 +253,7 @@ void Game::CollisionProjectile() {
 				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
-<<<<<<< HEAD
+
 					if ((*it)->typeProjectile == TYPE_PROJECTILE::BULLET)
 					{
 						(*it)->~Projectile();
@@ -276,13 +266,7 @@ void Game::CollisionProjectile() {
 						(*it)->canExplode = true;
 						
 					}
-					
-=======
 					(*it2)->UpdateUiToPv();
-					(*it)->~Projectile();
-					projectRemove = true;
-					it = listProjectile.erase(it);
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 				}
 
 				if ((*it2)->vie <= 0) {
@@ -299,12 +283,9 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-<<<<<<< HEAD
-			} else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
-=======
-			}
-			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
+			} 
+			else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) 
+			{
 				(*it)->~Projectile();
 				projectRemove = true;
 				it = listProjectile.erase(it);
@@ -312,11 +293,8 @@ void Game::CollisionProjectile() {
 			it3++;
 		}
 
-<<<<<<< HEAD
+
 		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
-=======
-		if (!projectRemove && (*it)->projectileOf == PROJETILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
 			this->player->TakeDommage((*it)->weaponDamage);
 			(*it)->~Projectile();
 			projectRemove = true;

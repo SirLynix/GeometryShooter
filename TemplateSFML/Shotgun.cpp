@@ -24,11 +24,8 @@ void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listP
 
 }
 
-<<<<<<< HEAD
 Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset,PROJECTILE_OF projectileOf)
-=======
-Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJETILE_OF projectileOf)
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
+
 {
 	int max = 5 + (this->speedBullet * 100);
 	int min = -5 + (this->speedBullet * 100);

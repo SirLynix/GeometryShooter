@@ -7,13 +7,9 @@
 const int radiusPlayer = 20;
 const float PI = 3.14159265359;
 
-<<<<<<< HEAD
-Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 230.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true) {
-=======
 Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true), isDashing(false), dashFactor(5.f) {
+	
 	this->baseSpeed = this->speed;
->>>>>>> a7a65712bdf5f33f8459aefccb2a385cd9ccd558
-
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setRadius(radiusPlayer);
 	this->cercle.setOrigin(radiusPlayer, radiusPlayer);
