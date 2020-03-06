@@ -13,11 +13,11 @@ public:
 	list<Brique*> briques;
 	int thicknessesBrique;
 	sf::RectangleShape*** echiquier;
-	int nbTiles;
+	sf::Vector2f nbTiles;
 	int tileSize;
 
 public:
-	Arena(int _width, int _height, int _thicknessesBrique, int _nbTiles, int _tileSize);
+	Arena(int _width, int _height, int _thicknessesBrique, sf::Vector2f _nbTiles, int _tileSize);
 	void CreateArena();
 	void DisplayArena(sf::RenderWindow* window);
 };
