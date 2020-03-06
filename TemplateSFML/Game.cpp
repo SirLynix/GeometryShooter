@@ -66,7 +66,6 @@ void Game::DisplayGame()
 		it4++;
 	}
 
-	this->player->DrawPlayer(this->window);
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 		(*it)->DisplayEnemy(this->window);
@@ -84,6 +83,8 @@ void Game::DisplayGame()
 		(*it2)->DisplayProjectile(this->window);
 		it2++;
 	}
+
+	this->player->DrawPlayer(this->window);
 
 	this->window->draw(this->texteWinLose);
 
@@ -179,13 +180,10 @@ void Game::UpdateTime(float _deltaTime)
 		it2++;
 	}
 
-
-
 }
 
 void Game::UpdateDash()
 {
-	printf("%f", this->player->dashCD);
 	if (this->player->isDashing && this->player->dashDuration > 0.f) {
 		this->player->dashDuration -= deltaTime;
 
@@ -303,7 +301,12 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-			} else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
+			}
+			else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+				(*it)->canExplode = true;
+				(*it)->SetExplosionSettings();
+			}
+			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
 			{
 				(*it)->~Projectile();
 				projectRemove = true;
