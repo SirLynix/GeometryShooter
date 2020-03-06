@@ -170,7 +170,7 @@ void Game::UpdateTime(float _deltaTime)
 		if ((*it2)->canExplode)
 		{
 			(*it2)->UpdateRadius(_deltaTime);
-			
+
 		}
 		if ((*it2)->explosionCooldown > -1.0f)
 		{
@@ -185,16 +185,31 @@ void Game::UpdateTime(float _deltaTime)
 
 void Game::UpdateDash()
 {
-	if (this->player->cooldown > 0.f && this->player->isDashing) {
-		this->player->cooldown -= deltaTime;
-		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
-	}
-	else {
-		this->player->isDashing = false;
-		this->player->speed = this->player->baseSpeed;
-		this->player->cooldown = .2f;
-	}
+	printf("%f", this->player->dashCD);
+	if (this->player->isDashing && this->player->dashDuration > 0.f) {
+		this->player->dashDuration -= deltaTime;
 
+		ACTION ty = this->player->typeMovement;
+		if (ty == ACTION::UP_LEFT || ty == ACTION::UP_RIGHT || ty == ACTION::DOWN_LEFT || ty == ACTION::DOWN_RIGHT) {
+			this->player->speed = ((this->player->dashFactor * this->player->baseSpeed) - (2000.f * (.2f - this->player->dashDuration))) / sqrt(2);
+		} else {
+			this->player->speed = ((this->player->dashFactor * this->player->baseSpeed) - (2000.f * (.2f - this->player->dashDuration)));
+		}
+
+	} else {
+		this->player->speed = this->player->baseSpeed;
+		this->player->isDashing = false;
+		this->player->dashDuration = .2f;
+
+		if (this->player->dashCD > 0.f && !this->player->canDash) {
+			this->player->dashCD -= deltaTime;
+			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
+		} else {
+			this->player->dashCD = this->player->baseCD;
+			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
+			this->player->canDash = true;
+		}
+	}
 }
 
 void Game::MoveAllEnemy()
@@ -223,7 +238,7 @@ void Game::AllEnemyShoot()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJECTILE_OF::ENEMY);
+		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX, this->player->posY), &this->listProjectile, PROJECTILE_OF::ENEMY);
 		it++;
 	}
 }
@@ -257,8 +272,7 @@ void Game::CollisionProjectile() {
 			while (it2 != this->listEnemy.end()) {
 				if (it == this->listProjectile.end()) {
 					return;
-				}
-				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
 
@@ -267,12 +281,11 @@ void Game::CollisionProjectile() {
 						(*it)->~Projectile();
 						projectRemove = true;
 						it = listProjectile.erase(it);
-					}
-					else if((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && (*it)->explosionCooldown < 0.0f)
+					} else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && (*it)->explosionCooldown < 0.0f)
 					{
 						(*it)->SetExplosionSettings();
 						(*it)->canExplode = true;
-						
+
 					}
 					(*it2)->UpdateUiToPv();
 				}
@@ -280,8 +293,7 @@ void Game::CollisionProjectile() {
 				if ((*it2)->vie <= 0) {
 					(*it2)->~Enemy();
 					it2 = listEnemy.erase(it2);
-				}
-				else {
+				} else {
 					it2++;
 				}
 			}
@@ -291,8 +303,7 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-			} 
-			else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) 
+			} else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
 			{
 				(*it)->~Projectile();
 				projectRemove = true;
@@ -302,7 +313,7 @@ void Game::CollisionProjectile() {
 		}
 
 
-		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
+		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
 			this->player->TakeDommage((*it)->weaponDamage);
 			(*it)->~Projectile();
 			projectRemove = true;
@@ -338,8 +349,7 @@ void Game::CollisionEnemy() {
 			}
 			(*it)->~Enemy();
 			it = this->listEnemy.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 
@@ -355,8 +365,7 @@ void Game::CollisionPlayer() {
 			this->player->weapon->~Weapon();
 			this->player->SetWeapon((*it));
 			it = this->listWeapon.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 

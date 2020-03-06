@@ -17,7 +17,12 @@ public:
 	bool isDashing = false;
 	float dashFactor;
 	float baseSpeed;
-	float cooldown;
+	float dashDuration;
+	bool canDash;
+	float dashCD;
+	float baseCD;
+	sf::RectangleShape dashCDUI;
+	sf::RectangleShape baseCDUI;
 	sf::CircleShape cercle;
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
@@ -33,7 +38,6 @@ public:
 	void SetComboMovement(ACTION _action);
 	void SetWeapon(Weapon* weapon);
 	void RotationPlayer(float angleRotation);
-	void SpeedDown();
 private:
 	void UpdateCerclePos();
 };
