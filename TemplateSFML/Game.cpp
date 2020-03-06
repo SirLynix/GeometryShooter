@@ -34,14 +34,14 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	this->listWeapon.push_back(newWeapon);
 
 	Weapon* newWeapon2 = new ShotGun();
-	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
+	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(1600, 200));
 	this->listWeapon.push_back(newWeapon2);
 
 	Weapon* newWeapon3 = new GrenadeLauncher();
-	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
+	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(200, 1000));
 	this->listWeapon.push_back(newWeapon3);
 
-	PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	PowerUp* newPowerUp = new Heal(200, 500, this->fontForText, 1);
 	this->listpowerUp.push_back(newPowerUp);
 
 }

@@ -1,7 +1,10 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Projectile.h"
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(fireRate) {}
+Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(fireRate) {
+	this->heightWeapon = 0;
+	this->widthWeapon = 0;
+}
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
@@ -18,8 +21,6 @@ void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listPr
 Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf)
 {
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x);
-
-
 	
 	if (projectileOf == PROJECTILE_OF::ENEMY)
 	{
