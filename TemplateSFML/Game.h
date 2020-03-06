@@ -26,6 +26,7 @@ public:
 	Arena* arena;
 	sf::RenderWindow* window;
 	sf::Font* fontForText;
+	sf::Text texteWinLose;
 	float deltaTime;
 	float totalTime;
 	float timeBeforeCallNewWave = -1;
@@ -51,4 +52,5 @@ public:
 	void UpdateGame();
 	void AutoCallWave();
 	void CheckForNewWave();
+	void CheckForWin();
 };

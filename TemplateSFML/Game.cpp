@@ -27,6 +27,8 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	this->fontForText = new sf::Font;
 	this->fontForText->loadFromFile(fontForText);
 
+	this->texteWinLose.setFont(*this->fontForText);
+
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
@@ -82,6 +84,8 @@ void Game::DisplayGame()
 		(*it2)->DisplayProjectile(this->window);
 		it2++;
 	}
+
+	this->window->draw(this->texteWinLose);
 
 }
 
@@ -307,6 +311,12 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
+			this->texteWinLose.setString("YOU DIED");
+			this->texteWinLose.setCharacterSize(100);
+			this->texteWinLose.setOrigin(220, 70);
+			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+			this->texteWinLose.setFillColor(sf::Color::Red);
+			
 		}
 
 		if (!projectRemove) {
@@ -377,6 +387,7 @@ void Game::UpdateGame() {
 	this->CollisionEnemy();
 	this->CheckForNewWave();
 	this->AutoCallWave();
+	this->CheckForWin();
 }
 
 void Game::AutoCallWave()
@@ -410,6 +421,17 @@ void Game::CheckForNewWave()
 	if (this->listEnemy.empty() && !changeWave) {
 		changeWave = true;
 		timeBeforeCallNewWave = 5.0f;
+	}
+}
+
+void Game::CheckForWin()
+{
+	if (this->listEnemy.empty() && this->nbWave >= 6 && this->player->vie > 0) {
+		this->texteWinLose.setString("VICTORY");
+		this->texteWinLose.setCharacterSize(100);
+		this->texteWinLose.setOrigin(220, 70);
+		this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+		this->texteWinLose.setFillColor(sf::Color::Red);
 	}
 }
 
