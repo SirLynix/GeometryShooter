@@ -19,7 +19,7 @@ const int thicknessesEnemy = 50;
 Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string fontForText) : player(_player), window(_window)
 {
 	srand(time(NULL));
-	int nbTiles = 100;
+	sf::Vector2f nbTiles = sf::Vector2f(38, 21);
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
@@ -378,12 +378,11 @@ void Game::CollisionPlayer() {
 	while (it2 != this->listpowerUp.end()) {
 
 		if (IsOnCollider((*it2)->circle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
-			printf("%d\n",this->player->vie);
+			printf("%d\n", this->player->vie);
 			(*it2)->ApplyPowerUp(this->player);
 			it2 = this->listpowerUp.erase(it2);
 			printf("%d\n", this->player->vie);
-		}
-		else {
+		} else {
 			it2++;
 		}
 
