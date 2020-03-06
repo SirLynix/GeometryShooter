@@ -7,13 +7,22 @@
 const int radiusPlayer = 20;
 const float PI = 3.14159265359;
 
-Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true), isDashing(false), dashFactor(5.f) {
-	
+Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _posX, _posY, false, weapon), hasBulletTime(false), canMove(true), isDashing(false), dashFactor(5.f), dashDuration(.2f) {
+
 	this->baseSpeed = this->speed;
 	this->cercle.setPosition(sf::Vector2f(this->posX, this->posY));
 	this->cercle.setRadius(radiusPlayer);
 	this->cercle.setOrigin(radiusPlayer, radiusPlayer);
 	this->cercle.setFillColor(sf::Color::Green);
+
+	this->canDash = true;
+	this->baseCD = 1.5f;
+	this->dashCDUI = sf::RectangleShape();
+	this->baseCDUI = sf::RectangleShape();
+	this->dashCDUI.setSize(sf::Vector2f(150, 30));
+	this->baseCDUI.setSize(sf::Vector2f(150, 30));
+	this->dashCDUI.setFillColor(sf::Color(0, 255, 0));
+	this->baseCDUI.setFillColor(sf::Color::White);
 
 	this->typeMovement = ACTION::NONE;
 
@@ -24,20 +33,27 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _pos
 
 void Player::Dash()
 {
-	if (!this->isDashing) {
-		this->baseSpeed = this->speed;
+	if (this->canDash) {
 		this->isDashing = true;
+		this->canDash = false;
+		this->baseSpeed = this->speed;
+
 		this->speed *= this->dashFactor;
 	}
-}
-
-void Player::SpeedDown() {
 }
 
 void Player::DrawPlayer(sf::RenderWindow* window)
 {
 	UpdateCerclePos();
 	window->draw(this->cercle);
+
+	float offX = 800;
+	float offY = 380;
+	this->baseCDUI.setPosition(this->posX - offX, this->posY - offY);
+	this->dashCDUI.setPosition(this->posX - offX, this->posY - offY);
+
+	window->draw(this->baseCDUI);
+	window->draw(this->dashCDUI);
 	this->weapon->DrawWeapon(window);
 }
 
@@ -68,14 +84,11 @@ void Player::SetComboMovement(ACTION _action)
 {
 	if ((_action == ACTION::LEFT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::LEFT)) {
 		this->SetTypeMovment(ACTION::UP_LEFT);
-	}
-	else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::RIGHT)) {
+	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::RIGHT)) {
 		this->SetTypeMovment(ACTION::UP_RIGHT);
-	}
-	else if ((_action == ACTION::LEFT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::LEFT)) {
+	} else if ((_action == ACTION::LEFT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::LEFT)) {
 		this->SetTypeMovment(ACTION::DOWN_LEFT);
-	}
-	else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::RIGHT)) {
+	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::RIGHT)) {
 		this->SetTypeMovment(ACTION::DOWN_RIGHT);
 	}
 }
@@ -103,48 +116,36 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 
 	if (this->typeMovement == ACTION::UP) {
 		y = -this->speed;
-	}
-	else if (this->typeMovement == ACTION::DOWN) {
+	} else if (this->typeMovement == ACTION::DOWN) {
 		y = this->speed;
-	}
-	else if (this->typeMovement == ACTION::LEFT) {
+	} else if (this->typeMovement == ACTION::LEFT) {
 		x = -this->speed;
-	}
-	else if (this->typeMovement == ACTION::RIGHT) {
+	} else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed, 0;
-	}
-	else if (this->typeMovement == ACTION::UP_LEFT) {
+	} else if (this->typeMovement == ACTION::UP_LEFT) {
 		x = -this->speed;
 		y = -this->speed;
-	}
-	else if (this->typeMovement == ACTION::UP_RIGHT) {
+	} else if (this->typeMovement == ACTION::UP_RIGHT) {
 		x = this->speed;
 		y = -this->speed;
-	}
-	else if (this->typeMovement == ACTION::DOWN_LEFT) {
+	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
 		x = -this->speed;
 		y = this->speed;
-	}
-	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed;
 		y = this->speed;
-	}
-	else if (this->typeMovement == ACTION::RIGHT) {
+	} else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed;
-	}
-	else if (this->typeMovement == ACTION::UP_LEFT) {
+	} else if (this->typeMovement == ACTION::UP_LEFT) {
 		x = -this->speed / sqrt(2);
 		y = -this->speed / sqrt(2);
-	}
-	else if (this->typeMovement == ACTION::UP_RIGHT) {
+	} else if (this->typeMovement == ACTION::UP_RIGHT) {
 		x = this->speed / sqrt(2);
 		y = -this->speed / sqrt(2);
-	}
-	else if (this->typeMovement == ACTION::DOWN_LEFT) {
+	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
 		x = -this->speed / sqrt(2);
 		y = this->speed / sqrt(2);
-	}
-	else if (this->typeMovement == ACTION::DOWN_RIGHT) {
+	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
 		x = this->speed / sqrt(2);
 		y = this->speed / sqrt(2);
 	}
