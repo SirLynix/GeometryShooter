@@ -11,6 +11,7 @@
 #include "Arc.h"
 #include "Grenade.h"
 #include "Heal.h"
+#include "PowerUp.h"
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
@@ -34,9 +35,12 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
 	this->listWeapon.push_back(newWeapon2);
 
+	Weapon* newWeapon3 = new GrenadeLauncher();
+	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
+	this->listWeapon.push_back(newWeapon3);
 
-	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
-	//this->listpowerUp.push_back(newPowerUp);
+	PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	this->listpowerUp.push_back(newPowerUp);
 
 }
 
@@ -353,6 +357,21 @@ void Game::CollisionPlayer() {
 			it = this->listWeapon.erase(it);
 		} else {
 			it++;
+		}
+
+	}
+
+	std::list<PowerUp*>::iterator it2 = this->listpowerUp.begin();
+	while (it2 != this->listpowerUp.end()) {
+
+		if (IsOnCollider((*it2)->circle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
+			printf("%d\n",this->player->vie);
+			(*it2)->ApplyPowerUp(this->player);
+			it2 = this->listpowerUp.erase(it2);
+			printf("%d\n", this->player->vie);
+		}
+		else {
+			it2++;
 		}
 
 	}

@@ -13,8 +13,12 @@ void Grenade::MoveProjectile(float _deltaTime)
 
 	projectileCooldown -= _deltaTime;
 
+	if (!canExplode)
+	{
+		ChangeColor();
 
-	ChangeColor();
+	}
+	
 	if (canExplode || explosionCooldown > -1.0f)
 	{
 		return;
