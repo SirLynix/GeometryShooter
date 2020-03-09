@@ -16,7 +16,7 @@
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
 
-Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string fontForText) : player(_player), window(_window)
+Game::Game(Player* _player, int height, int width) : player(_player)
 {
 	srand(time(NULL));
 	int nbTiles = 100;
@@ -24,8 +24,7 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
-	this->fontForText = new sf::Font;
-	this->fontForText->loadFromFile(fontForText);
+	
 
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
@@ -39,8 +38,10 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
 	this->listWeapon.push_back(newWeapon3);
 
-	PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
-	this->listpowerUp.push_back(newPowerUp);
+	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	//this->listpowerUp.push_back(newPowerUp);
+
+	
 
 }
 
@@ -54,41 +55,42 @@ void Game::RemoveEnemy(Enemy* enemyToRemove)
 	listEnemy.remove(enemyToRemove);
 }
 
-void Game::DisplayGame()
+void Game::DisplayGame(sf::RenderWindow* window)
 {
-	this->arena->DisplayArena(this->window);
+	this->arena->DisplayArena(window);
+	this->AutoCallWave(window);
 
 	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
 	while (it4 != this->listpowerUp.end()) {
-		(*it4)->DisplayPowerUp(this->window);
+		(*it4)->DisplayPowerUp(window);
 		it4++;
 	}
 
-	this->player->DrawPlayer(this->window);
+	this->player->DrawPlayer(window);
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-		(*it)->DisplayEnemy(this->window);
+		(*it)->DisplayEnemy(window);
 		it++;
 	}
 
 	std::list<Weapon*>::iterator it3 = this->listWeapon.begin();
 	while (it3 != this->listWeapon.end()) {
-		(*it3)->DrawWeapon(this->window);
+		(*it3)->DrawWeapon(window);
 		it3++;
 	}
 
 	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
 	while (it2 != this->listProjectile.end()) {
-		(*it2)->DisplayProjectile(this->window);
+		(*it2)->DisplayProjectile(window);
 		it2++;
 	}
 
 }
 
-void Game::CreateWave(int nbZombie, int nbArcher)
+void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 {
-	int borneMaxX = this->window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
-	int borneMaxY = this->window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxY = window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
 
 	int borneMin = thicknessesEnemy / 2 + thicknessesBrique;
 
@@ -111,7 +113,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 			if (y < borneMin) {
 				y = borneMin;
 			}
-			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1));
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, ""));
 			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 			{
 				enemiSpawn = true;
@@ -376,31 +378,31 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
-	this->AutoCallWave();
+	
 }
 
-void Game::AutoCallWave()
+void Game::AutoCallWave(sf::RenderWindow* window)
 {
 	if (changeWave && timeBeforeCallNewWave < 0.0f) {
 		changeWave = false;
 		nbWave++;
 		if (nbWave == 1) {
-			CreateWave(2, 0);
+			CreateWave(2, 0, window);
 		}
 		if (nbWave == 2) {
-			CreateWave(0, 2);
+			CreateWave(0, 2, window);
 		}
 		if (nbWave == 3) {
-			CreateWave(5, 0);
+			CreateWave(5, 0, window);
 		}
 		if (nbWave == 4) {
-			CreateWave(0, 5);
+			CreateWave(0, 5, window);
 		}
 		if (nbWave == 5) {
-			CreateWave(5, 5);
+			CreateWave(5, 5, window);
 		}
 		if (nbWave == 6) {
-			CreateWave(10, 10);
+			CreateWave(10, 10, window);
 		}
 	}
 }
@@ -412,6 +414,7 @@ void Game::CheckForNewWave()
 		timeBeforeCallNewWave = 5.0f;
 	}
 }
+
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)
 {

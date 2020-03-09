@@ -11,6 +11,7 @@
 #include "MachineGun.h"
 #include "Gun.h"
 #include "GrenadeLauncher.h"
+#include "UI.h"
 
 using namespace std;
 using namespace sf;
@@ -28,7 +29,8 @@ int main()
 	sf::Clock clock;
 	sf::Mouse mouse;
 
-	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Gun()), window.getSize().x, window.getSize().y, &window, getAssetPath() + "\\arial.ttf");
+	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Gun()), window.getSize().x, window.getSize().y);
+	UI* ui = new UI(&window, getAssetPath() + "\\retro.ttf", game);
 
 	float deltaTime;
 
@@ -73,7 +75,10 @@ int main()
 
 		window.clear();
 		// Whatever I want to draw goes here
-		game->DisplayGame();
+		game->DisplayGame(ui->window);
+		ui->UpdatePosUI();
+		ui->UpdateHpPlayerUI();
+		ui->DisplayUI();
 		window.display();
 	}
 }
