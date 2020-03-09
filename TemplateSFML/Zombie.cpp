@@ -7,7 +7,12 @@ Zombie::Zombie(float _posX, float _posY, int thicknessesEnemy, Weapon* weapon) :
 
 void Zombie::PerformAction(float _deltaTime)
 {
-	this->MoveTo(this->speed * _deltaTime * 10000 * GetNextMovementX(), this->speed * _deltaTime * 10000 * GetNextMovementY());
+	if (this->moveOnX) {
+		this->MoveTo(this->speed * _deltaTime * 10000 * GetNextMovementX(), 0);
+	}
+	if (this->moveOnY) {
+		this->MoveTo(0, this->speed * _deltaTime * 10000 * GetNextMovementY());
+	}
 }
 
 float Zombie::GetNextMovementX()

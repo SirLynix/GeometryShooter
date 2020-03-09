@@ -23,9 +23,6 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
-
-	
-
 	
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
@@ -221,13 +218,26 @@ void Game::MoveAllEnemy()
 
 		float nextX = (*it)->GetNextMovementX() * this->deltaTime * 10000 * (*it)->speed;
 		float nextY = (*it)->GetNextMovementY() * this->deltaTime * 10000 * (*it)->speed;
-		(*it)->UpdatePos(nextX, nextY);
+		(*it)->UpdatePos(nextX, 0);
 
-		if (!(*it)->IsOnColliderWithEnemy(this->listEnemy)) {
-			(*it)->PerformAction(this->deltaTime);
+		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
+			(*it)->moveOnX = false;
+		}
+		else {
+			(*it)->moveOnX = true;
 		}
 
-		(*it)->UpdatePos(-nextX, -nextY);
+		(*it)->UpdatePos(-nextX, 0);
+		(*it)->UpdatePos(0, nextY);
+
+		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
+			(*it)->moveOnY = false;
+		}
+		else {
+			(*it)->moveOnY = true;
+		}
+		(*it)->UpdatePos(0, -nextY);
+		(*it)->PerformAction(this->deltaTime);
 
 		it++;
 	}
