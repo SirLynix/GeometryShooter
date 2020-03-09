@@ -15,6 +15,8 @@ public:
 	sf::RectangleShape pv2;
 	sf::RectangleShape pv3;
 	sf::Vector2f target;
+	bool moveOnX = true;
+	bool moveOnY = true;
 public:
 	Enemy(float _posX, float _poxY, int thicknessesEnemy, Weapon* weapon);
 	void DisplayEnemy(sf::RenderWindow* window);

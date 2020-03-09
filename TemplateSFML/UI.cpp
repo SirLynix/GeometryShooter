@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "Game.h"
 UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(window), game(game)
-	{
+{
 	this->fontForText = new sf::Font;
 	this->fontForText->loadFromFile(fontForText);
 	this->texteWinLose.setFont(*this->fontForText);
@@ -11,6 +11,7 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	this->vie->setFont(*this->fontForText);
 	this->selectedWeapon = new sf::Text;
 	this->selectedWeapon->setFont(*this->fontForText);
+<<<<<<< HEAD
 
 	this->dashCDUI = sf::RectangleShape();
 	this->baseCDUI = sf::RectangleShape();
@@ -31,11 +32,19 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 
 	this->selectedWeapon->setCharacterSize(25);
 	}
+=======
+	this->ammo = new sf::Text;
+	this->ammo->setFont(*this->fontForText);
+}
+>>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 
 void UI::DisplayUI()
 {
 	this->window->draw(*this->UIRectangle);
 	this->window->draw(*this->vie);
+
+	this->ammo->setString(to_string(game->player->weapon->ammo));
+	this->window->draw(*this->ammo);
 	this->window->draw(*this->selectedWeapon);
 	window->draw(this->baseCDUI);
 	window->draw(this->dashCDUI);
@@ -81,10 +90,26 @@ void UI::UpdatePosUI()
 {
 	
 	this->UIRectangle->setPosition(sf::Vector2f(this->game->player->posX - 860.0f, this->game->player->posY - 440.0f));
+<<<<<<< HEAD
+=======
+	this->UIRectangle->setFillColor(sf::Color(0, 0, 0, 120));
+	this->UIRectangle->setOutlineColor(sf::Color::White);
+	this->UIRectangle->setOutlineThickness(2);
+
+	this->vie->setString(sf::String("Vie : "));
+	this->vie->setCharacterSize(25);
+>>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 	this->vie->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 50.0f));
 	this->selectedWeapon->setString(this->game->player->weapon->name.getString());
 	this->selectedWeapon->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 10.0f));
 
+<<<<<<< HEAD
+=======
+	this->ammo->setFillColor(sf::Color::White);
+	this->ammo->setCharacterSize(25);
+	this->ammo->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 450.0f, this->UIRectangle->getPosition().y + 10.0f));
+
+>>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 	float UiX = 0.0f;
 
 	std::list<sf::CircleShape*>::iterator it2 = this->listVies.begin();
@@ -119,8 +144,7 @@ void UI::CheckForWinAndLose()
 		this->texteWinLose.setOrigin(220, 70);
 		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
 		this->texteWinLose.setFillColor(sf::Color::Red);
-	}
-	else if (game->player->typeMovement == ACTION::DEAD)
+	} else if (game->player->typeMovement == ACTION::DEAD)
 	{
 
 		this->texteWinLose.setString("YOU DIED");
@@ -128,8 +152,7 @@ void UI::CheckForWinAndLose()
 		this->texteWinLose.setOrigin(220, 70);
 		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
 		this->texteWinLose.setFillColor(sf::Color::Red);
-	}
-	else
+	} else
 	{
 		this->texteWinLose.setString("");
 	}
