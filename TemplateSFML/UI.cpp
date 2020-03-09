@@ -11,7 +11,7 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	this->vie->setFont(*this->fontForText);
 	this->selectedWeapon = new sf::Text;
 	this->selectedWeapon->setFont(*this->fontForText);
-<<<<<<< HEAD
+
 
 	this->dashCDUI = sf::RectangleShape();
 	this->baseCDUI = sf::RectangleShape();
@@ -31,12 +31,12 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	this->UIRectangle->setOrigin(sf::Vector2f(0.0f, 0.0f));
 
 	this->selectedWeapon->setCharacterSize(25);
-	}
-=======
+	
+
 	this->ammo = new sf::Text;
 	this->ammo->setFont(*this->fontForText);
 }
->>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
+
 
 void UI::DisplayUI()
 {
@@ -90,26 +90,21 @@ void UI::UpdatePosUI()
 {
 	
 	this->UIRectangle->setPosition(sf::Vector2f(this->game->player->posX - 860.0f, this->game->player->posY - 440.0f));
-<<<<<<< HEAD
-=======
+
 	this->UIRectangle->setFillColor(sf::Color(0, 0, 0, 120));
 	this->UIRectangle->setOutlineColor(sf::Color::White);
 	this->UIRectangle->setOutlineThickness(2);
 
 	this->vie->setString(sf::String("Vie : "));
 	this->vie->setCharacterSize(25);
->>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 	this->vie->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 50.0f));
 	this->selectedWeapon->setString(this->game->player->weapon->name.getString());
 	this->selectedWeapon->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 10.0f));
 
-<<<<<<< HEAD
-=======
 	this->ammo->setFillColor(sf::Color::White);
 	this->ammo->setCharacterSize(25);
 	this->ammo->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 450.0f, this->UIRectangle->getPosition().y + 10.0f));
 
->>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 	float UiX = 0.0f;
 
 	std::list<sf::CircleShape*>::iterator it2 = this->listVies.begin();

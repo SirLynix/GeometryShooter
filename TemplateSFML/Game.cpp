@@ -194,6 +194,7 @@ void Game::UpdateTime(float _deltaTime)
 	this->timeBeforeCallNewWave -= _deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
+	this->player->FeedbackDamageTaken(this->deltaTime);
 
 	UpdateDash();
 
@@ -450,13 +451,9 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
-<<<<<<< HEAD
-	this->player->FeedbackDamageTaken(this->deltaTime);
-=======
 	this->CheckForNewWeapons();
 	this->CheckForWin();
 }
->>>>>>> 418fc0f656208b2376dd4f39511c95c225f8422d
 
 void Game::AutoCallWeapons(sf::RenderWindow* window) {
 	if (changeWeapons && timeBeforeNewWeapons < 0.f) {
