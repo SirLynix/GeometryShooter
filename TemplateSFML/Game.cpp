@@ -23,14 +23,7 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
-<<<<<<< HEAD
-	
-=======
 
-
-
-
->>>>>>> 93fb06650505a02f79a786bf6568fb2ebea1ecf0
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
@@ -433,10 +426,8 @@ void Game::CollisionPlayer() {
 	while (it2 != this->listpowerUp.end()) {
 
 		if (IsOnCollider((*it2)->circle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
-			printf("%d\n", this->player->vie);
 			(*it2)->ApplyPowerUp(this->player);
 			it2 = this->listpowerUp.erase(it2);
-			printf("%d\n", this->player->vie);
 		} else {
 			it2++;
 		}
@@ -501,7 +492,6 @@ void Game::CheckForNewWeapons() {
 		changeWeapons = true;
 		timeBeforeNewWeapons = 15.f;
 	} else {
-		printf("%f\n", timeBeforeNewWeapons);
 		timeBeforeNewWeapons -= deltaTime;
 	}
 }
