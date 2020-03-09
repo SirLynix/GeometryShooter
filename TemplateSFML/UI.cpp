@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "Game.h"
 UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(window), game(game)
-	{
+{
 	this->fontForText = new sf::Font;
 	this->fontForText->loadFromFile(fontForText);
 	this->texteWinLose.setFont(*this->fontForText);
@@ -11,12 +11,17 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	this->vie->setFont(*this->fontForText);
 	this->selectedWeapon = new sf::Text;
 	this->selectedWeapon->setFont(*this->fontForText);
-	}
+	this->ammo = new sf::Text;
+	this->ammo->setFont(*this->fontForText);
+}
 
 void UI::DisplayUI()
 {
 	this->window->draw(*this->UIRectangle);
 	this->window->draw(*this->vie);
+
+	this->ammo->setString(to_string(game->player->weapon->ammo));
+	this->window->draw(*this->ammo);
 	this->window->draw(*this->selectedWeapon);
 	this->UpdateHpPlayerUI();
 
@@ -65,7 +70,6 @@ void UI::UpdatePosUI()
 	this->UIRectangle->setOutlineColor(sf::Color::White);
 	this->UIRectangle->setOutlineThickness(2);
 
-
 	this->vie->setString(sf::String("Vie : "));
 	this->vie->setCharacterSize(25);
 	this->vie->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 50.0f));
@@ -75,7 +79,9 @@ void UI::UpdatePosUI()
 	this->selectedWeapon->setCharacterSize(25);
 	this->selectedWeapon->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 20.0f, this->UIRectangle->getPosition().y + 10.0f));
 
-
+	this->ammo->setFillColor(sf::Color::White);
+	this->ammo->setCharacterSize(25);
+	this->ammo->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 450.0f, this->UIRectangle->getPosition().y + 10.0f));
 
 	float UiX = 0.0f;
 
@@ -98,8 +104,7 @@ void UI::CheckForWinAndLose()
 		this->texteWinLose.setOrigin(220, 70);
 		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
 		this->texteWinLose.setFillColor(sf::Color::Red);
-	}
-	else if (game->player->typeMovement == ACTION::DEAD)
+	} else if (game->player->typeMovement == ACTION::DEAD)
 	{
 
 		this->texteWinLose.setString("YOU DIED");
@@ -107,8 +112,7 @@ void UI::CheckForWinAndLose()
 		this->texteWinLose.setOrigin(220, 70);
 		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
 		this->texteWinLose.setFillColor(sf::Color::Red);
-	}
-	else
+	} else
 	{
 		this->texteWinLose.setString("");
 	}

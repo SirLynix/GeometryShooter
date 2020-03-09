@@ -23,7 +23,14 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
+<<<<<<< HEAD
 	
+=======
+
+
+
+
+>>>>>>> 93fb06650505a02f79a786bf6568fb2ebea1ecf0
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
@@ -55,6 +62,7 @@ void Game::DisplayGame(sf::RenderWindow* window)
 {
 	this->arena->DisplayArena(window);
 	this->AutoCallWave(window);
+	this->AutoCallWeapons(window);
 
 	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
 	while (it4 != this->listpowerUp.end()) {
@@ -88,6 +96,45 @@ void Game::DisplayGame(sf::RenderWindow* window)
 
 }
 
+void Game::SpawnWeapons(sf::RenderWindow* window) {
+	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxY = window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
+
+	int borneMin = thicknessesEnemy / 2 + thicknessesBrique;
+
+	int x, y;
+	int typeWeapon;
+	for (size_t i = 0; i < 2; i++)
+	{
+		Weapon* weapon = new Gun();
+		typeWeapon = rand() % 3;
+		switch (typeWeapon)
+		{
+		case 0:
+			weapon = new ShotGun();
+			break;
+		case 1:
+			weapon = new MachineGun();
+			break;
+		case 2:
+			weapon = new GrenadeLauncher();
+			break;
+		}
+
+		x = rand() % (borneMaxX + 1);
+		y = rand() % (borneMaxY + 1);
+		if (x < borneMin) {
+			x = borneMin;
+		}
+		if (y < borneMin) {
+			y = borneMin;
+		}
+
+		weapon->UpdateOrigineProjectile(sf::Vector2f(x, y));
+		this->listWeapon.push_back(weapon);
+	}
+}
+
 void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 {
 	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
@@ -114,7 +161,7 @@ void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 			if (y < borneMin) {
 				y = borneMin;
 			}
-			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, ""));
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, 999, ""));
 			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 			{
 				enemiSpawn = true;
@@ -312,12 +359,10 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-			}
-			else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+			} else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
 				(*it)->canExplode = true;
 				(*it)->SetExplosionSettings();
-			}
-			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
+			} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
 			{
 				(*it)->~Projectile();
 				projectRemove = true;
@@ -336,8 +381,11 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
-			
-			
+			this->texteWinLose.setString("YOU DIED");
+			this->texteWinLose.setCharacterSize(100);
+			this->texteWinLose.setOrigin(220, 70);
+			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+			this->texteWinLose.setFillColor(sf::Color::Red);
 		}
 
 		if (!projectRemove) {
@@ -404,7 +452,15 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
+	this->CheckForNewWeapons();
+	this->CheckForWin();
+}
 
+void Game::AutoCallWeapons(sf::RenderWindow* window) {
+	if (changeWeapons && timeBeforeNewWeapons < 0.f) {
+		changeWeapons = false;
+		SpawnWeapons(window);
+	}
 }
 void Game::AutoCallWave(sf::RenderWindow* window)
 {
@@ -437,6 +493,27 @@ void Game::CheckForNewWave()
 	if (this->listEnemy.empty() && !changeWave) {
 		changeWave = true;
 		timeBeforeCallNewWave = 5.0f;
+	}
+}
+
+void Game::CheckForNewWeapons() {
+	if (timeBeforeNewWeapons < 0.f && !changeWeapons) {
+		changeWeapons = true;
+		timeBeforeNewWeapons = 15.f;
+	} else {
+		printf("%f\n", timeBeforeNewWeapons);
+		timeBeforeNewWeapons -= deltaTime;
+	}
+}
+
+void Game::CheckForWin()
+{
+	if (this->listEnemy.empty() && this->nbWave >= 6 && this->player->vie > 0) {
+		this->texteWinLose.setString("VICTORY");
+		this->texteWinLose.setCharacterSize(100);
+		this->texteWinLose.setOrigin(220, 70);
+		this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+		this->texteWinLose.setFillColor(sf::Color::Red);
 	}
 }
 
