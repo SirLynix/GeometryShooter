@@ -16,7 +16,7 @@
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
 
-Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, std::string fontForText) : player(_player), window(_window)
+Game::Game(Player* _player, int height, int width) : player(_player)
 {
 	srand(time(NULL));
 	sf::Vector2f nbTiles = sf::Vector2f(38, 21);
@@ -24,11 +24,9 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
-	this->fontForText = new sf::Font;
-	this->fontForText->loadFromFile(fontForText);
+	
 
-	this->texteWinLose.setFont(*this->fontForText);
-
+	
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
@@ -41,9 +39,9 @@ Game::Game(Player* _player, int height, int width, sf::RenderWindow* _window, st
 	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(200, 1000));
 	this->listWeapon.push_back(newWeapon3);
 
-	PowerUp* newPowerUp = new Heal(200, 500, this->fontForText, 1);
-	this->listpowerUp.push_back(newPowerUp);
 
+	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
+	//this->listpowerUp.push_back(newPowerUp);
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -56,40 +54,44 @@ void Game::RemoveEnemy(Enemy* enemyToRemove)
 	listEnemy.remove(enemyToRemove);
 }
 
-void Game::DisplayGame()
+void Game::DisplayGame(sf::RenderWindow* window)
 {
-	this->arena->DisplayArena(this->window);
+	this->arena->DisplayArena(window);
+	this->AutoCallWave(window);
 
 	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
 	while (it4 != this->listpowerUp.end()) {
-		(*it4)->DisplayPowerUp(this->window);
+		(*it4)->DisplayPowerUp(window);
 		it4++;
 	}
 
+	this->player->DrawPlayer(window);
+
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-		(*it)->DisplayEnemy(this->window);
+		(*it)->DisplayEnemy(window);
 		it++;
 	}
 
 	std::list<Weapon*>::iterator it3 = this->listWeapon.begin();
 	while (it3 != this->listWeapon.end()) {
-		(*it3)->DrawWeapon(this->window);
+		(*it3)->DrawWeapon(window);
 		it3++;
 	}
 
 	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
 	while (it2 != this->listProjectile.end()) {
-		(*it2)->DisplayProjectile(this->window);
+		(*it2)->DisplayProjectile(window);
 		it2++;
 	}
 
-	this->player->DrawPlayer(this->window);
+	this->player->DrawPlayer(window);
 
-	this->window->draw(this->texteWinLose);
+	window->draw(this->texteWinLose);
 
 }
 
+<<<<<<< HEAD
 void Game::SpawnWeapons() {
 	int borneMaxX = this->window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
 	int borneMaxY = this->window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
@@ -130,9 +132,12 @@ void Game::SpawnWeapons() {
 }
 
 void Game::CreateWave(int nbZombie, int nbArcher)
+=======
+void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
+>>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 {
-	int borneMaxX = this->window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
-	int borneMaxY = this->window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxY = window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
 
 	int borneMin = thicknessesEnemy / 2 + thicknessesBrique;
 
@@ -155,7 +160,11 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 			if (y < borneMin) {
 				y = borneMin;
 			}
+<<<<<<< HEAD
 			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, 999));
+=======
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, ""));
+>>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 			{
 				enemiSpawn = true;
@@ -362,12 +371,17 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
+<<<<<<< HEAD
 			this->texteWinLose.setString("YOU DIED");
 			this->texteWinLose.setCharacterSize(100);
 			this->texteWinLose.setOrigin(220, 70);
 			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
 			this->texteWinLose.setFillColor(sf::Color::Red);
 
+=======
+			
+			
+>>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 		}
 
 		if (!projectRemove) {
@@ -434,6 +448,7 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
+<<<<<<< HEAD
 	this->CheckForNewWeapons();
 	this->AutoCallWave();
 	this->AutoCallWeapons();
@@ -448,27 +463,32 @@ void Game::AutoCallWeapons() {
 }
 
 void Game::AutoCallWave()
+=======
+
+}
+void Game::AutoCallWave(sf::RenderWindow* window)
+>>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 {
 	if (changeWave && timeBeforeCallNewWave < 0.0f) {
 		changeWave = false;
 		nbWave++;
 		if (nbWave == 1) {
-			CreateWave(2, 0);
+			CreateWave(2, 0, window);
 		}
 		if (nbWave == 2) {
-			CreateWave(0, 2);
+			CreateWave(0, 2, window);
 		}
 		if (nbWave == 3) {
-			CreateWave(5, 0);
+			CreateWave(5, 0, window);
 		}
 		if (nbWave == 4) {
-			CreateWave(0, 5);
+			CreateWave(0, 5, window);
 		}
 		if (nbWave == 5) {
-			CreateWave(5, 5);
+			CreateWave(5, 5, window);
 		}
 		if (nbWave == 6) {
-			CreateWave(10, 10);
+			CreateWave(10, 10, window);
 		}
 	}
 }
@@ -481,6 +501,7 @@ void Game::CheckForNewWave()
 	}
 }
 
+<<<<<<< HEAD
 void Game::CheckForNewWeapons() {
 	if (timeBeforeNewWeapons < 0.f && !changeWeapons) {
 		changeWeapons = true;
@@ -502,6 +523,8 @@ void Game::CheckForWin()
 	}
 }
 
+=======
+>>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)
 {
 	if (firstRect.intersects(secondeRect)) {

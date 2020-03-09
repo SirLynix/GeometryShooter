@@ -19,8 +19,8 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _pos
 	this->baseCD = 1.5f;
 	this->dashCDUI = sf::RectangleShape();
 	this->baseCDUI = sf::RectangleShape();
-	this->dashCDUI.setSize(sf::Vector2f(150, 30));
-	this->baseCDUI.setSize(sf::Vector2f(150, 30));
+	this->dashCDUI.setSize(sf::Vector2f(180, 30));
+	this->baseCDUI.setSize(sf::Vector2f(180, 30));
 	this->dashCDUI.setFillColor(sf::Color(0, 255, 0));
 	this->baseCDUI.setFillColor(sf::Color::White);
 
@@ -47,8 +47,8 @@ void Player::DrawPlayer(sf::RenderWindow* window)
 	UpdateCerclePos();
 	window->draw(this->cercle);
 
-	float offX = 800;
-	float offY = 380;
+	float offX = 520;
+	float offY = 385;
 	this->baseCDUI.setPosition(this->posX - offX, this->posY - offY);
 	this->dashCDUI.setPosition(this->posX - offX, this->posY - offY);
 
