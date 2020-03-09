@@ -4,6 +4,7 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	{
 	this->fontForText = new sf::Font;
 	this->fontForText->loadFromFile(fontForText);
+	this->texteWinLose.setFont(*this->fontForText);
 
 	this->UIRectangle = new sf::RectangleShape;
 	this->vie = new sf::Text;
@@ -27,6 +28,8 @@ void UI::DisplayUI()
 		it2++;
 	}
 
+	CheckForWinAndLose();
+	this->window->draw(this->texteWinLose);
 	return;
 }
 
@@ -84,5 +87,29 @@ void UI::UpdatePosUI()
 		this->window->draw(*(*it2));
 		it2++;
 		UiX += 50.0f;
+	}
+}
+
+void UI::CheckForWinAndLose()
+{
+	if (game->listEnemy.empty() && game->nbWave >= 6 && game->player->vie > 0) {
+		this->texteWinLose.setString("VICTORY");
+		this->texteWinLose.setCharacterSize(100);
+		this->texteWinLose.setOrigin(220, 70);
+		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
+		this->texteWinLose.setFillColor(sf::Color::Red);
+	}
+	else if (game->player->typeMovement == ACTION::DEAD)
+	{
+
+		this->texteWinLose.setString("YOU DIED");
+		this->texteWinLose.setCharacterSize(100);
+		this->texteWinLose.setOrigin(220, 70);
+		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
+		this->texteWinLose.setFillColor(sf::Color::Red);
+	}
+	else
+	{
+		this->texteWinLose.setString("");
 	}
 }

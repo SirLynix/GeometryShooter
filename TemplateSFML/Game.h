@@ -24,18 +24,11 @@ public:
 	list <Weapon*> listWeapon;
 	list <PowerUp*> listpowerUp;
 	Arena* arena;
-<<<<<<< HEAD
-=======
-	sf::RenderWindow* window;
-	sf::Font* fontForText;
 	sf::Text texteWinLose;
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 	float deltaTime;
 	float totalTime;
 	float timeBeforeCallNewWave = -1;
 	bool changeWave = false;
-	
-private:
 	int nbWave = 0;
 
 public:
@@ -56,9 +49,6 @@ public:
 	void UpdateGame();
 	void AutoCallWave(sf::RenderWindow* window);
 	void CheckForNewWave();
-<<<<<<< HEAD
+	
 
-=======
-	void CheckForWin();
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 };

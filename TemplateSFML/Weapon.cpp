@@ -1,17 +1,12 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Projectile.h"
-<<<<<<< HEAD
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, sf::String name) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(fireRate) {
+
+Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, sf::String name) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(0) {
 	
 	this->heightWeapon = 0;
 	this->widthWeapon = 0;
 	this->name.setString(name);
-=======
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(fireRate) {
-	this->heightWeapon = 0;
-	this->widthWeapon = 0;
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 }
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)

@@ -26,8 +26,7 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 
 	
 
-	this->texteWinLose.setFont(*this->fontForText);
-
+	
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
@@ -40,16 +39,9 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(200, 1000));
 	this->listWeapon.push_back(newWeapon3);
 
-<<<<<<< HEAD
+
 	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
 	//this->listpowerUp.push_back(newPowerUp);
-
-	
-=======
-	PowerUp* newPowerUp = new Heal(200, 500, this->fontForText, 1);
-	this->listpowerUp.push_back(newPowerUp);
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
-
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -73,10 +65,8 @@ void Game::DisplayGame(sf::RenderWindow* window)
 		it4++;
 	}
 
-<<<<<<< HEAD
 	this->player->DrawPlayer(window);
-=======
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
+
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 		(*it)->DisplayEnemy(window);
@@ -95,9 +85,9 @@ void Game::DisplayGame(sf::RenderWindow* window)
 		it2++;
 	}
 
-	this->player->DrawPlayer(this->window);
+	this->player->DrawPlayer(window);
 
-	this->window->draw(this->texteWinLose);
+	window->draw(this->texteWinLose);
 
 }
 
@@ -336,11 +326,7 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
-			this->texteWinLose.setString("YOU DIED");
-			this->texteWinLose.setCharacterSize(100);
-			this->texteWinLose.setOrigin(220, 70);
-			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
-			this->texteWinLose.setFillColor(sf::Color::Red);
+			
 			
 		}
 
@@ -408,14 +394,8 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
-<<<<<<< HEAD
-	
-=======
-	this->AutoCallWave();
-	this->CheckForWin();
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
-}
 
+}
 void Game::AutoCallWave(sf::RenderWindow* window)
 {
 	if (changeWave && timeBeforeCallNewWave < 0.0f) {
@@ -449,20 +429,6 @@ void Game::CheckForNewWave()
 		timeBeforeCallNewWave = 5.0f;
 	}
 }
-
-<<<<<<< HEAD
-=======
-void Game::CheckForWin()
-{
-	if (this->listEnemy.empty() && this->nbWave >= 6 && this->player->vie > 0) {
-		this->texteWinLose.setString("VICTORY");
-		this->texteWinLose.setCharacterSize(100);
-		this->texteWinLose.setOrigin(220, 70);
-		this->texteWinLose.setPosition(this->player->posX, this->player->posY);
-		this->texteWinLose.setFillColor(sf::Color::Red);
-	}
-}
->>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)
 {

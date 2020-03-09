@@ -12,11 +12,16 @@ public:
 	sf::RenderWindow* window;
 	sf::Font* fontForText;
 	Game* game;
+	sf::Text texteWinLose;
+	sf::RectangleShape dashCDUI;
+	sf::RectangleShape baseCDUI;
+
 
 public:
 	UI(sf::RenderWindow* window, sf::String fontForText, Game* game);
 	void DisplayUI();
 	void UpdateHpPlayerUI();
 	void UpdatePosUI();
+	void CheckForWinAndLose();
 };
 
