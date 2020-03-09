@@ -30,25 +30,16 @@ public:
 	float timeBeforeCallNewWave = -1;
 	float timeBeforeNewWeapons = -1;
 	bool changeWave = false;
-<<<<<<< HEAD
 	bool changeWeapons = false;
-private:
-=======
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 	int nbWave = 0;
 
 public:
 	Game(Player* _player, int height, int width);
 	void AddEnemy(Enemy* enemyToAdd);
 	void RemoveEnemy(Enemy* enemyToRemove);
-<<<<<<< HEAD
-	void DisplayGame();
-	void CreateWave(int nbZombie, int nbArcher);
-	void SpawnWeapons();
-=======
 	void DisplayGame(sf::RenderWindow* window);
 	void CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window);
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
+	void SpawnWeapons(sf::RenderWindow* window);
 	void UpdateTime(float _deltaTime);
 	void UpdateDash();
 	void MoveAllEnemy();
@@ -59,16 +50,9 @@ public:
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
 	void AllEnemyShoot();
 	void UpdateGame();
-<<<<<<< HEAD
-	void AutoCallWeapons();
-	void AutoCallWave();
+	void AutoCallWeapons(sf::RenderWindow* window);
+	void AutoCallWave(sf::RenderWindow* window);
 	void CheckForNewWave();
 	void CheckForNewWeapons();
 	void CheckForWin();
-=======
-	void AutoCallWave(sf::RenderWindow* window);
-	void CheckForNewWave();
-	
-
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 };

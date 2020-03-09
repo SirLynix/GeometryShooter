@@ -1,13 +1,9 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Projectile.h"
-<<<<<<< HEAD
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, float ammo) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(0), ammo(ammo) {
-=======
 
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, sf::String name) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(0) {
-	
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
+Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(0), ammo(ammo) {
+
 	this->heightWeapon = 0;
 	this->widthWeapon = 0;
 	this->name.setString(name);

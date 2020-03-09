@@ -59,7 +59,6 @@ int main()
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 
 			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
-
 			if (game->player->weapon->ammo < 1) {
 				game->player->weapon = new Gun();
 			}

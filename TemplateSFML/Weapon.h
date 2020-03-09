@@ -13,21 +13,14 @@ public:
 	float fireRate;
 	float widthWeapon;
 	float heightWeapon;
-<<<<<<< HEAD
-	float ammo;
-=======
+	int ammo;
 	sf::Text name;
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
 
 protected:
 	float _fireRate;
 
 public:
-<<<<<<< HEAD
-	Weapon(int weaponDamage, float speedBullet, float cooldown, float ammo);
-=======
-	Weapon(int weaponDamage, float speedBullet, float fireRate, sf::String name);
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
+	Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name);
 	virtual void Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf);
 	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf);
 	void UpdateOrigineProjectile(sf::Vector2f origin);

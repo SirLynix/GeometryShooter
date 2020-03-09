@@ -1,11 +1,7 @@
 #include "GrenadeLauncher.h"
 #include "Grenade.h"
 
-<<<<<<< HEAD
-GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6)
-=======
-GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 2.0f, "GrenadeLauncher") 
->>>>>>> 34bbd960e3a27360bd77ee6bc29e1f34a5244e87
+GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher")
 {
 	this->widthWeapon = 15;
 	this->heightWeapon = 25;
