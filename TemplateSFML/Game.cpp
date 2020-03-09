@@ -202,10 +202,8 @@ void Game::UpdateDash()
 
 		if (this->player->dashCD > 0.f && !this->player->canDash) {
 			this->player->dashCD -= deltaTime;
-			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
 		} else {
 			this->player->dashCD = this->player->baseCD;
-			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
 			this->player->canDash = true;
 		}
 	}
@@ -318,7 +316,11 @@ void Game::CollisionProjectile() {
 
 
 		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
-			this->player->TakeDommage((*it)->weaponDamage);
+			if (this->player->isInvincible == false)
+			{
+				this->player->TakeDommage((*it)->weaponDamage);
+				this->player->hasTakenDamage = true;
+			}
 			(*it)->~Projectile();
 			projectRemove = true;
 			it = listProjectile.erase(it);
@@ -343,7 +345,12 @@ void Game::CollisionEnemy() {
 	while (it != this->listEnemy.end()) {
 
 		if (IsOnCollider((*it)->rectangle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
-			this->player->TakeDommage((*it)->weapon->weaponDamage);
+			if (this->player->isInvincible == false)
+			{
+				this->player->TakeDommage((*it)->weapon->weaponDamage);
+				this->player->hasTakenDamage = true;
+
+			}
 			if (this->player->vie <= 0) {
 				this->player->SetTypeMovment(ACTION::DEAD);
 			}
@@ -394,6 +401,7 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
+	this->player->FeedbackDamageTaken(this->deltaTime);
 
 }
 void Game::AutoCallWave(sf::RenderWindow* window)

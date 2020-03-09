@@ -15,17 +15,19 @@ public:
 	bool hasBulletTime = false;
 	bool canMove = true;
 	bool isDashing = false;
+	bool hasTakenDamage = false;
+	bool canDash;
+	bool isInvincible = false;
 	float dashFactor;
 	float baseSpeed;
 	float dashDuration;
-	bool canDash;
-	float dashCD;
-	float baseCD;
-	sf::RectangleShape dashCDUI;
-	sf::RectangleShape baseCDUI;
+	float dashCD = 0.0f;
+	float baseCD = 0.0f;
+	float colorChangeDamage = 0.1f;
 	sf::CircleShape cercle;
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
+
 
 public:
 	Player(int _posX, int _posY, Weapon* weapon);
@@ -38,6 +40,7 @@ public:
 	void SetComboMovement(ACTION _action);
 	void SetWeapon(Weapon* weapon);
 	void RotationPlayer(float angleRotation);
+	void FeedbackDamageTaken(float _deltaTime);
 private:
 	void UpdateCerclePos();
 };

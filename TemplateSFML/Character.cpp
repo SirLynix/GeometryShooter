@@ -8,6 +8,7 @@ void Character::MoveTo(float _posX, float _poxY) {
 }
 
 void Character::TakeDommage(int _dommage) {
+
 	this->vie -= _dommage;
 }
 

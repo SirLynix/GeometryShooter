@@ -17,18 +17,12 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 180.0f, _pos
 
 	this->canDash = true;
 	this->baseCD = 1.5f;
-	this->dashCDUI = sf::RectangleShape();
-	this->baseCDUI = sf::RectangleShape();
-	this->dashCDUI.setSize(sf::Vector2f(180, 30));
-	this->baseCDUI.setSize(sf::Vector2f(180, 30));
-	this->dashCDUI.setFillColor(sf::Color(0, 255, 0));
-	this->baseCDUI.setFillColor(sf::Color::White);
 
 	this->typeMovement = ACTION::NONE;
 
 	this->spawnCircle.setPosition(sf::Vector2f(this->posX, this->posY));
-	this->spawnCircle.setRadius(radiusPlayer * 8);
-	this->spawnCircle.setOrigin(sf::Vector2f(radiusPlayer * 8, radiusPlayer * 8));
+	this->spawnCircle.setRadius(radiusPlayer * 12);
+	this->spawnCircle.setOrigin(sf::Vector2f(radiusPlayer * 12, radiusPlayer * 12));
 }
 
 void Player::Dash()
@@ -47,13 +41,6 @@ void Player::DrawPlayer(sf::RenderWindow* window)
 	UpdateCerclePos();
 	window->draw(this->cercle);
 
-	float offX = 520;
-	float offY = 385;
-	this->baseCDUI.setPosition(this->posX - offX, this->posY - offY);
-	this->dashCDUI.setPosition(this->posX - offX, this->posY - offY);
-
-	window->draw(this->baseCDUI);
-	window->draw(this->dashCDUI);
 	this->weapon->DrawWeapon(window);
 }
 
@@ -189,4 +176,26 @@ void Player::RotationPlayer(float angleRotation) {
 	float posYOrigineFire = (this->posY + sin(angleRotation + angleWeapon) * this->cercle.getRadius() * distanceWeaponFactor);
 
 	this->weapon->UpdateOrigineProjectile(sf::Vector2f(posXOrigineFire, posYOrigineFire));
+}
+
+void Player::FeedbackDamageTaken(float _deltaTime)
+{
+	if (this->hasTakenDamage == true)
+	{
+		if(colorChangeDamage >= 0.0f)
+		{
+			isInvincible = true;
+			this->cercle.setFillColor(sf::Color::Red);
+			colorChangeDamage -= _deltaTime;
+		}
+		else
+		{
+			this->cercle.setFillColor(sf::Color::Green);
+			colorChangeDamage = 0.1f;
+			hasTakenDamage = false;
+			isInvincible = false;;
+		}
+		
+
+	}
 }

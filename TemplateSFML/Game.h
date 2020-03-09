@@ -30,6 +30,7 @@ public:
 	float timeBeforeCallNewWave = -1;
 	bool changeWave = false;
 	int nbWave = 0;
+	
 
 public:
 	Game(Player* _player, int height, int width);
