@@ -1,6 +1,6 @@
 #include "Shotgun.h"
 
-ShotGun::ShotGun() : Weapon(1, 1.0f, 1.0f) {
+ShotGun::ShotGun() : Weapon(1, 1.0f, .8f, 12) {
 	this->widthWeapon = 15;
 	this->heightWeapon = 35;
 
@@ -20,11 +20,12 @@ void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listP
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.05f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.1f, projectileOf));
 		_fireRate = fireRate;
+		ammo--;
 	}
 
 }
 
-Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset,PROJECTILE_OF projectileOf)
+Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf)
 
 {
 	int max = 5 + (this->speedBullet * 100);

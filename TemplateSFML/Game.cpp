@@ -90,6 +90,45 @@ void Game::DisplayGame()
 
 }
 
+void Game::SpawnWeapons() {
+	int borneMaxX = this->window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxY = this->window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
+
+	int borneMin = thicknessesEnemy / 2 + thicknessesBrique;
+
+	int x, y;
+	int typeWeapon;
+	for (size_t i = 0; i < 2; i++)
+	{
+		Weapon* weapon = new Gun();
+		typeWeapon = rand() % 3;
+		switch (typeWeapon)
+		{
+		case 0:
+			weapon = new ShotGun();
+			break;
+		case 1:
+			weapon = new MachineGun();
+			break;
+		case 2:
+			weapon = new GrenadeLauncher();
+			break;
+		}
+
+		x = rand() % (borneMaxX + 1);
+		y = rand() % (borneMaxY + 1);
+		if (x < borneMin) {
+			x = borneMin;
+		}
+		if (y < borneMin) {
+			y = borneMin;
+		}
+
+		weapon->UpdateOrigineProjectile(sf::Vector2f(x, y));
+		this->listWeapon.push_back(weapon);
+	}
+}
+
 void Game::CreateWave(int nbZombie, int nbArcher)
 {
 	int borneMaxX = this->window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
@@ -116,7 +155,7 @@ void Game::CreateWave(int nbZombie, int nbArcher)
 			if (y < borneMin) {
 				y = borneMin;
 			}
-			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1));
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, 999));
 			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
 			{
 				enemiSpawn = true;
@@ -301,12 +340,10 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-			}
-			else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+			} else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
 				(*it)->canExplode = true;
 				(*it)->SetExplosionSettings();
-			}
-			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
+			} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
 			{
 				(*it)->~Projectile();
 				projectRemove = true;
@@ -330,7 +367,7 @@ void Game::CollisionProjectile() {
 			this->texteWinLose.setOrigin(220, 70);
 			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
 			this->texteWinLose.setFillColor(sf::Color::Red);
-			
+
 		}
 
 		if (!projectRemove) {
@@ -397,8 +434,17 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
+	this->CheckForNewWeapons();
 	this->AutoCallWave();
+	this->AutoCallWeapons();
 	this->CheckForWin();
+}
+
+void Game::AutoCallWeapons() {
+	if (changeWeapons && timeBeforeNewWeapons < 0.f) {
+		changeWeapons = false;
+		SpawnWeapons();
+	}
 }
 
 void Game::AutoCallWave()
@@ -432,6 +478,16 @@ void Game::CheckForNewWave()
 	if (this->listEnemy.empty() && !changeWave) {
 		changeWave = true;
 		timeBeforeCallNewWave = 5.0f;
+	}
+}
+
+void Game::CheckForNewWeapons() {
+	if (timeBeforeNewWeapons < 0.f && !changeWeapons) {
+		changeWeapons = true;
+		timeBeforeNewWeapons = 15.f;
+	} else {
+		printf("%f\n", timeBeforeNewWeapons);
+		timeBeforeNewWeapons -= deltaTime;
 	}
 }
 

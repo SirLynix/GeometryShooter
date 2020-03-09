@@ -23,7 +23,6 @@ int main()
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer", Style::Fullscreen);
 
 	sf::View view(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x - 200, window.getSize().y - 200));
-	window.setView(view);
 
 	sf::Clock clock;
 	sf::Mouse mouse;
@@ -58,6 +57,10 @@ int main()
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 
 			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+
+			if (game->player->weapon->ammo < 1) {
+				game->player->weapon = new Gun();
+			}
 
 		}
 
@@ -96,11 +99,9 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::Z) {
 			if (!player->CheckForMovement(ACTION::UP)) {
 				player->SetTypeMovment(ACTION::IDLE);
-			}
-			else if (player->typeMovement == ACTION::NONE) {
+			} else if (player->typeMovement == ACTION::NONE) {
 				player->SetTypeMovment(ACTION::UP);
-			}
-			else {
+			} else {
 				player->SetComboMovement(ACTION::UP);
 			}
 		}
@@ -108,11 +109,9 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::S) {
 			if (!player->CheckForMovement(ACTION::DOWN)) {
 				player->SetTypeMovment(ACTION::IDLE);
-			}
-			else if (player->typeMovement == ACTION::NONE) {
+			} else if (player->typeMovement == ACTION::NONE) {
 				player->SetTypeMovment(ACTION::DOWN);
-			}
-			else {
+			} else {
 				player->SetComboMovement(ACTION::DOWN);
 			}
 		}
@@ -120,11 +119,9 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::Q) {
 			if (!player->CheckForMovement(ACTION::LEFT)) {
 				player->SetTypeMovment(ACTION::IDLE);
-			}
-			else if (player->typeMovement == ACTION::NONE) {
+			} else if (player->typeMovement == ACTION::NONE) {
 				player->SetTypeMovment(ACTION::LEFT);
-			}
-			else {
+			} else {
 				player->SetComboMovement(ACTION::LEFT);
 			}
 		}
@@ -132,11 +129,9 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::D) {
 			if (!player->CheckForMovement(ACTION::RIGHT)) {
 				player->SetTypeMovment(ACTION::IDLE);
-			}
-			else if (player->typeMovement == ACTION::NONE) {
+			} else if (player->typeMovement == ACTION::NONE) {
 				player->SetTypeMovment(ACTION::RIGHT);
-			}
-			else {
+			} else {
 				player->SetComboMovement(ACTION::RIGHT);
 			}
 		}
@@ -146,14 +141,11 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::Z) {
 			if (player->typeMovement == ACTION::UP) {
 				player->SetTypeMovment(ACTION::NONE);
-			}
-			else if (player->typeMovement == ACTION::UP_LEFT) {
+			} else if (player->typeMovement == ACTION::UP_LEFT) {
 				player->SetTypeMovment(ACTION::LEFT);
-			}
-			else if (player->typeMovement == ACTION::UP_RIGHT) {
+			} else if (player->typeMovement == ACTION::UP_RIGHT) {
 				player->SetTypeMovment(ACTION::RIGHT);
-			}
-			else if (player->typeMovement == ACTION::IDLE) {
+			} else if (player->typeMovement == ACTION::IDLE) {
 				player->SetTypeMovment(ACTION::DOWN);
 			}
 		}
@@ -161,14 +153,11 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::S) {
 			if (player->typeMovement == ACTION::DOWN) {
 				player->SetTypeMovment(ACTION::NONE);
-			}
-			else if (player->typeMovement == ACTION::DOWN_LEFT) {
+			} else if (player->typeMovement == ACTION::DOWN_LEFT) {
 				player->SetTypeMovment(ACTION::LEFT);
-			}
-			else if (player->typeMovement == ACTION::DOWN_RIGHT) {
+			} else if (player->typeMovement == ACTION::DOWN_RIGHT) {
 				player->SetTypeMovment(ACTION::RIGHT);
-			}
-			else if (player->typeMovement == ACTION::IDLE) {
+			} else if (player->typeMovement == ACTION::IDLE) {
 				player->SetTypeMovment(ACTION::UP);
 			}
 		}
@@ -176,14 +165,11 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::Q) {
 			if (player->typeMovement == ACTION::LEFT) {
 				player->SetTypeMovment(ACTION::NONE);
-			}
-			else if (player->typeMovement == ACTION::DOWN_LEFT) {
+			} else if (player->typeMovement == ACTION::DOWN_LEFT) {
 				player->SetTypeMovment(ACTION::DOWN);
-			}
-			else if (player->typeMovement == ACTION::UP_LEFT) {
+			} else if (player->typeMovement == ACTION::UP_LEFT) {
 				player->SetTypeMovment(ACTION::UP);
-			}
-			else if (player->typeMovement == ACTION::IDLE) {
+			} else if (player->typeMovement == ACTION::IDLE) {
 				player->SetTypeMovment(ACTION::RIGHT);
 			}
 		}
@@ -191,14 +177,11 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 		if (event.key.code == sf::Keyboard::D) {
 			if (player->typeMovement == ACTION::RIGHT) {
 				player->SetTypeMovment(ACTION::NONE);
-			}
-			else if (player->typeMovement == ACTION::DOWN_RIGHT) {
+			} else if (player->typeMovement == ACTION::DOWN_RIGHT) {
 				player->SetTypeMovment(ACTION::DOWN);
-			}
-			else if (player->typeMovement == ACTION::UP_RIGHT) {
+			} else if (player->typeMovement == ACTION::UP_RIGHT) {
 				player->SetTypeMovment(ACTION::UP);
-			}
-			else if (player->typeMovement == ACTION::IDLE) {
+			} else if (player->typeMovement == ACTION::IDLE) {
 				player->SetTypeMovment(ACTION::LEFT);
 			}
 		}
