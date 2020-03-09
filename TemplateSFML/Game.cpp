@@ -19,29 +19,36 @@ const int thicknessesEnemy = 50;
 Game::Game(Player* _player, int height, int width) : player(_player)
 {
 	srand(time(NULL));
-	int nbTiles = 100;
+	sf::Vector2f nbTiles = sf::Vector2f(38, 21);
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
 
 	
 
+	this->texteWinLose.setFont(*this->fontForText);
+
 	Weapon* newWeapon = new MachineGun();
 	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
 	this->listWeapon.push_back(newWeapon);
 
 	Weapon* newWeapon2 = new ShotGun();
-	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
+	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(1600, 200));
 	this->listWeapon.push_back(newWeapon2);
 
 	Weapon* newWeapon3 = new GrenadeLauncher();
-	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
+	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(200, 1000));
 	this->listWeapon.push_back(newWeapon3);
 
+<<<<<<< HEAD
 	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
 	//this->listpowerUp.push_back(newPowerUp);
 
 	
+=======
+	PowerUp* newPowerUp = new Heal(200, 500, this->fontForText, 1);
+	this->listpowerUp.push_back(newPowerUp);
+>>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 
 }
 
@@ -66,7 +73,10 @@ void Game::DisplayGame(sf::RenderWindow* window)
 		it4++;
 	}
 
+<<<<<<< HEAD
 	this->player->DrawPlayer(window);
+=======
+>>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
 		(*it)->DisplayEnemy(window);
@@ -84,6 +94,10 @@ void Game::DisplayGame(sf::RenderWindow* window)
 		(*it2)->DisplayProjectile(window);
 		it2++;
 	}
+
+	this->player->DrawPlayer(this->window);
+
+	this->window->draw(this->texteWinLose);
 
 }
 
@@ -168,7 +182,7 @@ void Game::UpdateTime(float _deltaTime)
 		if ((*it2)->canExplode)
 		{
 			(*it2)->UpdateRadius(_deltaTime);
-			
+
 		}
 		if ((*it2)->explosionCooldown > -1.0f)
 		{
@@ -177,22 +191,34 @@ void Game::UpdateTime(float _deltaTime)
 		it2++;
 	}
 
-
-
 }
 
 void Game::UpdateDash()
 {
-	if (this->player->cooldown > 0.f && this->player->isDashing) {
-		this->player->cooldown -= deltaTime;
-		this->player->speed = (this->player->dashFactor * this->player->baseSpeed) - (2000 * (.2f - this->player->cooldown));
-	}
-	else {
-		this->player->isDashing = false;
-		this->player->speed = this->player->baseSpeed;
-		this->player->cooldown = .2f;
-	}
+	if (this->player->isDashing && this->player->dashDuration > 0.f) {
+		this->player->dashDuration -= deltaTime;
 
+		ACTION ty = this->player->typeMovement;
+		if (ty == ACTION::UP_LEFT || ty == ACTION::UP_RIGHT || ty == ACTION::DOWN_LEFT || ty == ACTION::DOWN_RIGHT) {
+			this->player->speed = ((this->player->dashFactor * this->player->baseSpeed) - (2000.f * (.2f - this->player->dashDuration))) / sqrt(2);
+		} else {
+			this->player->speed = ((this->player->dashFactor * this->player->baseSpeed) - (2000.f * (.2f - this->player->dashDuration)));
+		}
+
+	} else {
+		this->player->speed = this->player->baseSpeed;
+		this->player->isDashing = false;
+		this->player->dashDuration = .2f;
+
+		if (this->player->dashCD > 0.f && !this->player->canDash) {
+			this->player->dashCD -= deltaTime;
+			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
+		} else {
+			this->player->dashCD = this->player->baseCD;
+			this->player->dashCDUI.setScale(sf::Vector2f(this->player->dashCD / this->player->baseCD, 1));
+			this->player->canDash = true;
+		}
+	}
 }
 
 void Game::MoveAllEnemy()
@@ -221,7 +247,7 @@ void Game::AllEnemyShoot()
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
 	while (it != this->listEnemy.end()) {
-		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX,this->player->posY),&this->listProjectile, PROJECTILE_OF::ENEMY);
+		(*it)->weapon->Shoot(sf::Vector2f(this->player->posX, this->player->posY), &this->listProjectile, PROJECTILE_OF::ENEMY);
 		it++;
 	}
 }
@@ -255,8 +281,7 @@ void Game::CollisionProjectile() {
 			while (it2 != this->listEnemy.end()) {
 				if (it == this->listProjectile.end()) {
 					return;
-				}
-				else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
+				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
 					(*it2)->TakeDommage((*it)->weaponDamage);
 
@@ -265,12 +290,11 @@ void Game::CollisionProjectile() {
 						(*it)->~Projectile();
 						projectRemove = true;
 						it = listProjectile.erase(it);
-					}
-					else if((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && (*it)->explosionCooldown < 0.0f)
+					} else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && (*it)->explosionCooldown < 0.0f)
 					{
 						(*it)->SetExplosionSettings();
 						(*it)->canExplode = true;
-						
+
 					}
 					(*it2)->UpdateUiToPv();
 				}
@@ -278,8 +302,7 @@ void Game::CollisionProjectile() {
 				if ((*it2)->vie <= 0) {
 					(*it2)->~Enemy();
 					it2 = listEnemy.erase(it2);
-				}
-				else {
+				} else {
 					it2++;
 				}
 			}
@@ -289,8 +312,12 @@ void Game::CollisionProjectile() {
 		while (it3 != this->arena->briques.end() && !projectRemove) {
 			if (it == this->listProjectile.end()) {
 				return;
-			} 
-			else if ((*it)->canExplode == false && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) 
+			}
+			else if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE && IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds())) {
+				(*it)->canExplode = true;
+				(*it)->SetExplosionSettings();
+			}
+			else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it3)->rectangle.getGlobalBounds()))
 			{
 				(*it)->~Projectile();
 				projectRemove = true;
@@ -300,7 +327,7 @@ void Game::CollisionProjectile() {
 		}
 
 
-		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds()) ) {
+		if (!projectRemove && (*it)->projectileOf == PROJECTILE_OF::ENEMY && IsOnCollider((*it)->projectile.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
 			this->player->TakeDommage((*it)->weaponDamage);
 			(*it)->~Projectile();
 			projectRemove = true;
@@ -309,6 +336,12 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
+			this->texteWinLose.setString("YOU DIED");
+			this->texteWinLose.setCharacterSize(100);
+			this->texteWinLose.setOrigin(220, 70);
+			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+			this->texteWinLose.setFillColor(sf::Color::Red);
+			
 		}
 
 		if (!projectRemove) {
@@ -330,8 +363,7 @@ void Game::CollisionEnemy() {
 			}
 			(*it)->~Enemy();
 			it = this->listEnemy.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 
@@ -347,8 +379,7 @@ void Game::CollisionPlayer() {
 			this->player->weapon->~Weapon();
 			this->player->SetWeapon((*it));
 			it = this->listWeapon.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
 
@@ -358,12 +389,11 @@ void Game::CollisionPlayer() {
 	while (it2 != this->listpowerUp.end()) {
 
 		if (IsOnCollider((*it2)->circle.getGlobalBounds(), this->player->cercle.getGlobalBounds())) {
-			printf("%d\n",this->player->vie);
+			printf("%d\n", this->player->vie);
 			(*it2)->ApplyPowerUp(this->player);
 			it2 = this->listpowerUp.erase(it2);
 			printf("%d\n", this->player->vie);
-		}
-		else {
+		} else {
 			it2++;
 		}
 
@@ -378,7 +408,12 @@ void Game::UpdateGame() {
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
+<<<<<<< HEAD
 	
+=======
+	this->AutoCallWave();
+	this->CheckForWin();
+>>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 }
 
 void Game::AutoCallWave(sf::RenderWindow* window)
@@ -415,6 +450,19 @@ void Game::CheckForNewWave()
 	}
 }
 
+<<<<<<< HEAD
+=======
+void Game::CheckForWin()
+{
+	if (this->listEnemy.empty() && this->nbWave >= 6 && this->player->vie > 0) {
+		this->texteWinLose.setString("VICTORY");
+		this->texteWinLose.setCharacterSize(100);
+		this->texteWinLose.setOrigin(220, 70);
+		this->texteWinLose.setPosition(this->player->posX, this->player->posY);
+		this->texteWinLose.setFillColor(sf::Color::Red);
+	}
+}
+>>>>>>> 0b3bf0db45cbba59c5c595f6d48995dfc83cba03
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)
 {

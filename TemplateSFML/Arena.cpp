@@ -1,23 +1,23 @@
 #include "Arena.h"
 #include "Brique.h"
 
-Arena::Arena(int _width, int _height, int _thicknessesBrique, int _nbTiles, int _tileSize) : width(_width), height(_height), thicknessesBrique(_thicknessesBrique), nbTiles(_nbTiles), tileSize(_tileSize) {
+Arena::Arena(int _width, int _height, int _thicknessesBrique, sf::Vector2f _nbTiles, int _tileSize) : width(_width), height(_height), thicknessesBrique(_thicknessesBrique), nbTiles(_nbTiles), tileSize(_tileSize) {
 	CreateArena();
 }
 
 void Arena::CreateArena() {
-	sf::RectangleShape*** echiquier = new sf::RectangleShape * *[nbTiles];
-	for (size_t i = 0; i < nbTiles; i++)
+	sf::RectangleShape*** echiquier = new sf::RectangleShape * *[nbTiles.x];
+	for (size_t i = 0; i < nbTiles.x; i++)
 	{
-		echiquier[i] = new sf::RectangleShape * [nbTiles];
+		echiquier[i] = new sf::RectangleShape * [nbTiles.y];
 
-		for (size_t j = 0; j < nbTiles; j++)
+		for (size_t j = 0; j < nbTiles.y; j++)
 		{
 			echiquier[i][j] = new sf::RectangleShape{};
 			sf::Color color = (i + j) % 2 == 0 ? sf::Color(0, 0, 0) : sf::Color(20, 20, 20);
 			echiquier[i][j]->setFillColor(color);
 			echiquier[i][j]->setSize(sf::Vector2f(50, 50));
-			echiquier[i][j]->setPosition(sf::Vector2f(i * 50, j * 50));
+			echiquier[i][j]->setPosition(sf::Vector2f(i * 50 + this->thicknessesBrique, j * 50 + this->thicknessesBrique));
 		}
 	}
 	this->echiquier = echiquier;
@@ -33,9 +33,9 @@ void Arena::DisplayArena(sf::RenderWindow* window) {
 		(*it)->DisplayBrique(window);
 		it++;
 	}
-	for (size_t i = 1; i < window->getSize().x / this->tileSize; i++)
+	for (size_t i = 0; i < window->getSize().x / this->tileSize; i++)
 	{
-		for (size_t j = 1; j < window->getSize().y / this->tileSize; j++)
+		for (size_t j = 0; j < window->getSize().y / this->tileSize; j++)
 		{
 			window->draw(*(echiquier[i][j]));
 		}
