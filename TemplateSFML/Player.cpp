@@ -50,34 +50,102 @@ void Player::MoveTo(float _posX, float _posY)
 	this->posY += _posY;
 }
 
+void Player::addAction(ACTION actionToAdd)
+{
+	this->listAction.push_back(actionToAdd);
+}
+
+void Player::removeAction(ACTION actionToDel)
+{
+	std::list<ACTION>::iterator it = this->listAction.begin();
+	while (it != this->listAction.end()) {
+		if ((*it) == actionToDel) {
+			it = this->listAction.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
+}
+
+void Player::UpdateDirectionMovement()
+{
+
+	if (this->typeMovement == ACTION::DEAD) {
+		return;
+	}
+
+	bool isUp = false;
+	bool isDown = false;
+	bool isLeft = false;
+	bool isRight = false;
+
+	std::list<ACTION>::iterator it = this->listAction.begin();
+	while (it != this->listAction.end()) {
+		if ((*it) == ACTION::UP) {
+			isUp = true;
+		}else if ((*it) == ACTION::DOWN) {
+			isDown = true;
+		}else if ((*it) == ACTION::LEFT) {
+			isLeft = true;
+		}else if ((*it) == ACTION::RIGHT) {
+			isRight = true;
+		}
+		it++;
+	}
+
+	if ( isUp && isDown && isLeft && isRight ) {
+		this->SetTypeMovment(ACTION::NONE);
+	}
+	else if ( isUp && isDown && isLeft) {
+		this->SetTypeMovment(ACTION::LEFT);
+	}
+	else if (isUp && isDown && isRight) {
+		this->SetTypeMovment(ACTION::RIGHT);
+	}
+	else if (isLeft && isRight && isUp) {
+		this->SetTypeMovment(ACTION::UP);
+	}
+	else if (isLeft && isRight && isDown) {
+		this->SetTypeMovment(ACTION::DOWN);
+	}
+	else if ((isLeft && isRight) || (isUp && isDown)) {
+		this->SetTypeMovment(ACTION::NONE);
+	}
+	else if (isLeft && isUp) {
+		this->SetTypeMovment(ACTION::UP_LEFT);
+	}
+	else if (isLeft && isDown) {
+		this->SetTypeMovment(ACTION::DOWN_LEFT);
+	}
+	else if (isRight && isUp) {
+		this->SetTypeMovment(ACTION::UP_RIGHT);
+	}
+	else if (isRight && isDown) {
+		this->SetTypeMovment(ACTION::DOWN_RIGHT);
+	}
+	else if (isDown) {
+		this->SetTypeMovment(ACTION::DOWN);
+	}
+	else if (isUp) {
+		this->SetTypeMovment(ACTION::UP);
+	}
+	else if (isLeft) {
+		this->SetTypeMovment(ACTION::LEFT);
+	}
+	else if (isRight) {
+		this->SetTypeMovment(ACTION::RIGHT);
+	}
+	else {
+		this->SetTypeMovment(ACTION::NONE);
+	}
+	
+
+}
+
 void Player::SetTypeMovment(ACTION _newAction)
 {
 	this->typeMovement = _newAction;
-}
-
-bool Player::CheckForMovement(ACTION _action)
-{
-	if ((this->typeMovement == ACTION::RIGHT && _action == ACTION::LEFT) ||
-		(this->typeMovement == ACTION::LEFT && _action == ACTION::RIGHT) ||
-		(this->typeMovement == ACTION::UP && _action == ACTION::DOWN) ||
-		(this->typeMovement == ACTION::DOWN && _action == ACTION::UP)) {
-		return false;
-	}
-
-	return true;
-}
-
-void Player::SetComboMovement(ACTION _action)
-{
-	if ((_action == ACTION::LEFT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::LEFT)) {
-		this->SetTypeMovment(ACTION::UP_LEFT);
-	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::UP) || (_action == ACTION::UP && this->typeMovement == ACTION::RIGHT)) {
-		this->SetTypeMovment(ACTION::UP_RIGHT);
-	} else if ((_action == ACTION::LEFT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::LEFT)) {
-		this->SetTypeMovment(ACTION::DOWN_LEFT);
-	} else if ((_action == ACTION::RIGHT && this->typeMovement == ACTION::DOWN) || (_action == ACTION::DOWN && this->typeMovement == ACTION::RIGHT)) {
-		this->SetTypeMovment(ACTION::DOWN_RIGHT);
-	}
 }
 
 void Player::SetWeapon(Weapon* weapon)
@@ -93,7 +161,7 @@ void Player::UpdateCerclePos()
 
 void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _deltaTime)
 {
-
+	UpdateDirectionMovement();
 	if (!this->canMove || this->typeMovement == ACTION::NONE) {
 		return;
 	}
@@ -107,20 +175,6 @@ void Player::PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _del
 		y = this->speed;
 	} else if (this->typeMovement == ACTION::LEFT) {
 		x = -this->speed;
-	} else if (this->typeMovement == ACTION::RIGHT) {
-		x = this->speed, 0;
-	} else if (this->typeMovement == ACTION::UP_LEFT) {
-		x = -this->speed;
-		y = -this->speed;
-	} else if (this->typeMovement == ACTION::UP_RIGHT) {
-		x = this->speed;
-		y = -this->speed;
-	} else if (this->typeMovement == ACTION::DOWN_LEFT) {
-		x = -this->speed;
-		y = this->speed;
-	} else if (this->typeMovement == ACTION::DOWN_RIGHT) {
-		x = this->speed;
-		y = this->speed;
 	} else if (this->typeMovement == ACTION::RIGHT) {
 		x = this->speed;
 	} else if (this->typeMovement == ACTION::UP_LEFT) {
@@ -195,7 +249,6 @@ void Player::FeedbackDamageTaken(float _deltaTime)
 			hasTakenDamage = false;
 			isInvincible = false;;
 		}
-		
 
 	}
 }

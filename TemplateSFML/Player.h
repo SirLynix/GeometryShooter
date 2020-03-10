@@ -6,7 +6,7 @@
 
 enum class ACTION
 {
-	UP, DOWN, LEFT, RIGHT, NONE, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, IDLE, DEAD
+	UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, DEAD, NONE
 };
 
 class Player : public Character
@@ -27,6 +27,7 @@ public:
 	sf::CircleShape cercle;
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
+	std::list<ACTION> listAction;
 
 
 public:
@@ -35,9 +36,10 @@ public:
 	void DrawPlayer(sf::RenderWindow* window);
 	void PerformAction(Arena* arene, std::list<Enemy*> listEnemy, float _deltaTime);
 	void MoveTo(float _posX, float _posY) override;
+	void addAction(ACTION actionToAdd);
+	void removeAction(ACTION actionToDel);
+	void UpdateDirectionMovement();
 	void SetTypeMovment(ACTION _newAction);
-	bool CheckForMovement(ACTION _action);
-	void SetComboMovement(ACTION _action);
 	void SetWeapon(Weapon* weapon);
 	void RotationPlayer(float angleRotation);
 	void FeedbackDamageTaken(float _deltaTime);
