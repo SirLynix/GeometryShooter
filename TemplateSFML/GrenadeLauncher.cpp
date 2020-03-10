@@ -9,7 +9,7 @@ GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher")
 	this->rectangle.setSize(sf::Vector2f(widthWeapon, heightWeapon));
 	this->rectangle.setOrigin(sf::Vector2f(widthWeapon / 2, heightWeapon / 2));
 	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
-	this->rectangle.setFillColor(sf::Color::Red);
+	this->rectangle.setFillColor(sf::Color(55, 158, 73));
 }
 
 void GrenadeLauncher::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)

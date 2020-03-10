@@ -7,5 +7,5 @@ Gun::Gun() : Weapon(1, 1.5f, .75f, 999, "Gun") {
 	this->rectangle.setSize(sf::Vector2f(widthWeapon, heightWeapon));
 	this->rectangle.setOrigin(sf::Vector2f(widthWeapon / 2, heightWeapon / 2));
 	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
-	this->rectangle.setFillColor(sf::Color::Red);
+	this->rectangle.setFillColor(sf::Color(205, 168, 53));
 }

@@ -52,6 +52,10 @@ int main()
 				game->player->Dash();
 			}
 
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+				game->Restart(ui->window->getSize().x/2,ui->window->getSize().y/2);
+			}
+
 		}
 
 		sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(mouse.getPosition(window).x, mouse.getPosition(window).y));

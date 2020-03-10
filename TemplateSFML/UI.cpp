@@ -4,14 +4,17 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 {
 	this->fontForText = new sf::Font;
 	this->fontForText->loadFromFile(fontForText);
+
 	this->texteWinLose.setFont(*this->fontForText);
+	this->texteWinLose.setCharacterSize(100);
+	this->texteWinLose.setOrigin(0, 0);
+	this->texteWinLose.setFillColor(sf::Color::Red);
 
 	this->UIRectangle = new sf::RectangleShape;
 	this->vie = new sf::Text;
 	this->vie->setFont(*this->fontForText);
 	this->selectedWeapon = new sf::Text;
 	this->selectedWeapon->setFont(*this->fontForText);
-
 
 	this->dashCDUI = sf::RectangleShape();
 	this->baseCDUI = sf::RectangleShape();
@@ -28,10 +31,8 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 
 	this->vie->setString(sf::String("Vie : "));
 	this->vie->setCharacterSize(25);
-	this->UIRectangle->setOrigin(sf::Vector2f(0.0f, 0.0f));
 
 	this->selectedWeapon->setCharacterSize(25);
-	
 
 	this->ammo = new sf::Text;
 	this->ammo->setFont(*this->fontForText);
@@ -88,8 +89,8 @@ void UI::UpdateHpPlayerUI()
 
 void UI::UpdatePosUI()
 {
-	
-	this->UIRectangle->setPosition(sf::Vector2f(this->game->player->posX - 860.0f, this->game->player->posY - 440.0f));
+	float offset = this->UIRectangle->getSize().y + this->UIRectangle->getOutlineThickness();
+	this->UIRectangle->setPosition(sf::Vector2f(this->game->player->posX - this->window->getSize().x / 2 + offset, this->game->player->posY - this->window->getSize().y / 2 + offset));
 
 	this->UIRectangle->setFillColor(sf::Color(0, 0, 0, 120));
 	this->UIRectangle->setOutlineColor(sf::Color::White);
@@ -117,10 +118,10 @@ void UI::UpdatePosUI()
 		UiX += 50.0f;
 	}
 
-	float offX = 520;
-	float offY = 385;
-	this->baseCDUI.setPosition(game->player->posX - offX, game->player->posY - offY);
-	this->dashCDUI.setPosition(game->player->posX - offX, game->player->posY - offY);
+	float offX = 330.0f;
+	float offY = 52.0f;
+	this->baseCDUI.setPosition(sf::Vector2f( this->UIRectangle->getPosition().x + offX, this->UIRectangle->getPosition().y + offY));
+	this->dashCDUI.setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + offX, this->UIRectangle->getPosition().y + offY));
 
 	if (game->player->dashCD > 0.f && !game->player->canDash) {
 		this->dashCDUI.setScale(sf::Vector2f(game->player->dashCD / game->player->baseCD, 1));
@@ -135,18 +136,12 @@ void UI::CheckForWinAndLose()
 {
 	if (game->listEnemy.empty() && game->nbWave >= 6 && game->player->vie > 0) {
 		this->texteWinLose.setString("VICTORY");
-		this->texteWinLose.setCharacterSize(100);
-		this->texteWinLose.setOrigin(220, 70);
-		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
-		this->texteWinLose.setFillColor(sf::Color::Red);
+		this->texteWinLose.setPosition(game->player->posX - 265.0f, game->player->posY);
+		
 	} else if (game->player->typeMovement == ACTION::DEAD)
 	{
-
 		this->texteWinLose.setString("YOU DIED");
-		this->texteWinLose.setCharacterSize(100);
-		this->texteWinLose.setOrigin(220, 70);
-		this->texteWinLose.setPosition(game->player->posX, game->player->posY);
-		this->texteWinLose.setFillColor(sf::Color::Red);
+		this->texteWinLose.setPosition(game->player->posX - 288.0f, game->player->posY);
 	} else
 	{
 		this->texteWinLose.setString("");

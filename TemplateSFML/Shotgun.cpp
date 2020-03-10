@@ -8,7 +8,7 @@ ShotGun::ShotGun() : Weapon(1, 1.0f, .8f, 12, "Shotgun") {
 	this->rectangle.setSize(sf::Vector2f(widthWeapon, heightWeapon));
 	this->rectangle.setOrigin(sf::Vector2f(widthWeapon / 2, heightWeapon / 2));
 	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
-	this->rectangle.setFillColor(sf::Color::Red);
+	this->rectangle.setFillColor(sf::Color(73, 88, 49));
 }
 
 void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)

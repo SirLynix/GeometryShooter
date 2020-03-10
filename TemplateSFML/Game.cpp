@@ -85,8 +85,6 @@ void Game::DisplayGame(sf::RenderWindow* window)
 
 	this->player->DrawPlayer(window);
 
-	window->draw(this->texteWinLose);
-
 }
 
 void Game::SpawnWeapons(sf::RenderWindow* window) {
@@ -377,11 +375,6 @@ void Game::CollisionProjectile() {
 
 		if (this->player->vie <= 0) {
 			this->player->SetTypeMovment(ACTION::DEAD);
-			this->texteWinLose.setString("YOU DIED");
-			this->texteWinLose.setCharacterSize(100);
-			this->texteWinLose.setOrigin(220, 70);
-			this->texteWinLose.setPosition(this->player->posX, this->player->posY);
-			this->texteWinLose.setFillColor(sf::Color::Red);
 		}
 
 		if (!projectRemove) {
@@ -452,7 +445,6 @@ void Game::UpdateGame() {
 	this->CollisionEnemy();
 	this->CheckForNewWave();
 	this->CheckForNewWeapons();
-	this->CheckForWin();
 }
 
 void Game::AutoCallWeapons(sf::RenderWindow* window) {
@@ -504,15 +496,37 @@ void Game::CheckForNewWeapons() {
 	}
 }
 
-void Game::CheckForWin()
+void Game::Restart(float _posX, float _posY)
 {
-	if (this->listEnemy.empty() && this->nbWave >= 6 && this->player->vie > 0) {
-		this->texteWinLose.setString("VICTORY");
-		this->texteWinLose.setCharacterSize(100);
-		this->texteWinLose.setOrigin(220, 70);
-		this->texteWinLose.setPosition(this->player->posX, this->player->posY);
-		this->texteWinLose.setFillColor(sf::Color::Red);
+	std::list<Enemy*>::iterator it = this->listEnemy.begin();
+	while (it != this->listEnemy.end()) {
+		(*it)->~Enemy();
+		it = this->listEnemy.erase(it);
 	}
+
+	std::list<PowerUp*>::iterator it2 = this->listpowerUp.begin();
+	while (it2 != this->listpowerUp.end()) {
+		(*it2)->~PowerUp();
+		it2 = this->listpowerUp.erase(it2);
+	}
+
+	std::list<Projectile*>::iterator it3 = this->listProjectile.begin();
+	while (it3 != this->listProjectile.end()) {
+		(*it3)->~Projectile();
+		it3 = this->listProjectile.erase(it3);
+	}
+
+	std::list<Weapon*>::iterator it4 = this->listWeapon.begin();
+	while (it4 != this->listWeapon.end()) {
+		(*it4)->~Weapon();
+		it4 = this->listWeapon.erase(it4);
+	}
+
+	this->nbWave = 0;
+	this->changeWave = false;
+	this->player->~Player();
+	this->player = new Player(_posX,_posY,new Gun());
+
 }
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)

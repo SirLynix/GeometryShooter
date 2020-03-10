@@ -24,7 +24,6 @@ public:
 	list <Weapon*> listWeapon;
 	list <PowerUp*> listpowerUp;
 	Arena* arena;
-	sf::Text texteWinLose;
 	float deltaTime;
 	float totalTime;
 	float timeBeforeCallNewWave = -1;
@@ -33,7 +32,6 @@ public:
 	bool changeWeapons = false;
 	int nbWave = 0;
 	
-
 public:
 	Game(Player* _player, int height, int width);
 	void AddEnemy(Enemy* enemyToAdd);
@@ -55,5 +53,5 @@ public:
 	void AutoCallWave(sf::RenderWindow* window);
 	void CheckForNewWave();
 	void CheckForNewWeapons();
-	void CheckForWin();
+	void Restart(float _posX, float _posY);
 };
