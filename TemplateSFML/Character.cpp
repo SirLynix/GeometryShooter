@@ -15,3 +15,8 @@ void Character::TakeDommage(int _dommage) {
 void Character::SetSpeed(float _speed) {
 	this->speed = _speed;
 }
+
+void Character::FeedbackDamageTaken(float _deltaTime)
+{
+
+}

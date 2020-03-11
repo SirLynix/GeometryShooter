@@ -16,6 +16,8 @@ public:
 	sf::Text texteWinLose;
 	sf::RectangleShape dashCDUI;
 	sf::RectangleShape baseCDUI;
+	sf::Text textNextWave;
+	sf::Text textNextWaveCountdown;
 
 public:
 	UI(sf::RenderWindow* window, sf::String fontForText, Game* game);
@@ -23,5 +25,6 @@ public:
 	void UpdateHpPlayerUI();
 	void UpdatePosUI();
 	void CheckForWinAndLose();
+	void CheckForNextWave();
 };
 

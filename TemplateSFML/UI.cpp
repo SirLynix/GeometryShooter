@@ -36,6 +36,16 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 
 	this->ammo = new sf::Text;
 	this->ammo->setFont(*this->fontForText);
+
+	this->textNextWave.setFont(*this->fontForText);
+	this->textNextWave.setCharacterSize(25);
+	this->textNextWave.setOrigin(0, 0);
+	this->textNextWave.setFillColor(sf::Color::White);
+
+	this->textNextWaveCountdown.setFont(*this->fontForText);
+	this->textNextWaveCountdown.setCharacterSize(25);
+	this->textNextWaveCountdown.setOrigin(0, 0);
+	this->textNextWaveCountdown.setFillColor(sf::Color::White);
 }
 
 
@@ -61,6 +71,9 @@ void UI::DisplayUI()
 
 	CheckForWinAndLose();
 	this->window->draw(this->texteWinLose);
+	window->draw(textNextWave);
+	window->draw(textNextWaveCountdown);
+	CheckForNextWave();
 	return;
 }
 
@@ -134,7 +147,7 @@ void UI::UpdatePosUI()
 
 void UI::CheckForWinAndLose()
 {
-	if (game->listEnemy.empty() && game->nbWave >= 6 && game->player->vie > 0) {
+	if (game->listEnemy.empty() && game->nbWave >= 7 && game->player->vie > 0) {
 		this->texteWinLose.setString("VICTORY");
 		this->texteWinLose.setPosition(game->player->posX - 265.0f, game->player->posY);
 		
@@ -145,5 +158,26 @@ void UI::CheckForWinAndLose()
 	} else
 	{
 		this->texteWinLose.setString("");
+	}
+}
+
+void UI::CheckForNextWave()
+{
+	if (this->game->timeBeforeCallNewWave > 0.0f)
+	{
+		float timeNormalized = (int)(this->game->timeBeforeCallNewWave * 10) / 10.0f;
+		this->textNextWave.setString(sf::String("Next wave : "));
+		this->textNextWave.setPosition(game->player->posX - 850.0f, game->player->posY + 400.0f);
+		this->textNextWaveCountdown.setString(to_string(timeNormalized).substr(0,3));
+		this->textNextWaveCountdown.setPosition(game->player->posX - 670.0f, game->player->posY + 400.0f);
+
+		
+	}
+	else
+	{
+		this->textNextWave.setString(sf::String("Wave "));
+		this->textNextWave.setPosition(sf::Vector2f(this->game->player->posX - this->window->getSize().x / 2 + 120.0f, this->game->player->posY + this->window->getSize().y / 2 - 140));
+		this->textNextWaveCountdown.setString(to_string(this->game->nbWave));
+		this->textNextWaveCountdown.setPosition(sf::Vector2f(this->game->player->posX - this->window->getSize().x / 2 + 220.0f, this->game->player->posY + this->window->getSize().y / 2 - 140));
 	}
 }
