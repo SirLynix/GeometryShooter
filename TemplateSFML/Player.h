@@ -15,15 +15,12 @@ public:
 	bool hasBulletTime = false;
 	bool canMove = true;
 	bool isDashing = false;
-	bool hasTakenDamage = false;
 	bool canDash;
-	bool isInvincible = false;
 	float dashFactor;
 	float baseSpeed;
 	float dashDuration;
 	float dashCD = 0.0f;
 	float baseCD = 0.0f;
-	float colorChangeDamage = 0.1f;
 	sf::CircleShape cercle;
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;

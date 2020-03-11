@@ -1,23 +1,11 @@
 #include "Enemy.h"
 
-Enemy::Enemy(float _posX, float _posY, int thicknessesEnemy, Weapon* weapon) : Character(3, 2.5f, _posX, _posY, true, weapon)
+Enemy::Enemy(float _posX, float _posY, int thicknessesEnemy, Weapon* weapon, int vie, float speed) : Character(vie, speed, _posX, _posY, true, weapon)
 {
 	this->UpdateEnemyPos();
 	this->rectangle.setSize(sf::Vector2f(thicknessesEnemy, thicknessesEnemy));
 	this->rectangle.setOrigin(thicknessesEnemy / 2, thicknessesEnemy / 2);
 	this->target = sf::Vector2f(0, 0);
-
-	this->pv1.setSize(sf::Vector2f(thicknessesEnemy / 4, 5));
-	this->pv1.setOrigin(this->pv1.getSize().x / 2, this->pv1.getSize().y / 2);
-	this->pv1.setFillColor(sf::Color::Green);
-
-	this->pv2.setSize(sf::Vector2f(thicknessesEnemy / 4, 5));
-	this->pv2.setOrigin(this->pv2.getSize().x / 2, this->pv2.getSize().y / 2);
-	this->pv2.setFillColor(sf::Color::Green);
-
-	this->pv3.setSize(sf::Vector2f(thicknessesEnemy / 4, 5));
-	this->pv3.setOrigin(this->pv3.getSize().x / 2, this->pv3.getSize().y / 2);
-	this->pv3.setFillColor(sf::Color::Green);
 }
 
 void Enemy::UpdateEnemyPos()
@@ -97,6 +85,26 @@ float Enemy::GetNextMovementX()
 float Enemy::GetNextMovementY()
 {
 	return 0.0f;
+}
+
+void Enemy::FeedbackDamageTaken(float _deltaTime)
+{
+	
+	if (this->hasTakenDamage == true)
+	{
+		if (colorChangeDamage >= 0.0f)
+		{
+			isInvincible = true;
+			colorChangeDamage -= _deltaTime;
+		}
+		else
+		{
+			colorChangeDamage = 2.0f;
+			hasTakenDamage = false;
+			isInvincible = false;;
+		}
+
+	}
 }
 
 bool Enemy::IsOnColliderWithEnemy(std::list<Enemy*> listEnemy)

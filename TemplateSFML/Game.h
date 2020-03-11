@@ -37,7 +37,7 @@ public:
 	void AddEnemy(Enemy* enemyToAdd);
 	void RemoveEnemy(Enemy* enemyToRemove);
 	void DisplayGame(sf::RenderWindow* window);
-	void CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window);
+	void CreateWave(int nbZombie, int nbArcher,int nbTank, sf::RenderWindow* window);
 	void SpawnWeapons(sf::RenderWindow* window);
 	void UpdateTime(float _deltaTime);
 	void UpdateDash();

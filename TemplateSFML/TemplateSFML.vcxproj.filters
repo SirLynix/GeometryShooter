@@ -72,6 +72,12 @@
     <ClInclude Include="UI.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Tank.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeScreen.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Archer.cpp">
@@ -132,6 +138,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeScreen.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

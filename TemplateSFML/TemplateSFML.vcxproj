@@ -169,7 +169,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ShakeScreen.h" />
     <ClInclude Include="Shotgun.h" />
+    <ClInclude Include="Tank.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Zombie.h" />
@@ -191,7 +193,9 @@
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="GeometryShooter.cpp" />
+    <ClCompile Include="ShakeScreen.cpp" />
     <ClCompile Include="Shotgun.cpp" />
+    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Zombie.cpp" />

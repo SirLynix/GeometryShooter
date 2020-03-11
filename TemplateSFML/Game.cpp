@@ -12,6 +12,7 @@
 #include "Grenade.h"
 #include "Heal.h"
 #include "PowerUp.h"
+#include "Tank.h"
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
@@ -126,7 +127,7 @@ void Game::SpawnWeapons(sf::RenderWindow* window) {
 	}
 }
 
-void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
+void Game::CreateWave(int nbZombie, int nbArcher, int nbTank, sf::RenderWindow* window)
 {
 	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
 	int borneMaxY = window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
@@ -180,6 +181,30 @@ void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 			{
 				enemiSpawn = true;
 				this->AddEnemy(enemyArcher);
+			}
+		}
+	}
+
+
+	for (int i = 0; i < nbTank; i++)
+	{
+		enemiSpawn = false;
+		nbEssaieSpawn = 0;
+		while (!enemiSpawn && nbEssaieSpawn < 5) {
+			nbEssaieSpawn++;
+			x = rand() % (borneMaxX + 1);
+			y = rand() % (borneMaxY + 1);
+			if (x < borneMin) {
+				x = borneMin;
+			}
+			if (y < borneMin) {
+				y = borneMin;
+			}
+			Enemy* enemyTank = new Tank(x, y, thicknessesEnemy, new Arc());
+			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyTank->rectangle.getGlobalBounds()))
+			{
+				enemiSpawn = true;
+				this->AddEnemy(enemyTank);
 			}
 		}
 	}
@@ -276,8 +301,10 @@ void Game::MoveAllEnemy()
 		(*it)->UpdatePos(0, -nextY);
 		(*it)->PerformAction(this->deltaTime);
 
+		(*it)->FeedbackDamageTaken(deltaTime);
 		it++;
 	}
+
 }
 
 void Game::AllEnemyShoot()
@@ -320,8 +347,15 @@ void Game::CollisionProjectile() {
 					return;
 				} else if (IsOnCollider((*it)->projectile.getGlobalBounds(), (*it2)->rectangle.getGlobalBounds())) {
 
-					(*it2)->TakeDommage((*it)->weaponDamage);
+					if (!(*it2)->isInvincible || (*it)->typeProjectile != TYPE_PROJECTILE::GRENADE)
+					{
+						(*it2)->TakeDommage((*it)->weaponDamage);
+					}
 
+					if ((*it)->typeProjectile == TYPE_PROJECTILE::GRENADE)
+					{
+						(*it2)->hasTakenDamage = true;
+					}
 					if ((*it)->typeProjectile == TYPE_PROJECTILE::BULLET)
 					{
 						(*it)->~Projectile();
@@ -460,22 +494,25 @@ void Game::AutoCallWave(sf::RenderWindow* window)
 		changeWave = false;
 		nbWave++;
 		if (nbWave == 1) {
-			CreateWave(2, 0, window);
+			CreateWave(2, 0, 0, window);
 		}
 		if (nbWave == 2) {
-			CreateWave(0, 2, window);
+			CreateWave(0, 2, 0, window);
 		}
 		if (nbWave == 3) {
-			CreateWave(5, 0, window);
+			CreateWave(0, 0, 2, window);
 		}
 		if (nbWave == 4) {
-			CreateWave(0, 5, window);
+			CreateWave(5, 0, 0, window);
 		}
 		if (nbWave == 5) {
-			CreateWave(5, 5, window);
+			CreateWave(0, 5, 0, window);
 		}
 		if (nbWave == 6) {
-			CreateWave(10, 10, window);
+			CreateWave(5, 5, 0, window);
+		}
+		if (nbWave == 7) {
+			CreateWave(5, 5, 2, window);
 		}
 	}
 }

@@ -18,17 +18,19 @@ public:
 	bool moveOnX = true;
 	bool moveOnY = true;
 public:
-	Enemy(float _posX, float _poxY, int thicknessesEnemy, Weapon* weapon);
-	void DisplayEnemy(sf::RenderWindow* window);
+	Enemy(float _posX, float _poxY, int thicknessesEnemy, Weapon* weapon, int vie, float speed);
+	virtual void DisplayEnemy(sf::RenderWindow* window);
 	void UpdateTarget(sf::Vector2f newTarget);
 	void UpdatePos(float x, float y);
-	void UpdateUiToPv();
+	virtual void UpdateUiToPv();
 	bool IsOnColliderWithEnemy(std::list<Enemy*> listEnemy);
 	bool IsOnColliderWithBrique(std::list<Brique*> listBrique);
 	virtual void PerformAction(float _deltaTime);
 	virtual float GetNextMovementX();
 	virtual float GetNextMovementY();
-private:
+	void FeedbackDamageTaken(float _deltaTime);
+
+protected:
 	void UpdateEnemyPos();
-	void UpdatePositionUiPv();
+	virtual void UpdatePositionUiPv();
 };
