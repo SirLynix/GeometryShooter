@@ -15,12 +15,12 @@ public:
 	float heightWeapon;
 	int ammo;
 	sf::Text name;
-
-protected:
-	float _fireRate;
+	float couldownFireRate;
+	float amplitudeShakeScreen;
+	float timeShake;
 
 public:
-	Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name);
+	Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name, float timeShake, float amplitudeShakeScreen);
 	virtual void Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf);
 	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf);
 	void UpdateOrigineProjectile(sf::Vector2f origin);

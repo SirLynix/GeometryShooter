@@ -1,7 +1,7 @@
 #include "GrenadeLauncher.h"
 #include "Grenade.h"
 
-GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher")
+GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher",0.1f, 3.0f )
 {
 	this->widthWeapon = 15;
 	this->heightWeapon = 25;
@@ -9,7 +9,7 @@ GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher")
 	this->rectangle.setSize(sf::Vector2f(widthWeapon, heightWeapon));
 	this->rectangle.setOrigin(sf::Vector2f(widthWeapon / 2, heightWeapon / 2));
 	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
-	this->rectangle.setFillColor(sf::Color(55, 158, 73));
+	this->rectangle.setFillColor(sf::Color(255, 255, 255)); //(228, 0, 250)
 }
 
 void GrenadeLauncher::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
@@ -17,9 +17,9 @@ void GrenadeLauncher::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*
 	if (fireRate < 0) {
 		return;
 	}
-	if (_fireRate < 0) {
+	if (couldownFireRate < 0) {
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.0f, projectileOf));
-		_fireRate = fireRate;
+		couldownFireRate = fireRate;
 		ammo--;
 	}
 }
@@ -29,6 +29,6 @@ Projectile* GrenadeLauncher::CreateProjectile(sf::Vector2f targetProjectile, flo
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x);
 
 
-	return new Grenade(this->origin, targetProjectile, projectileOf);
+	return new Grenade(this->origin, targetProjectile, projectileOf, this->rectangle.getFillColor());
 }
 

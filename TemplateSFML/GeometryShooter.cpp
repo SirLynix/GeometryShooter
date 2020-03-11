@@ -12,6 +12,7 @@
 #include "Gun.h"
 #include "GrenadeLauncher.h"
 #include "UI.h"
+#include "ShakeScreen.h";
 
 using namespace std;
 using namespace sf;
@@ -30,6 +31,7 @@ int main()
 
 	Game* game = new Game(new Player(window.getSize().x / 2, window.getSize().y / 2, new Gun()), window.getSize().x, window.getSize().y);
 	UI* ui = new UI(&window, getAssetPath() + "\\retro.ttf", game);
+	ShakeScreen* shakeScreen = new ShakeScreen(&view, game->player->cercle.getPosition());
 
 	float deltaTime;
 
@@ -62,9 +64,17 @@ int main()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 
-			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
 			if (game->player->weapon->ammo < 1) {
 				game->player->weapon = new Gun();
+				game->player->weapon->couldownFireRate = game->player->weapon->fireRate;
+			}
+
+			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+
+			if (game->player->weapon->couldownFireRate == game->player->weapon->fireRate) {
+				shakeScreen->shakeSreen = true;
+				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
+				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
 			}
 
 		}
@@ -76,11 +86,17 @@ int main()
 		}
 
 		game->UpdateTime(deltaTime);
+		if ( shakeScreen->shakeSreen ) {
+			shakeScreen->UpdateCooldown(deltaTime);
+		}
 		game->UpdateGame();
 		ui->UpdatePosUI();
 		ui->UpdateHpPlayerUI();
 
-		view.setCenter(game->player->posX, game->player->posY);
+		shakeScreen->UpdateOrigine(game->player->cercle.getPosition());
+
+		shakeScreen->CheckForShake();
+
 		window.setView(view);
 
 		window.clear();

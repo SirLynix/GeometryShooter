@@ -1,9 +1,9 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf) : weaponDamage(weaponDamage), speed(speed), origin(origin), targetProjectile(targetProjectile), projectileOf(projectileOf)
+Projectile::Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf, sf::Color colorProjectil) : weaponDamage(weaponDamage), speed(speed), origin(origin), targetProjectile(targetProjectile), projectileOf(projectileOf), colorProjectil(colorProjectil)
 {
 	this->projectile.setRadius(5);
-	this->projectile.setFillColor(sf::Color::Green);
+	this->projectile.setFillColor(this->colorProjectil);
 	this->projectile.setPosition(origin);
 	this->projectile.setOrigin(5, 5);
 	this->canExplode = false;
@@ -69,7 +69,7 @@ void Projectile::ChangeColor()
 	}
 	else
 	{
-		this->projectile.setFillColor(sf::Color::Green);
+		this->projectile.setFillColor(this->colorProjectil);
 	}
 	
 }

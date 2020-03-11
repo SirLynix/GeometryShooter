@@ -29,11 +29,11 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->listWeapon.push_back(newWeapon);
 
 	Weapon* newWeapon2 = new ShotGun();
-	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(1600, 200));
+	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
 	this->listWeapon.push_back(newWeapon2);
 
 	Weapon* newWeapon3 = new GrenadeLauncher();
-	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(200, 1000));
+	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
 	this->listWeapon.push_back(newWeapon3);
 
 
@@ -152,8 +152,8 @@ void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 			if (y < borneMin) {
 				y = borneMin;
 			}
-			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, 999, ""));
-			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()))
+			Enemy* enemyZombie = new Zombie(x, y, thicknessesEnemy, new Weapon(1, 2, -1, 999, "", 0, 0));
+			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyZombie->rectangle.getGlobalBounds()) && !enemyZombie->IsOnColliderWithEnemy(this->listEnemy))
 			{
 				enemiSpawn = true;
 				this->AddEnemy(enemyZombie);
@@ -176,7 +176,7 @@ void Game::CreateWave(int nbZombie, int nbArcher, sf::RenderWindow* window)
 				y = borneMin;
 			}
 			Enemy* enemyArcher = new Archer(x, y, thicknessesEnemy, new Arc());
-			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyArcher->rectangle.getGlobalBounds()))
+			if (!this->player->spawnCircle.getGlobalBounds().intersects(enemyArcher->rectangle.getGlobalBounds()) && !enemyArcher->IsOnColliderWithEnemy(this->listEnemy))
 			{
 				enemiSpawn = true;
 				this->AddEnemy(enemyArcher);
@@ -453,6 +453,7 @@ void Game::AutoCallWeapons(sf::RenderWindow* window) {
 		SpawnWeapons(window);
 	}
 }
+
 void Game::AutoCallWave(sf::RenderWindow* window)
 {
 	if (changeWave && timeBeforeCallNewWave < 0.0f) {
@@ -524,6 +525,7 @@ void Game::Restart(float _posX, float _posY)
 
 	this->nbWave = 0;
 	this->changeWave = false;
+	this->timeBeforeNewWeapons = -1.0f;
 	this->player->~Player();
 	this->player = new Player(_posX,_posY,new Gun());
 

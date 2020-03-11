@@ -26,9 +26,10 @@ public:
 	float explosionCooldown = -1.0f;
 	float projectileCooldown = 0.25f;
 	bool colorChange = false;
+	sf::Color colorProjectil;
 	
 public:
-	Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf);
+	Projectile(int weaponDamage, float speed, sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf, sf::Color colorProjectil);
 	virtual void MoveProjectile(float _deltaTime);
 	void DisplayProjectile(sf::RenderWindow* window);
 	void UpdateRadius(float _deltaTime);

@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(float _posX, float _posY, int thicknessesEnemy, Weapon* weapon) : Character(3, 0.025f, _posX, _posY, true, weapon)
+Enemy::Enemy(float _posX, float _posY, int thicknessesEnemy, Weapon* weapon) : Character(3, 2.5f, _posX, _posY, true, weapon)
 {
 	this->UpdateEnemyPos();
 	this->rectangle.setSize(sf::Vector2f(thicknessesEnemy, thicknessesEnemy));

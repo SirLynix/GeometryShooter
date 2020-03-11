@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Projectile.h"
 
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), _fireRate(0), ammo(ammo) {
+Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name, float timeShake, float amplitudeShakeScreen) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), couldownFireRate(0), ammo(ammo), timeShake(timeShake), amplitudeShakeScreen(amplitudeShakeScreen) {
 
 	this->heightWeapon = 0;
 	this->widthWeapon = 0;
@@ -14,9 +14,9 @@ void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listPr
 	if (fireRate < 0) {
 		return;
 	}
-	if (_fireRate < 0) {
+	if (couldownFireRate < 0) {
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.0f, projectileOf));
-		_fireRate = fireRate;
+		couldownFireRate = fireRate;
 		ammo--;
 	}
 
@@ -28,12 +28,12 @@ Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleO
 
 	if (projectileOf == PROJECTILE_OF::ENEMY)
 	{
-		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
+		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf, this->rectangle.getFillColor());
 		projectile->projectile.setFillColor(sf::Color::Cyan);
 		return projectile;
 	} else
 	{
-		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf);
+		Projectile* projectile = new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf, this->rectangle.getFillColor());
 		return projectile;
 	}
 
@@ -46,7 +46,7 @@ void Weapon::UpdateOrigineProjectile(sf::Vector2f origin)
 }
 
 void Weapon::UpdateFireRate(float deltaTime) {
-	this->_fireRate -= deltaTime;
+	this->couldownFireRate -= deltaTime;
 }
 
 void Weapon::DrawWeapon(sf::RenderWindow* window)

@@ -1,26 +1,25 @@
 #include "Shotgun.h"
 
-
-ShotGun::ShotGun() : Weapon(1, 1.0f, .8f, 12, "Shotgun") {
+ShotGun::ShotGun() : Weapon(1, 1.0f, .8f, 12, "Shotgun", 0.1f, 2.0f) {
 	this->widthWeapon = 15;
 	this->heightWeapon = 35;
 
 	this->rectangle.setSize(sf::Vector2f(widthWeapon, heightWeapon));
 	this->rectangle.setOrigin(sf::Vector2f(widthWeapon / 2, heightWeapon / 2));
 	this->rectangle.setPosition(sf::Vector2f(this->origin.x, this->origin.y));
-	this->rectangle.setFillColor(sf::Color(73, 88, 49));
+	this->rectangle.setFillColor(sf::Color(250, 0, 86));
 }
 
 void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
-	if (_fireRate < 0) {
-		listProjectile->push_back(new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf));
+	if (couldownFireRate < 0) {
+		listProjectile->push_back(new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf, this->rectangle.getFillColor()));
 
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.05f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.1f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.05f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.1f, projectileOf));
-		_fireRate = fireRate;
+		couldownFireRate = fireRate;
 		ammo--;
 	}
 
@@ -39,5 +38,5 @@ Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angle
 	double angle = atan2(targetProjectile.y - origin.y, targetProjectile.x - origin.x) + angleOffset;
 
 	sf::Vector2f newTargetProjectile = sf::Vector2f(cos(angle) + this->origin.x, sin(angle) + this->origin.y);
-	return new Projectile(this->weaponDamage, randomSpeed / 100, this->origin, newTargetProjectile, projectileOf);
+	return new Projectile(this->weaponDamage, randomSpeed / 100, this->origin, newTargetProjectile, projectileOf, this->rectangle.getFillColor());
 }
