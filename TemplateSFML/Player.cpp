@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "Arena.h"
 #include "Enemy.h"
+#include "Sound.h"
 
 const int radiusPlayer = 20;
 const float PI = 3.14159265359;
@@ -33,6 +34,11 @@ void Player::Dash()
 		this->baseSpeed = this->speed;
 
 		this->speed *= this->dashFactor;
+		buffer.loadFromFile("Dash.wav");
+		sound.setVolume(100.0f);
+		sound.setBuffer(buffer);
+		sound.play();
+		canPlay = false;
 	}
 }
 

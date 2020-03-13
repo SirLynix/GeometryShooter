@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Character.h"
 #include "Arena.h"
 #include "Enemy.h"
@@ -27,6 +28,10 @@ public:
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
 	std::list<ACTION> listAction;
+	sf::CircleShape shockWave;
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
+	bool canPlay = true;
 
 
 public:

@@ -3,16 +3,18 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <windows.h>
+#include <SFML/Audio.hpp>
+#include "Weapon.h"
 #include "Game.h"
 #include "Player.h"
-#include "Weapon.h"
 #include "Shotgun.h"
 #include "MachineGun.h"
 #include "Gun.h"
 #include "GrenadeLauncher.h"
 #include "UI.h"
 #include "ShakeScreen.h";
+#include "windows.h"
+#include "Sound.h"
 
 using namespace std;
 using namespace sf;
@@ -25,7 +27,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer", Style::Fullscreen);
 
 	sf::View view(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x - 200, window.getSize().y - 200));
-
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
 	sf::Clock clock;
 	sf::Mouse mouse;
 
@@ -71,11 +74,42 @@ int main()
 
 			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
 
-			if (game->player->weapon->couldownFireRate == game->player->weapon->fireRate) {
+			if (game->player->weapon->couldownFireRate == game->player->weapon->fireRate) 
+			{
+				if (game->player->weapon->name.getString() == "Gun")
+				{
+					buffer.loadFromFile("Gun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				}
+				else if (game->player->weapon->name.getString() == "Machinegun")
+				{
+					buffer.loadFromFile("MachineGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				}
+				else if (game->player->weapon->name.getString() == "Shotgun")
+				{
+					buffer.loadFromFile("ShotGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.setPitch(1.3f);
+					sound.play();
+				}
+				else if (game->player->weapon->name.getString() == "GrenadeLauncher")
+				{
+					buffer.loadFromFile("GrenadeLauncher.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				}
 				shakeScreen->shakeSreen = true;
 				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
 				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
 			}
+
 
 		}
 
@@ -116,8 +150,8 @@ string getAppPath() {
 	return exeFilePath.substr(0, exeNamePos + 1);
 }
 
-string getAssetPath() {
-	string path = getAppPath();
+ string getAssetPath() {
+	static string path = getAppPath();
 	return path + "Assets";
 }
 

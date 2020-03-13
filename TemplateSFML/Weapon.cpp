@@ -11,6 +11,7 @@ Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
+	
 	if (fireRate < 0) {
 		return;
 	}
@@ -19,7 +20,6 @@ void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listPr
 		couldownFireRate = fireRate;
 		ammo--;
 	}
-
 }
 
 Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf)
