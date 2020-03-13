@@ -12,14 +12,14 @@ ShotGun::ShotGun() : Weapon(1, 1.0f, 1.2f, 12, "Shotgun", 0.1f, 2.0f) {
 
 void ShotGun::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
-	if (couldownFireRate < 0) {
+	if (cooldownFirerate < 0) {
 		listProjectile->push_back(new Projectile(this->weaponDamage, this->speedBullet, this->origin, targetProjectile, projectileOf, this->rectangle.getFillColor()));
 
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.05f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.1f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.05f, projectileOf));
 		listProjectile->push_back(CreateProjectile(targetProjectile, -0.1f, projectileOf));
-		couldownFireRate = fireRate;
+		cooldownFirerate = fireRate;
 		ammo--;
 	}
 

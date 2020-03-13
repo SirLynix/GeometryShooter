@@ -3,7 +3,6 @@
 class Heal : public PowerUp
 {
 public:
-	Heal(float posX, float posY, sf::Font* textFont, int _powerUp);
+	Heal(float posX, float posY, sf::Font* font, int _powerUp);
 	void ApplyPowerUp(Player* player) override;
 };
-

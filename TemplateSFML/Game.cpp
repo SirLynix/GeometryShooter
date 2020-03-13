@@ -11,6 +11,8 @@
 #include "Arc.h"
 #include "Grenade.h"
 #include "Heal.h"
+#include "AmmoBox.h"
+#include "Akimbo.h"
 #include "PowerUp.h"
 #include "Tank.h"
 #include "BulletTime.h"
@@ -25,6 +27,11 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
+
+	//PowerUp* ammo = new AmmoBox(200, 300);
+	//PowerUp* akim = new Akimbo(600, 600);
+	//this->listpowerUp.push_back(ammo);
+	//this->listpowerUp.push_back(akim);
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -134,14 +141,20 @@ void Game::SpawnPowerUp(sf::RenderWindow* window, sf::Font* font)
 		}
 
 		PowerUp* powerUp = new BulletTime(x, y, font, 1);
-		typePowerUp = rand() % 3;
+		typePowerUp = rand() % 4;
 		switch (typePowerUp)
 		{
 		case 0:
-			powerUp = new Heal(x,y,font,1);
+			powerUp = new Heal(x, y, font, 1);
 			break;
 		case 1:
 			powerUp = new BulletTime(x, y, font, 1);
+			break;
+		case 2:
+			powerUp = new Akimbo(x, y, font);
+			break;
+		case 3:
+			powerUp = new AmmoBox(x, y, font);
 			break;
 		}
 
@@ -278,8 +291,7 @@ void Game::MoveAllEnemy()
 
 		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
 			(*it)->moveOnX = false;
-		}
-		else {
+		} else {
 			(*it)->moveOnX = true;
 		}
 
@@ -288,8 +300,7 @@ void Game::MoveAllEnemy()
 
 		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
 			(*it)->moveOnY = false;
-		}
-		else {
+		} else {
 			(*it)->moveOnY = true;
 		}
 		(*it)->UpdatePos(0, -nextY);
@@ -466,6 +477,11 @@ void Game::CollisionPlayer() {
 
 void Game::UpdateGame() {
 
+	if (this->player->isAkimbo) {
+		this->player->akimbo->UpdateFireRate(deltaTime);
+	}
+	this->player->UpdateAkimbo(deltaTime);
+
 	this->CheckForBulletTime();
 	this->timeBeforeCallNewWave -= this->deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, this->deltaTime);
@@ -574,8 +590,7 @@ void Game::CheckForNewPowerUp()
 	if (timeBeforeNewPowerUp < 0.f && !addNewPowerUp) {
 		addNewPowerUp = true;
 		timeBeforeNewPowerUp = 20.f;
-	}
-	else {
+	} else {
 		timeBeforeNewPowerUp -= deltaTime;
 	}
 }
@@ -611,7 +626,7 @@ void Game::Restart(float _posX, float _posY)
 	this->timeBeforeNewWeapons = -1.0f;
 	this->timeBeforeNewPowerUp = -1.0f;
 	this->player->~Player();
-	this->player = new Player(_posX,_posY,new Gun());
+	this->player = new Player(_posX, _posY, new Gun());
 
 }
 
@@ -619,15 +634,14 @@ void Game::CheckForBulletTime()
 {
 	if (this->player->onBulletTime && this->player->bulletTimeDuration > 0.0f) {
 		this->deltaTime /= 2.5f;
-	}
-	else {
+	} else {
 		this->player->onBulletTime = false;
 	}
 }
 
 void Game::UpdateBulletTime()
 {
-	if ( this->player->onBulletTime ) {
+	if (this->player->onBulletTime) {
 		this->player->bulletTimeDuration -= this->deltaTime;
 	}
 }

@@ -97,7 +97,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../external/SFML-2.5.1/lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-audio.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,6 +154,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Akimbo.h" />
+    <ClInclude Include="AmmoBox.h" />
     <ClInclude Include="Arc.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Arena.h" />
@@ -178,6 +180,8 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Akimbo.cpp" />
+    <ClCompile Include="AmmoBox.cpp" />
     <ClCompile Include="Arc.cpp" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Arena.cpp" />

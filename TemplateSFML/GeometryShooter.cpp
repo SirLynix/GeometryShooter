@@ -94,7 +94,7 @@ int main()
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-				game->Restart(ui->window->getSize().x/2,ui->window->getSize().y/2);
+				game->Restart(ui->window->getSize().x / 2, ui->window->getSize().y / 2);
 			}
 
 		}
@@ -105,11 +105,34 @@ int main()
 
 			if (game->player->weapon->ammo == 0) {
 				game->player->weapon = new Gun();
-				game->player->weapon->couldownFireRate = game->player->weapon->fireRate;
+				game->player->weapon->cooldownFirerate = game->player->weapon->fireRate;
 			}
 
-			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+			if (game->player->isAkimbo) {
+				float newFR = game->player->weapon->fireRate / 2.f;
+				int nbProj = game->listProjectile.size();
 
+				if (game->player->akimboLeft) {
+					game->player->akimbo->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					if (game->listProjectile.size() > nbProj) {
+						game->player->akimboLeft ^= true;
+						game->player->weapon->cooldownFirerate = newFR;
+					}
+
+				} else {
+					game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					if (game->listProjectile.size() > nbProj) {
+						game->player->akimboLeft ^= true;
+						game->player->akimbo->cooldownFirerate = newFR;
+					}
+				}
+			} else {
+				game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+			}
+
+			if (game->player->weapon->cooldownFirerate == game->player->weapon->fireRate) {
+
+<<<<<<< HEAD
 			if (game->player->weapon->couldownFireRate == game->player->weapon->fireRate) 
 			{
 				if (game->player->onBulletTime == true)
@@ -177,6 +200,28 @@ int main()
 					}
 				}
 				else if (game->player->weapon->name.getString() == "GrenadeLauncher")
+=======
+				if (game->player->weapon->name.getString() == "Gun")
+				{
+					buffer.loadFromFile("Gun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "Machinegun")
+				{
+					buffer.loadFromFile("MachineGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "Shotgun")
+				{
+					buffer.loadFromFile("ShotGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.setPitch(1.3f);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "GrenadeLauncher")
+>>>>>>> 4dc0a2a9df7e79c834b3214edb3f1fc7cad4de13
 				{
 					if (game->player->onBulletTime == true)
 					{
@@ -195,6 +240,7 @@ int main()
 						sound.play();
 					}
 				}
+
 				shakeScreen->shakeSreen = true;
 				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
 				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
@@ -214,7 +260,7 @@ int main()
 		ui->CheckForWinAndLose();
 		game->UpdateGame();
 
-		if ( shakeScreen->shakeSreen ) {
+		if (shakeScreen->shakeSreen) {
 			shakeScreen->UpdateCooldown(deltaTime);
 		}
 
@@ -232,6 +278,7 @@ int main()
 	}
 }
 
+
 string getAppPath() {
 	char cExeFilePath[256];
 	GetModuleFileNameA(NULL, cExeFilePath, 256);
@@ -240,7 +287,7 @@ string getAppPath() {
 	return exeFilePath.substr(0, exeNamePos + 1);
 }
 
- string getAssetPath() {
+string getAssetPath() {
 	static string path = getAppPath();
 	return path + "Assets";
 }

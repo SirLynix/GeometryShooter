@@ -15,6 +15,10 @@ Player::Player(int _posX, int _posY, Weapon* weapon) : Character(3, 200.0f, _pos
 	this->cercle.setOrigin(radiusPlayer, radiusPlayer);
 	this->cercle.setFillColor(sf::Color::Green);
 
+	this->isAkimbo = false;
+	this->akimboCD = 0.f;
+	this->akimboLeft = false;
+
 	this->canDash = true;
 	this->baseCD = 1.5f;
 
@@ -47,6 +51,9 @@ void Player::DrawPlayer(sf::RenderWindow* window)
 	window->draw(this->cercle);
 
 	this->weapon->DrawWeapon(window);
+	if (this->isAkimbo) {
+		this->akimbo->DrawWeapon(window);
+	}
 }
 
 void Player::MoveTo(float _posX, float _posY)
@@ -66,10 +73,17 @@ void Player::removeAction(ACTION actionToDel)
 	while (it != this->listAction.end()) {
 		if ((*it) == actionToDel) {
 			it = this->listAction.erase(it);
-		}
-		else {
+		} else {
 			it++;
 		}
+	}
+}
+
+void Player::UpdateAkimbo(float deltaTime) {
+	if (this->isAkimbo && this->akimboCD > 0.f) {
+		this->akimboCD -= deltaTime;
+	} else {
+		this->isAkimbo = false;
 	}
 }
 
@@ -89,62 +103,48 @@ void Player::UpdateDirectionMovement()
 	while (it != this->listAction.end()) {
 		if ((*it) == ACTION::UP) {
 			isUp = true;
-		}else if ((*it) == ACTION::DOWN) {
+		} else if ((*it) == ACTION::DOWN) {
 			isDown = true;
-		}else if ((*it) == ACTION::LEFT) {
+		} else if ((*it) == ACTION::LEFT) {
 			isLeft = true;
-		}else if ((*it) == ACTION::RIGHT) {
+		} else if ((*it) == ACTION::RIGHT) {
 			isRight = true;
 		}
 		it++;
 	}
 
-	if ( isUp && isDown && isLeft && isRight ) {
+	if (isUp && isDown && isLeft && isRight) {
 		this->SetTypeMovment(ACTION::NONE);
-	}
-	else if ( isUp && isDown && isLeft) {
+	} else if (isUp && isDown && isLeft) {
 		this->SetTypeMovment(ACTION::LEFT);
-	}
-	else if (isUp && isDown && isRight) {
+	} else if (isUp && isDown && isRight) {
 		this->SetTypeMovment(ACTION::RIGHT);
-	}
-	else if (isLeft && isRight && isUp) {
+	} else if (isLeft && isRight && isUp) {
 		this->SetTypeMovment(ACTION::UP);
-	}
-	else if (isLeft && isRight && isDown) {
+	} else if (isLeft && isRight && isDown) {
 		this->SetTypeMovment(ACTION::DOWN);
-	}
-	else if ((isLeft && isRight) || (isUp && isDown)) {
+	} else if ((isLeft && isRight) || (isUp && isDown)) {
 		this->SetTypeMovment(ACTION::NONE);
-	}
-	else if (isLeft && isUp) {
+	} else if (isLeft && isUp) {
 		this->SetTypeMovment(ACTION::UP_LEFT);
-	}
-	else if (isLeft && isDown) {
+	} else if (isLeft && isDown) {
 		this->SetTypeMovment(ACTION::DOWN_LEFT);
-	}
-	else if (isRight && isUp) {
+	} else if (isRight && isUp) {
 		this->SetTypeMovment(ACTION::UP_RIGHT);
-	}
-	else if (isRight && isDown) {
+	} else if (isRight && isDown) {
 		this->SetTypeMovment(ACTION::DOWN_RIGHT);
-	}
-	else if (isDown) {
+	} else if (isDown) {
 		this->SetTypeMovment(ACTION::DOWN);
-	}
-	else if (isUp) {
+	} else if (isUp) {
 		this->SetTypeMovment(ACTION::UP);
-	}
-	else if (isLeft) {
+	} else if (isLeft) {
 		this->SetTypeMovment(ACTION::LEFT);
-	}
-	else if (isRight) {
+	} else if (isRight) {
 		this->SetTypeMovment(ACTION::RIGHT);
-	}
-	else {
+	} else {
 		this->SetTypeMovment(ACTION::NONE);
 	}
-	
+
 
 }
 
@@ -230,24 +230,35 @@ void Player::RotationPlayer(float angleRotation) {
 	this->weapon->rectangle.setRotation(angleRotation * (180 / PI) + 90);
 
 	float angleWeapon = 90 * (PI / 180);
+	sf::Vector2f origin = this->CalculOrigineProj(angleRotation, angleWeapon);
+	this->weapon->UpdateOrigineProjectile(origin);
+
+	if (this->isAkimbo) {
+		this->akimbo->rectangle.setRotation(angleRotation * (180 / PI) + 90);
+
+		float angleAkimbo = -90 * (PI / 180);
+		sf::Vector2f origin = this->CalculOrigineProj(angleRotation, angleAkimbo);
+		this->akimbo->UpdateOrigineProjectile(origin);
+	}
+}
+
+sf::Vector2f Player::CalculOrigineProj(float angleRotation, float angleWeapon) {
 	float distanceWeaponFactor = 1.0f;
 	float posXOrigineFire = (this->posX + cos(angleRotation + angleWeapon) * this->cercle.getRadius() * distanceWeaponFactor);
 	float posYOrigineFire = (this->posY + sin(angleRotation + angleWeapon) * this->cercle.getRadius() * distanceWeaponFactor);
-
-	this->weapon->UpdateOrigineProjectile(sf::Vector2f(posXOrigineFire, posYOrigineFire));
+	return sf::Vector2f(posXOrigineFire, posYOrigineFire);
 }
 
 void Player::FeedbackDamageTaken(float _deltaTime)
 {
 	if (this->hasTakenDamage == true)
 	{
-		if(colorChangeDamage >= 0.0f)
+		if (colorChangeDamage >= 0.0f)
 		{
 			isInvincible = true;
 			this->cercle.setFillColor(sf::Color::Red);
 			colorChangeDamage -= _deltaTime;
-		}
-		else
+		} else
 		{
 			this->cercle.setFillColor(sf::Color::Green);
 			colorChangeDamage = 0.1f;
