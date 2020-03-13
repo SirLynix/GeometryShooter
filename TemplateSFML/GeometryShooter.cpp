@@ -20,6 +20,7 @@ using namespace sf;
 string getAppPath();
 string getAssetPath();
 void InputForMovePlayer(sf::Event event, Player* player);
+void ShootEffect(Weapon* weapon, bool onBulletTime, sf::Music& musicBulletTime, sf::Music& music, sf::SoundBuffer& buffer, sf::Sound& sound, ShakeScreen* shakeScreen);
 
 int main()
 {
@@ -42,10 +43,9 @@ int main()
 	float deltaTime;
 
 	music.openFromFile("Music.wav");
-	music.setVolume(10.0f);
+	music.setVolume(15.0f);
 	music.setPitch(1.0f);
 	music.play();
-
 
 	// Initialise everything below
 	// Game loop
@@ -76,12 +76,9 @@ int main()
 			
 		}
 
-
 		sf::Event event;
 		while (window.pollEvent(event)) {
 
-			
-			
 			// Process any input event here
 			if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
 				window.close();
@@ -114,6 +111,7 @@ int main()
 
 				if (game->player->akimboLeft) {
 					game->player->akimbo->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					ShootEffect(game->player->akimbo, game->player->onBulletTime, musicBulletTime, music, buffer, sound, shakeScreen);
 					if (game->listProjectile.size() > nbProj) {
 						game->player->akimboLeft ^= true;
 						game->player->weapon->cooldownFirerate = newFR;
@@ -121,6 +119,7 @@ int main()
 
 				} else {
 					game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					ShootEffect(game->player->weapon, game->player->onBulletTime, musicBulletTime, music, buffer, sound, shakeScreen);
 					if (game->listProjectile.size() > nbProj) {
 						game->player->akimboLeft ^= true;
 						game->player->akimbo->cooldownFirerate = newFR;
@@ -128,99 +127,8 @@ int main()
 				}
 			} else {
 				game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+				ShootEffect(game->player->weapon, game->player->onBulletTime, musicBulletTime, music, buffer, sound, shakeScreen);
 			}
-
-			if (game->player->weapon->cooldownFirerate == game->player->weapon->fireRate) 
-			{
-				if (game->player->onBulletTime == true)
-				{
-					musicBulletTime.setVolume(10.0f);
-					music.setVolume(0.0f);
-				}
-				musicBulletTime.setVolume(0.0f);
-				music.setVolume(10.0f);
-				if (game->player->weapon->name.getString() == "Gun")
-				{
-					if (game->player->onBulletTime == true)
-					{
-						buffer.loadFromFile("Gun.wav");
-						sound.setPitch(0.7f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-					else if (game->player->onBulletTime == false)
-					{
-						buffer.loadFromFile("Gun.wav");
-						sound.setPitch(1.0f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-				}
-				else if (game->player->weapon->name.getString() == "Machinegun")
-				{
-					if (game->player->onBulletTime == true)
-					{
-						buffer.loadFromFile("MachineGun.wav");
-						sound.setPitch(0.7f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-					else if (game->player->onBulletTime == false)
-					{
-						buffer.loadFromFile("MachineGun.wav");
-						sound.setPitch(1.0f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-				}
-				else if (game->player->weapon->name.getString() == "Shotgun")
-				{
-					if (game->player->onBulletTime == true)
-					{
-						buffer.loadFromFile("ShotGun.wav");
-						sound.setPitch(0.7f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-					else if (game->player->onBulletTime == false)
-					{
-						buffer.loadFromFile("ShotGun.wav");
-						sound.setPitch(1.0f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-				}
-				else if (game->player->weapon->name.getString() == "GrenadeLauncher")
-				{
-					if (game->player->onBulletTime == true)
-					{
-						buffer.loadFromFile("GrenadeLauncher.wav");
-						sound.setPitch(0.7f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-					else if (game->player->onBulletTime == false)
-					{
-						buffer.loadFromFile("GrenadeLauncher.wav");
-						sound.setPitch(1.0f);
-						sound.setVolume(20.0f);
-						sound.setBuffer(buffer);
-						sound.play();
-					}
-				}
-
-				shakeScreen->shakeSreen = true;
-				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
-				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
-			}
-
 
 		}
 
@@ -229,7 +137,6 @@ int main()
 
 			game->player->RotationPlayer(angle);
 		}
-
 
 		game->UpdateTime(deltaTime);
 		ui->CheckForWinAndLose();
@@ -305,5 +212,98 @@ void InputForMovePlayer(sf::Event event, Player* player) {
 			player->removeAction(ACTION::RIGHT);
 		}
 
+	}
+}
+
+void ShootEffect(Weapon* weapon, bool onBulletTime, sf::Music &musicBulletTime, sf::Music &music, sf::SoundBuffer &buffer, sf::Sound &sound, ShakeScreen* shakeScreen) {
+	if (weapon->cooldownFirerate == weapon->fireRate)
+	{
+		if (onBulletTime == true)
+		{
+			musicBulletTime.setVolume(10.0f);
+			music.setVolume(0.0f);
+		}
+		musicBulletTime.setVolume(0.0f);
+		music.setVolume(10.0f);
+		if (weapon->name.getString() == "Gun")
+		{
+			if (onBulletTime == true)
+			{
+				buffer.loadFromFile("Gun.wav");
+				sound.setPitch(0.7f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+			else if (onBulletTime == false)
+			{
+				buffer.loadFromFile("Gun.wav");
+				sound.setPitch(1.0f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+		}
+		else if (weapon->name.getString() == "Machinegun")
+		{
+			if (onBulletTime == true)
+			{
+				buffer.loadFromFile("MachineGun.wav");
+				sound.setPitch(0.7f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+			else if (onBulletTime == false)
+			{
+				buffer.loadFromFile("MachineGun.wav");
+				sound.setPitch(1.0f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+		}
+		else if (weapon->name.getString() == "Shotgun")
+		{
+			if (onBulletTime == true)
+			{
+				buffer.loadFromFile("ShotGun.wav");
+				sound.setPitch(0.7f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+			else if (onBulletTime == false)
+			{
+				buffer.loadFromFile("ShotGun.wav");
+				sound.setPitch(1.0f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+		}
+		else if (weapon->name.getString() == "GrenadeLauncher")
+		{
+			if (onBulletTime == true)
+			{
+				buffer.loadFromFile("GrenadeLauncher.wav");
+				sound.setPitch(0.7f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+			else if (onBulletTime == false)
+			{
+				buffer.loadFromFile("GrenadeLauncher.wav");
+				sound.setPitch(1.0f);
+				sound.setVolume(20.0f);
+				sound.setBuffer(buffer);
+				sound.play();
+			}
+		}
+
+		shakeScreen->shakeSreen = true;
+		shakeScreen->UpdateAmplitude(weapon->amplitudeShakeScreen);
+		shakeScreen->UpdateTimeShake(weapon->timeShake);
 	}
 }
