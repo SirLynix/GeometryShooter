@@ -4,7 +4,7 @@
 
 Heal::Heal(float posX, float posY, sf::Font* font, int _powerUp) : PowerUp(posX, posY, font, "Heal", _powerUp) {
 
-	this->namePowerUp.setPosition(this->posX - 20, this->posY - 45);
+	this->namePowerUp.setPosition(this->posX - 30, this->posY - 45);
 	this->namePowerUp.setCharacterSize(20);
 }
 

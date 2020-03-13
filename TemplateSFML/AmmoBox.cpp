@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 AmmoBox::AmmoBox(float posX, float posY, sf::Font* font) : PowerUp(posX, posY, font, "AmmoBox", 0) {
-	this->namePowerUp.setPosition(this->posX - 20, this->posY - 45);
+	this->namePowerUp.setPosition(this->posX - 50, this->posY - 45);
 	this->namePowerUp.setCharacterSize(20);
 }
 
