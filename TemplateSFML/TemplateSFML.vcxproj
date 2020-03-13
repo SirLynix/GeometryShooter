@@ -154,6 +154,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Akimbo.h" />
+    <ClInclude Include="AmmoBox.h" />
     <ClInclude Include="Arc.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Arena.h" />
@@ -178,6 +180,8 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Akimbo.cpp" />
+    <ClCompile Include="AmmoBox.cpp" />
     <ClCompile Include="Arc.cpp" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Arena.cpp" />
