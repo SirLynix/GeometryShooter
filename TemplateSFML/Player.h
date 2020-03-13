@@ -17,6 +17,8 @@ public:
 	bool canMove = true;
 	bool isDashing = false;
 	bool canDash;
+	bool onBulletTime = false;
+	float bulletTimeDuration = 0.0f;
 	float dashFactor;
 	float baseSpeed;
 	float dashDuration;

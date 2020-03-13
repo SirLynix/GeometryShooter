@@ -66,7 +66,7 @@ int main()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 
-			if (game->player->weapon->ammo < 1) {
+			if (game->player->weapon->ammo == 0) {
 				game->player->weapon = new Gun();
 				game->player->weapon->couldownFireRate = game->player->weapon->fireRate;
 			}
@@ -118,25 +118,25 @@ int main()
 			game->player->RotationPlayer(angle);
 		}
 
+
 		game->UpdateTime(deltaTime);
+		ui->CheckForWinAndLose();
+		game->UpdateGame();
+
 		if ( shakeScreen->shakeSreen ) {
 			shakeScreen->UpdateCooldown(deltaTime);
 		}
-		game->UpdateGame();
+
 		ui->UpdatePosUI();
 		ui->UpdateHpPlayerUI();
 
 		shakeScreen->UpdateOrigine(game->player->cercle.getPosition());
-
 		shakeScreen->CheckForShake();
-
 		window.setView(view);
 
 		window.clear();
-
-		game->DisplayGame(ui->window);
+		game->DisplayGame(ui->window, ui->fontForText);
 		ui->DisplayUI();
-
 		window.display();
 	}
 }

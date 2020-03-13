@@ -10,5 +10,7 @@ Heal::Heal(float posX, float posY, sf::Font* textFont, int _powerUp) : PowerUp(p
 
 void Heal::ApplyPowerUp(Player* player)
 {
-	player->vie += this->powerUp;
+	if ( player->vie < 3 ) {
+		player->vie += this->powerUp;
+	}
 }

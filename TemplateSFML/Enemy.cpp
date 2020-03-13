@@ -90,20 +90,16 @@ float Enemy::GetNextMovementY()
 void Enemy::FeedbackDamageTaken(float _deltaTime)
 {
 	
-	if (this->hasTakenDamage == true)
+	if (this->hasTakenDamage && colorChangeDamage >= 0.0f)
 	{
-		if (colorChangeDamage >= 0.0f)
-		{
-			isInvincible = true;
-			colorChangeDamage -= _deltaTime;
-		}
-		else
-		{
-			colorChangeDamage = 2.0f;
-			hasTakenDamage = false;
-			isInvincible = false;;
-		}
-
+		isInvincible = true;
+		colorChangeDamage -= _deltaTime;
+	}
+	else
+	{
+		colorChangeDamage = 1.0f;
+		hasTakenDamage = false;
+		isInvincible = false;;
 	}
 }
 

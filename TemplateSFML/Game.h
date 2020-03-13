@@ -28,17 +28,20 @@ public:
 	float totalTime;
 	float timeBeforeCallNewWave = -1;
 	float timeBeforeNewWeapons = -1;
+	float timeBeforeNewPowerUp = -1;
 	bool changeWave = false;
-	bool changeWeapons = false;
+	bool changeWeapons = true;
+	bool addNewPowerUp = true;
 	int nbWave = 0;
 	
 public:
 	Game(Player* _player, int height, int width);
 	void AddEnemy(Enemy* enemyToAdd);
 	void RemoveEnemy(Enemy* enemyToRemove);
-	void DisplayGame(sf::RenderWindow* window);
+	void DisplayGame(sf::RenderWindow* window, sf::Font* font);
 	void CreateWave(int nbZombie, int nbArcher,int nbTank, sf::RenderWindow* window);
 	void SpawnWeapons(sf::RenderWindow* window);
+	void SpawnPowerUp(sf::RenderWindow* window,sf::Font* font);
 	void UpdateTime(float _deltaTime);
 	void UpdateDash();
 	void MoveAllEnemy();
@@ -49,9 +52,13 @@ public:
 	bool IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect);
 	void AllEnemyShoot();
 	void UpdateGame();
-	void AutoCallWeapons(sf::RenderWindow* window);
 	void AutoCallWave(sf::RenderWindow* window);
+	void AutoCallWeapons(sf::RenderWindow* window);
+	void AutoCallPowerUp(sf::RenderWindow* window, sf::Font* font);
 	void CheckForNewWave();
 	void CheckForNewWeapons();
+	void CheckForNewPowerUp();
 	void Restart(float _posX, float _posY);
+	void CheckForBulletTime();
+	void UpdateBulletTime();
 };

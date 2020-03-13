@@ -54,7 +54,12 @@ void UI::DisplayUI()
 	this->window->draw(*this->UIRectangle);
 	this->window->draw(*this->vie);
 
-	this->ammo->setString(to_string(game->player->weapon->ammo));
+	if (game->player->weapon->ammo >= 0) {
+		this->ammo->setString(to_string(game->player->weapon->ammo));
+	}
+	else {
+		this->ammo->setString("Infini"); // Symbole Infini : "\u221E"
+	}
 	this->window->draw(*this->ammo);
 	this->window->draw(*this->selectedWeapon);
 	window->draw(this->baseCDUI);
@@ -69,7 +74,6 @@ void UI::DisplayUI()
 		it2++;
 	}
 
-	CheckForWinAndLose();
 	this->window->draw(this->texteWinLose);
 	window->draw(textNextWave);
 	window->draw(textNextWaveCountdown);
@@ -117,7 +121,8 @@ void UI::UpdatePosUI()
 
 	this->ammo->setFillColor(sf::Color::White);
 	this->ammo->setCharacterSize(25);
-	this->ammo->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 450.0f, this->UIRectangle->getPosition().y + 10.0f));
+	this->ammo->setOrigin(sf::Vector2f(this->ammo->getGlobalBounds().width, this->ammo->getGlobalBounds().height / 2));
+	this->ammo->setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + 505.0f, this->UIRectangle->getPosition().y + 20.0f));
 
 	float UiX = 0.0f;
 
@@ -150,11 +155,13 @@ void UI::CheckForWinAndLose()
 	if (game->listEnemy.empty() && game->nbWave >= 7 && game->player->vie > 0) {
 		this->texteWinLose.setString("VICTORY");
 		this->texteWinLose.setPosition(game->player->posX - 265.0f, game->player->posY);
+		this->game->deltaTime = 0;
 		
 	} else if (game->player->typeMovement == ACTION::DEAD)
 	{
 		this->texteWinLose.setString("YOU DIED");
 		this->texteWinLose.setPosition(game->player->posX - 288.0f, game->player->posY);
+		this->game->deltaTime = 0;
 	} else
 	{
 		this->texteWinLose.setString("");
