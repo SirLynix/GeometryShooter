@@ -1,6 +1,6 @@
 #include "Gun.h"
 
-Gun::Gun() : Weapon(1, 1.5f, .75f, 999, "Gun", 0.1f, 1.5f) {
+Gun::Gun() : Weapon(1, 1.5f, .75f, -1, "Gun", 0.1f, 1.5f) {
 	this->widthWeapon = 10;
 	this->heightWeapon = 20;
 

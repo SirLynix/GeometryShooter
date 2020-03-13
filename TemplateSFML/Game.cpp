@@ -13,6 +13,7 @@
 #include "Heal.h"
 #include "PowerUp.h"
 #include "Tank.h"
+#include "BulletTime.h"
 
 const int thicknessesBrique = 10;
 const int thicknessesEnemy = 50;
@@ -24,22 +25,6 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	this->arena = new Arena(height, width, thicknessesBrique, nbTiles, 50);
 	this->deltaTime = 0;
 	this->totalTime = 0;
-
-	Weapon* newWeapon = new MachineGun();
-	newWeapon->UpdateOrigineProjectile(sf::Vector2f(200, 200));
-	this->listWeapon.push_back(newWeapon);
-
-	Weapon* newWeapon2 = new ShotGun();
-	newWeapon2->UpdateOrigineProjectile(sf::Vector2f(300, 200));
-	this->listWeapon.push_back(newWeapon2);
-
-	Weapon* newWeapon3 = new GrenadeLauncher();
-	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
-	this->listWeapon.push_back(newWeapon3);
-
-
-	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
-	//this->listpowerUp.push_back(newPowerUp);
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -52,11 +37,12 @@ void Game::RemoveEnemy(Enemy* enemyToRemove)
 	listEnemy.remove(enemyToRemove);
 }
 
-void Game::DisplayGame(sf::RenderWindow* window)
+void Game::DisplayGame(sf::RenderWindow* window, sf::Font* font)
 {
 	this->arena->DisplayArena(window);
 	this->AutoCallWave(window);
 	this->AutoCallWeapons(window);
+	this->AutoCallPowerUp(window, font);
 
 	std::list<PowerUp*>::iterator it4 = this->listpowerUp.begin();
 	while (it4 != this->listpowerUp.end()) {
@@ -85,7 +71,6 @@ void Game::DisplayGame(sf::RenderWindow* window)
 	}
 
 	this->player->DrawPlayer(window);
-
 }
 
 void Game::SpawnWeapons(sf::RenderWindow* window) {
@@ -124,6 +109,43 @@ void Game::SpawnWeapons(sf::RenderWindow* window) {
 
 		weapon->UpdateOrigineProjectile(sf::Vector2f(x, y));
 		this->listWeapon.push_back(weapon);
+	}
+}
+
+void Game::SpawnPowerUp(sf::RenderWindow* window, sf::Font* font)
+{
+	int borneMaxX = window->getSize().x - thicknessesEnemy / 2 - thicknessesBrique;
+	int borneMaxY = window->getSize().y - thicknessesEnemy / 2 - thicknessesBrique;
+
+	int borneMin = thicknessesEnemy / 2 + thicknessesBrique;
+
+	int x, y;
+	int typePowerUp;
+	for (size_t i = 0; i < 2; i++)
+	{
+
+		x = rand() % (borneMaxX + 1);
+		y = rand() % (borneMaxY + 1);
+		if (x < borneMin) {
+			x = borneMin;
+		}
+		if (y < borneMin) {
+			y = borneMin;
+		}
+
+		PowerUp* powerUp = new BulletTime(x, y, font, 1);
+		typePowerUp = rand() % 3;
+		switch (typePowerUp)
+		{
+		case 0:
+			powerUp = new Heal(x,y,font,1);
+			break;
+		case 1:
+			powerUp = new BulletTime(x, y, font, 1);
+			break;
+		}
+
+		this->listpowerUp.push_back(powerUp);
 	}
 }
 
@@ -214,34 +236,6 @@ void Game::UpdateTime(float _deltaTime)
 {
 	this->totalTime += _deltaTime;
 	this->deltaTime = _deltaTime;
-	this->timeBeforeCallNewWave -= _deltaTime;
-	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
-	this->player->weapon->UpdateFireRate(deltaTime);
-	this->player->FeedbackDamageTaken(this->deltaTime);
-
-	UpdateDash();
-
-	std::list<Enemy*>::iterator it = this->listEnemy.begin();
-	while (it != this->listEnemy.end()) {
-		(*it)->weapon->UpdateFireRate(_deltaTime);
-		it++;
-	}
-
-
-	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
-	while (it2 != this->listProjectile.end()) {
-		if ((*it2)->canExplode)
-		{
-			(*it2)->UpdateRadius(_deltaTime);
-
-		}
-		if ((*it2)->explosionCooldown > -1.0f)
-		{
-			(*it2)->UpdateExplosionCooldown(_deltaTime);
-		}
-		it2++;
-	}
-
 }
 
 void Game::UpdateDash()
@@ -471,20 +465,61 @@ void Game::CollisionPlayer() {
 }
 
 void Game::UpdateGame() {
+
+	this->CheckForBulletTime();
+	this->timeBeforeCallNewWave -= this->deltaTime;
+	this->player->PerformAction(this->arena, this->listEnemy, this->deltaTime);
+	this->player->weapon->UpdateFireRate(this->deltaTime);
+	this->player->FeedbackDamageTaken(this->deltaTime);
+
+	UpdateDash();
+	UpdateBulletTime();
+
+	std::list<Enemy*>::iterator it = this->listEnemy.begin();
+	while (it != this->listEnemy.end()) {
+		(*it)->weapon->UpdateFireRate(this->deltaTime);
+		it++;
+	}
+
+
+	std::list<Projectile*>::iterator it2 = this->listProjectile.begin();
+	while (it2 != this->listProjectile.end()) {
+		if ((*it2)->canExplode)
+		{
+			(*it2)->UpdateRadius(this->deltaTime);
+
+		}
+		if ((*it2)->explosionCooldown > -1.0f)
+		{
+			(*it2)->UpdateExplosionCooldown(this->deltaTime);
+		}
+		it2++;
+	}
+
 	this->MoveAllEnemy();
 	this->AllEnemyShoot();
 	this->MoveAllProjectiles();
+	this->CheckForNewWeapons();
+	this->CheckForNewPowerUp();
 	this->CollisionPlayer();
 	this->CollisionProjectile();
 	this->CollisionEnemy();
 	this->CheckForNewWave();
-	this->CheckForNewWeapons();
+
 }
 
 void Game::AutoCallWeapons(sf::RenderWindow* window) {
 	if (changeWeapons && timeBeforeNewWeapons < 0.f) {
 		changeWeapons = false;
 		SpawnWeapons(window);
+	}
+}
+
+void Game::AutoCallPowerUp(sf::RenderWindow* window, sf::Font* font)
+{
+	if (addNewPowerUp && timeBeforeNewPowerUp < 0.f) {
+		addNewPowerUp = false;
+		SpawnPowerUp(window, font);
 	}
 }
 
@@ -534,6 +569,17 @@ void Game::CheckForNewWeapons() {
 	}
 }
 
+void Game::CheckForNewPowerUp()
+{
+	if (timeBeforeNewPowerUp < 0.f && !addNewPowerUp) {
+		addNewPowerUp = true;
+		timeBeforeNewPowerUp = 20.f;
+	}
+	else {
+		timeBeforeNewPowerUp -= deltaTime;
+	}
+}
+
 void Game::Restart(float _posX, float _posY)
 {
 	std::list<Enemy*>::iterator it = this->listEnemy.begin();
@@ -563,9 +609,27 @@ void Game::Restart(float _posX, float _posY)
 	this->nbWave = 0;
 	this->changeWave = false;
 	this->timeBeforeNewWeapons = -1.0f;
+	this->timeBeforeNewPowerUp = -1.0f;
 	this->player->~Player();
 	this->player = new Player(_posX,_posY,new Gun());
 
+}
+
+void Game::CheckForBulletTime()
+{
+	if (this->player->onBulletTime && this->player->bulletTimeDuration > 0.0f) {
+		this->deltaTime /= 2.5f;
+	}
+	else {
+		this->player->onBulletTime = false;
+	}
+}
+
+void Game::UpdateBulletTime()
+{
+	if ( this->player->onBulletTime ) {
+		this->player->bulletTimeDuration -= this->deltaTime;
+	}
 }
 
 bool Game::IsOnCollider(sf::FloatRect firstRect, sf::FloatRect secondeRect)

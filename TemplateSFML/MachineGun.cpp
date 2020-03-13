@@ -1,6 +1,6 @@
 #include "MachineGun.h"
 
-MachineGun::MachineGun() : Weapon(1, 2.0f, 0.1f, 100, "Machinegun", 0.1f, 1.0f ) {
+MachineGun::MachineGun() : Weapon(1, 2.0f, 0.17f, 50, "Machinegun", 0.1f, 1.0f ) {
 	this->widthWeapon = 10;
 	this->heightWeapon = 35;
 

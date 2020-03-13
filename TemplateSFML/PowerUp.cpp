@@ -20,3 +20,6 @@ void PowerUp::DisplayPowerUp(sf::RenderWindow* window)
 	window->draw(this->circle);
 	window->draw(this->namePowerUp);
 }
+
+
+
