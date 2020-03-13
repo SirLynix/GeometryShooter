@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Projectile.h"
 #include <list>
+#include "Sound.h"
+
 class Weapon
 {
 public:

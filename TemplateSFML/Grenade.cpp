@@ -1,11 +1,13 @@
 #include "Grenade.h"
 
+
 Grenade::Grenade(sf::Vector2f origin, sf::Vector2f targetProjectile, PROJECTILE_OF projectileOf, sf::Color colorProjectil) : Projectile(3, 0.75f,origin,targetProjectile, projectileOf, colorProjectil)
 {
 	this->shockWave.setFillColor(colorProjectil);
 	this->typeProjectile = TYPE_PROJECTILE::GRENADE;
 	this->projectile.setRadius(10);
 	this->projectile.setOrigin(10, 10);
+	this->canPlay = canPlay;
 }
 
 void Grenade::MoveProjectile(float _deltaTime)
@@ -18,9 +20,10 @@ void Grenade::MoveProjectile(float _deltaTime)
 		ChangeColor();
 
 	}
-	
+
 	if (canExplode || explosionCooldown > -1.0f)
 	{
+		
 		return;
 	}
 
@@ -50,6 +53,14 @@ void Grenade::MoveProjectile(float _deltaTime)
 
 void Grenade::SetExplosionSettings()
 {
+	if (canPlay)
+	{
+		buffer.loadFromFile("explosion.wav");
+		sound.setVolume(20.0f);
+		sound.setBuffer(buffer);
+		sound.play();
+		canPlay = false;
+	}
 	this->projectile.setFillColor(sf::Color(0, 0, 0, 0));
 	this->projectile.setOutlineColor(this->colorProjectil);
 	this->projectile.setOutlineThickness(4.0f);
