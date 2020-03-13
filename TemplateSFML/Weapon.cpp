@@ -15,6 +15,7 @@ Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int maxAmmo,
 
 void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf)
 {
+
 	if (fireRate < 0) {
 		return;
 	}

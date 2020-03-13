@@ -1,0 +1,47 @@
+﻿  Arc.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Archer.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Archer.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Arena.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(3,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Brique.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  BulletTime.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\PowerUp.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Character.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Enemy.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Enemy.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Game.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(3,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Grenade.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  GrenadeLauncher.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Gun.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Heal.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\PowerUp.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  MachineGun.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Player.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  PowerUp.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\PowerUp.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Projectile.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Projectile.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  GeometryShooter.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(5,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  ShakeScreen.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\ShakeScreen.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Shotgun.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Tank.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Compilation en cours...
+  UI.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\UI.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Weapon.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Weapon.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+  Zombie.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.h(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory

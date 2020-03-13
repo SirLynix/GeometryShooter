@@ -3,16 +3,17 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <windows.h>
+#include <SFML/Audio.hpp>
+#include "Weapon.h"
 #include "Game.h"
 #include "Player.h"
-#include "Weapon.h"
 #include "Shotgun.h"
 #include "MachineGun.h"
 #include "Gun.h"
 #include "GrenadeLauncher.h"
 #include "UI.h"
 #include "ShakeScreen.h";
+#include "windows.h"
 
 using namespace std;
 using namespace sf;
@@ -25,7 +26,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "ChronoSpacer", Style::Fullscreen);
 
 	sf::View view(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x - 200, window.getSize().y - 200));
-
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
 	sf::Clock clock;
 	sf::Mouse mouse;
 
@@ -64,7 +66,7 @@ int main()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && game->player->typeMovement != ACTION::DEAD) {
 
-			if (game->player->weapon->ammo < 1) {
+			if (game->player->weapon->ammo == 0) {
 				game->player->weapon = new Gun();
 				game->player->weapon->cooldownFirerate = game->player->weapon->fireRate;
 			}
@@ -92,10 +94,39 @@ int main()
 			}
 
 			if (game->player->weapon->cooldownFirerate == game->player->weapon->fireRate) {
+
+				if (game->player->weapon->name.getString() == "Gun")
+				{
+					buffer.loadFromFile("Gun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "Machinegun")
+				{
+					buffer.loadFromFile("MachineGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "Shotgun")
+				{
+					buffer.loadFromFile("ShotGun.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.setPitch(1.3f);
+					sound.play();
+				} else if (game->player->weapon->name.getString() == "GrenadeLauncher")
+				{
+					buffer.loadFromFile("GrenadeLauncher.wav");
+					sound.setVolume(20.0f);
+					sound.setBuffer(buffer);
+					sound.play();
+				}
+
 				shakeScreen->shakeSreen = true;
 				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
 				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
 			}
+
 
 		}
 
@@ -105,28 +136,29 @@ int main()
 			game->player->RotationPlayer(angle);
 		}
 
+
 		game->UpdateTime(deltaTime);
+		ui->CheckForWinAndLose();
+		game->UpdateGame();
+
 		if (shakeScreen->shakeSreen) {
 			shakeScreen->UpdateCooldown(deltaTime);
 		}
-		game->UpdateGame();
+
 		ui->UpdatePosUI();
 		ui->UpdateHpPlayerUI();
 
 		shakeScreen->UpdateOrigine(game->player->cercle.getPosition());
-
 		shakeScreen->CheckForShake();
-
 		window.setView(view);
 
 		window.clear();
-
-		game->DisplayGame(ui->window);
+		game->DisplayGame(ui->window, ui->fontForText);
 		ui->DisplayUI();
-
 		window.display();
 	}
 }
+
 
 string getAppPath() {
 	char cExeFilePath[256];
@@ -137,7 +169,7 @@ string getAppPath() {
 }
 
 string getAssetPath() {
-	string path = getAppPath();
+	static string path = getAppPath();
 	return path + "Assets";
 }
 

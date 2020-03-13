@@ -1,79 +1,148 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (TemplateSFML.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (TemplateSFML.vcxproj, TestArcher.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Arc.cpp
   Archer.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Archer.cpp(8,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Archer.cpp(12,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Archer.cpp(16,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
   Arena.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.cpp(9,70): warning C4244: 'initialisation' : conversion de 'T' en 'unsigned int', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.cpp(12,51): warning C4244: 'initialisation' : conversion de 'T' en 'unsigned int', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.cpp(20,87): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.cpp(20,53): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
   Brique.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(6,33): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(6,30): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(9,60): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(6,33): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(6,30): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(9,60): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(9,40): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(9,40): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(11,47): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(12,47): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Brique.cpp(11,40): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Brique.cpp(12,40): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
+  BulletTime.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\BulletTime.cpp(4,134): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   Character.cpp
   Enemy.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Enemy.cpp(6,57): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Enemy.cpp(6,57): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Enemy.cpp(6,39): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Enemy.cpp(6,39): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Enemy.cpp(7,67): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Enemy.cpp(7,45): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Enemy.cpp(7,67): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Enemy.cpp(7,45): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   Game.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(5,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(6,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(19,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(22,23): warning C4018: '<' : incompatibilité signed/unsigned
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(26,24): warning C4018: '<' : incompatibilité signed/unsigned
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(32,56): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(5,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(6,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(23,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(110,51): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(32,48): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(110,48): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(89,38): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(89,35): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(106,38): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.cpp(106,35): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(136,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(136,37): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(141,25): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(141,23): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(144,32): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(144,29): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(178,39): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(178,36): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(201,39): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(201,36): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(225,35): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(225,32): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(248,129): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(614,34): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.cpp(614,28): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+  Grenade.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Grenade.cpp(42,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Grenade.cpp(43,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  GrenadeLauncher.cpp
+  Gun.cpp
+  Heal.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Heal.cpp(5,110): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Heal.cpp(14,31): warning C4244: '+=' : conversion de 'float' en 'int', perte possible de données
+  MachineGun.cpp
   Player.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Player.cpp(9,85): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Player.cpp(9,78): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(8,31): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(10,84): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(10,77): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(186,20): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(187,20): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(189,19): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(190,20): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(192,20): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(193,19): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(195,19): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Player.cpp(196,19): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  PowerUp.cpp
   Projectile.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Projectile.cpp(16,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Projectile.cpp(17,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
-  TestArcher.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(5,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\Game.h(6,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,72): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Projectile.cpp(20,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Projectile.cpp(21,14): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  GeometryShooter.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(5,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(6,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(15,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(28,72): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
           with
           [
               T=unsigned int
@@ -82,7 +151,7 @@ D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,72): warning C4244:
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,48): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(28,48): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
           with
           [
               T=unsigned int
@@ -91,7 +160,7 @@ D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,48): warning C4244:
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,136): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(28,136): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
           with
           [
               T=unsigned int
@@ -100,7 +169,7 @@ D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,136): warning C4244
           [
               T=float
           ]
-D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,110): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(28,110): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
           with
           [
               T=unsigned int
@@ -109,10 +178,91 @@ D:\Projets\VS\GeometryShooter\TemplateSFML\TestArcher.cpp(20,110): warning C4244
           [
               T=float
           ]
-  Weapon.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-  Zombie.cpp
-D:\Projets\VS\GeometryShooter\TemplateSFML\Zombie.cpp(23,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-D:\Projets\VS\GeometryShooter\TemplateSFML\Zombie.cpp(39,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(60,68): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+          with
+          [
+              T=unsigned int
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(60,42): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+          with
+          [
+              T=unsigned int
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\GeometryShooter.cpp(118,33): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  ShakeScreen.cpp
+  Shotgun.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Shotgun.cpp(31,10): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Shotgun.cpp(32,10): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Shotgun.cpp(37,20): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Shotgun.cpp(40,90): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Shotgun.cpp(40,61): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+  Tank.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.cpp(64,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.cpp(80,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.cpp(87,22): warning C4018: '>' : incompatibilité signed/unsigned
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.cpp(100,20): warning C4018: '<' : incompatibilité signed/unsigned
+D:\Travail\C++\GeometryShoot\TemplateSFML\Tank.cpp(108,18): warning C4018: '<' : incompatibilité signed/unsigned
   Génération de code en cours...
-  TemplateSFML.vcxproj -> D:\Projets\VS\GeometryShooter\Debug\TestArcher.exe
+  Compilation en cours...
+  UI.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(5,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+D:\Travail\C++\GeometryShoot\TemplateSFML\Game.h(6,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+  Weapon.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Arena.h(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+  Zombie.cpp
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.cpp(7,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.cpp(11,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.cpp(15,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.cpp(40,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+D:\Travail\C++\GeometryShoot\TemplateSFML\Zombie.cpp(56,14): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
+Game.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: virtual __thiscall sf::Sound::~Sound(void)" (__imp_??1Sound@sf@@UAE@XZ) référencé dans la fonction "public: __thiscall Player::~Player(void)" (??1Player@@QAE@XZ)
+Grenade.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: virtual __thiscall sf::Sound::~Sound(void)" (__imp_??1Sound@sf@@UAE@XZ)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: virtual __thiscall sf::Sound::~Sound(void)" (__imp_??1Sound@sf@@UAE@XZ)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: virtual __thiscall sf::Sound::~Sound(void)" (__imp_??1Sound@sf@@UAE@XZ)
+Game.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::~SoundBuffer(void)" (__imp_??1SoundBuffer@sf@@QAE@XZ) référencé dans la fonction "public: __thiscall Player::~Player(void)" (??1Player@@QAE@XZ)
+Grenade.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::~SoundBuffer(void)" (__imp_??1SoundBuffer@sf@@QAE@XZ)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::~SoundBuffer(void)" (__imp_??1SoundBuffer@sf@@QAE@XZ)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::~SoundBuffer(void)" (__imp_??1SoundBuffer@sf@@QAE@XZ)
+Grenade.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::SoundSource::setVolume(float)" (__imp_?setVolume@SoundSource@sf@@QAEXM@Z) référencé dans la fonction "public: virtual void __thiscall Grenade::SetExplosionSettings(void)" (?SetExplosionSettings@Grenade@@UAEXXZ)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::SoundSource::setVolume(float)" (__imp_?setVolume@SoundSource@sf@@QAEXM@Z)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::SoundSource::setVolume(float)" (__imp_?setVolume@SoundSource@sf@@QAEXM@Z)
+Grenade.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::Sound::Sound(void)" (__imp_??0Sound@sf@@QAE@XZ) référencé dans la fonction "public: __thiscall Grenade::Grenade(class sf::Vector2<float>,class sf::Vector2<float>,enum PROJECTILE_OF,class sf::Color)" (??0Grenade@@QAE@V?$Vector2@M@sf@@0W4PROJECTILE_OF@@VColor@2@@Z)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::Sound::Sound(void)" (__imp_??0Sound@sf@@QAE@XZ)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::Sound::Sound(void)" (__imp_??0Sound@sf@@QAE@XZ)
+Grenade.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::Sound::setBuffer(class sf::SoundBuffer const &)" (__imp_?setBuffer@Sound@sf@@QAEXABVSoundBuffer@2@@Z) référencé dans la fonction "public: virtual void __thiscall Grenade::SetExplosionSettings(void)" (?SetExplosionSettings@Grenade@@UAEXXZ)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::Sound::setBuffer(class sf::SoundBuffer const &)" (__imp_?setBuffer@Sound@sf@@QAEXABVSoundBuffer@2@@Z)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::Sound::setBuffer(class sf::SoundBuffer const &)" (__imp_?setBuffer@Sound@sf@@QAEXABVSoundBuffer@2@@Z)
+Grenade.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::SoundBuffer(void)" (__imp_??0SoundBuffer@sf@@QAE@XZ) référencé dans la fonction "public: __thiscall Grenade::Grenade(class sf::Vector2<float>,class sf::Vector2<float>,enum PROJECTILE_OF,class sf::Color)" (??0Grenade@@QAE@V?$Vector2@M@sf@@0W4PROJECTILE_OF@@VColor@2@@Z)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::SoundBuffer(void)" (__imp_??0SoundBuffer@sf@@QAE@XZ)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: __thiscall sf::SoundBuffer::SoundBuffer(void)" (__imp_??0SoundBuffer@sf@@QAE@XZ)
+Grenade.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: bool __thiscall sf::SoundBuffer::loadFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (__imp_?loadFromFile@SoundBuffer@sf@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) référencé dans la fonction "public: virtual void __thiscall Grenade::SetExplosionSettings(void)" (?SetExplosionSettings@Grenade@@UAEXXZ)
+Player.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: bool __thiscall sf::SoundBuffer::loadFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (__imp_?loadFromFile@SoundBuffer@sf@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+GeometryShooter.obj : error LNK2001: symbole externe non résolu "__declspec(dllimport) public: bool __thiscall sf::SoundBuffer::loadFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (__imp_?loadFromFile@SoundBuffer@sf@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+    Conseil sur les symboles définis et susceptibles de correspondre :
+      "__declspec(dllimport) public: bool __thiscall sf::Font::loadFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (__imp_?loadFromFile@Font@sf@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+GeometryShooter.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: void __thiscall sf::SoundSource::setPitch(float)" (__imp_?setPitch@SoundSource@sf@@QAEXM@Z) référencé dans la fonction _main
+GeometryShooter.obj : error LNK2019: symbole externe non résolu "__declspec(dllimport) public: virtual void __thiscall sf::Sound::play(void)" (__imp_?play@Sound@sf@@UAEXXZ) référencé dans la fonction _main
+D:\Travail\C++\GeometryShoot\Debug\GeometryShooter.exe : fatal error LNK1120: 9 externes non résolus

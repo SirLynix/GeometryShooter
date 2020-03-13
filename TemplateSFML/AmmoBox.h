@@ -3,6 +3,6 @@
 class AmmoBox : public PowerUp
 {
 public:
-	AmmoBox(float posX, float posY);
+	AmmoBox(float posX, float posY, sf::Font* font);
 	void ApplyPowerUp(Player* player) override;
 };

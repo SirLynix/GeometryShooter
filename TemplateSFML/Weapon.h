@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Projectile.h"
 #include <list>
+
 class Weapon
 {
 public:

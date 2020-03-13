@@ -1,6 +1,6 @@
 #include "Shotgun.h"
 
-ShotGun::ShotGun() : Weapon(1, 1.0f, .8f, 12, "Shotgun", 0.1f, 2.0f) {
+ShotGun::ShotGun() : Weapon(1, 1.0f, 1.2f, 12, "Shotgun", 0.1f, 2.0f) {
 	this->widthWeapon = 15;
 	this->heightWeapon = 35;
 
@@ -40,3 +40,4 @@ Projectile* ShotGun::CreateProjectile(sf::Vector2f targetProjectile, float angle
 	sf::Vector2f newTargetProjectile = sf::Vector2f(cos(angle) + this->origin.x, sin(angle) + this->origin.y);
 	return new Projectile(this->weaponDamage, randomSpeed / 100, this->origin, newTargetProjectile, projectileOf, this->rectangle.getFillColor());
 }
+

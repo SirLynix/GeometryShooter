@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Character.h"
 #include "Arena.h"
 #include "Enemy.h"
@@ -16,6 +17,8 @@ public:
 	bool canMove = true;
 	bool isDashing = false;
 	bool canDash;
+	bool onBulletTime = false;
+	float bulletTimeDuration = 0.0f;
 	float dashFactor;
 	float baseSpeed;
 	float dashDuration;
@@ -29,6 +32,10 @@ public:
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
 	std::list<ACTION> listAction;
+	sf::CircleShape shockWave;
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
+	bool canPlay = true;
 
 
 public:

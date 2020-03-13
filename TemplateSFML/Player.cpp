@@ -37,6 +37,11 @@ void Player::Dash()
 		this->baseSpeed = this->speed;
 
 		this->speed *= this->dashFactor;
+		buffer.loadFromFile("Dash.wav");
+		sound.setVolume(100.0f);
+		sound.setBuffer(buffer);
+		sound.play();
+		canPlay = false;
 	}
 }
 
