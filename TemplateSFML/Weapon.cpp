@@ -1,8 +1,12 @@
 #include "Weapon.h"
 #include "Player.h"
+#include "Gun.h"
+#include "Shotgun.h"
+#include "MachineGun.h"
+#include "GrenadeLauncher.h"
 #include "Projectile.h"
 
-Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name, float timeShake, float amplitudeShakeScreen) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), couldownFireRate(0), ammo(ammo), timeShake(timeShake), amplitudeShakeScreen(amplitudeShakeScreen) {
+Weapon::Weapon(int weaponDamage, float speedBullet, float fireRate, int maxAmmo, sf::String name, float timeShake, float amplitudeShakeScreen) : origin(sf::Vector2f(0, 0)), weaponDamage(weaponDamage), speedBullet(speedBullet), fireRate(fireRate), cooldownFirerate(0), ammo(maxAmmo), maxAmmo(maxAmmo), timeShake(timeShake), amplitudeShakeScreen(amplitudeShakeScreen) {
 
 	this->heightWeapon = 0;
 	this->widthWeapon = 0;
@@ -14,12 +18,26 @@ void Weapon::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listPr
 	if (fireRate < 0) {
 		return;
 	}
-	if (couldownFireRate < 0) {
+	if (cooldownFirerate < 0) {
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.0f, projectileOf));
-		couldownFireRate = fireRate;
+		cooldownFirerate = fireRate;
 		ammo--;
 	}
+}
 
+Weapon* Weapon::Clone() {
+	Weapon* clone = new Gun();
+	string name = this->name.getString();
+	if (name == sf::String("Shotgun")) {
+		clone = new ShotGun();
+	}
+	if (name == sf::String("Machinegun")) {
+		clone = new MachineGun();
+	}
+	if (name == sf::String("GrenadeLauncher")) {
+		clone = new GrenadeLauncher();
+	}
+	return clone;
 }
 
 Projectile* Weapon::CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf)
@@ -46,7 +64,7 @@ void Weapon::UpdateOrigineProjectile(sf::Vector2f origin)
 }
 
 void Weapon::UpdateFireRate(float deltaTime) {
-	this->couldownFireRate -= deltaTime;
+	this->cooldownFirerate -= deltaTime;
 }
 
 void Weapon::DrawWeapon(sf::RenderWindow* window)

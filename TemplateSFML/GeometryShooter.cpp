@@ -55,7 +55,7 @@ int main()
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-				game->Restart(ui->window->getSize().x/2,ui->window->getSize().y/2);
+				game->Restart(ui->window->getSize().x / 2, ui->window->getSize().y / 2);
 			}
 
 		}
@@ -66,12 +66,32 @@ int main()
 
 			if (game->player->weapon->ammo < 1) {
 				game->player->weapon = new Gun();
-				game->player->weapon->couldownFireRate = game->player->weapon->fireRate;
+				game->player->weapon->cooldownFirerate = game->player->weapon->fireRate;
 			}
 
-			game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+			if (game->player->isAkimbo) {
+				float newFR = game->player->weapon->fireRate / 2.f;
+				int nbProj = game->listProjectile.size();
 
-			if (game->player->weapon->couldownFireRate == game->player->weapon->fireRate) {
+				if (game->player->akimboLeft) {
+					game->player->akimbo->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					if (game->listProjectile.size() > nbProj) {
+						game->player->akimboLeft ^= true;
+						game->player->weapon->cooldownFirerate = newFR;
+					}
+
+				} else {
+					game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+					if (game->listProjectile.size() > nbProj) {
+						game->player->akimboLeft ^= true;
+						game->player->akimbo->cooldownFirerate = newFR;
+					}
+				}
+			} else {
+				game->player->weapon->Shoot(mousePos, &game->listProjectile, PROJECTILE_OF::PLAYER);
+			}
+
+			if (game->player->weapon->cooldownFirerate == game->player->weapon->fireRate) {
 				shakeScreen->shakeSreen = true;
 				shakeScreen->UpdateAmplitude(game->player->weapon->amplitudeShakeScreen);
 				shakeScreen->UpdateTimeShake(game->player->weapon->timeShake);
@@ -86,7 +106,7 @@ int main()
 		}
 
 		game->UpdateTime(deltaTime);
-		if ( shakeScreen->shakeSreen ) {
+		if (shakeScreen->shakeSreen) {
 			shakeScreen->UpdateCooldown(deltaTime);
 		}
 		game->UpdateGame();

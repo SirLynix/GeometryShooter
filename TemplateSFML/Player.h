@@ -21,6 +21,10 @@ public:
 	float dashDuration;
 	float dashCD = 0.0f;
 	float baseCD = 0.0f;
+	bool isAkimbo;
+	bool akimboLeft;
+	float akimboCD;
+	Weapon* akimbo;
 	sf::CircleShape cercle;
 	ACTION typeMovement;
 	sf::CircleShape spawnCircle;
@@ -36,6 +40,8 @@ public:
 	void addAction(ACTION actionToAdd);
 	void removeAction(ACTION actionToDel);
 	void UpdateDirectionMovement();
+	void UpdateAkimbo(float deltaTime);
+	sf::Vector2f CalculOrigineProj(float angleRotation, float angleWeapon);
 	void SetTypeMovment(ACTION _newAction);
 	void SetWeapon(Weapon* weapon);
 	void RotationPlayer(float angleRotation);

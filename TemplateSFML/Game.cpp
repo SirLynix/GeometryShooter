@@ -11,6 +11,8 @@
 #include "Arc.h"
 #include "Grenade.h"
 #include "Heal.h"
+#include "AmmoBox.h"
+#include "Akimbo.h"
 #include "PowerUp.h"
 #include "Tank.h"
 
@@ -37,9 +39,10 @@ Game::Game(Player* _player, int height, int width) : player(_player)
 	newWeapon3->UpdateOrigineProjectile(sf::Vector2f(400, 200));
 	this->listWeapon.push_back(newWeapon3);
 
-
-	//PowerUp* newPowerUp = new Heal(200, 300, this->fontForText, 1);
-	//this->listpowerUp.push_back(newPowerUp);
+	PowerUp* ammo = new AmmoBox(200, 300);
+	PowerUp* akim = new Akimbo(600, 600);
+	this->listpowerUp.push_back(ammo);
+	this->listpowerUp.push_back(akim);
 }
 
 void Game::AddEnemy(Enemy* enemyToAdd)
@@ -217,6 +220,10 @@ void Game::UpdateTime(float _deltaTime)
 	this->timeBeforeCallNewWave -= _deltaTime;
 	this->player->PerformAction(this->arena, this->listEnemy, deltaTime);
 	this->player->weapon->UpdateFireRate(deltaTime);
+	if (this->player->isAkimbo) {
+		this->player->akimbo->UpdateFireRate(deltaTime);
+	}
+	this->player->UpdateAkimbo(deltaTime);
 	this->player->FeedbackDamageTaken(this->deltaTime);
 
 	UpdateDash();
@@ -284,8 +291,7 @@ void Game::MoveAllEnemy()
 
 		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
 			(*it)->moveOnX = false;
-		}
-		else {
+		} else {
 			(*it)->moveOnX = true;
 		}
 
@@ -294,8 +300,7 @@ void Game::MoveAllEnemy()
 
 		if ((*it)->IsOnColliderWithEnemy(this->listEnemy)) {
 			(*it)->moveOnY = false;
-		}
-		else {
+		} else {
 			(*it)->moveOnY = true;
 		}
 		(*it)->UpdatePos(0, -nextY);
@@ -564,7 +569,7 @@ void Game::Restart(float _posX, float _posY)
 	this->changeWave = false;
 	this->timeBeforeNewWeapons = -1.0f;
 	this->player->~Player();
-	this->player = new Player(_posX,_posY,new Gun());
+	this->player = new Player(_posX, _posY, new Gun());
 
 }
 

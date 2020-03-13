@@ -1,8 +1,9 @@
 #pragma once
 #include "PowerUp.h"
-class Heal : public PowerUp
+class Akimbo : public PowerUp
 {
 public:
-	Heal(float posX, float posY, int _powerUp);
+	Akimbo(float posX, float posY);
 	void ApplyPowerUp(Player* player) override;
 };
+

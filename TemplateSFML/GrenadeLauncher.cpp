@@ -1,7 +1,7 @@
 #include "GrenadeLauncher.h"
 #include "Grenade.h"
 
-GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher",0.1f, 3.0f )
+GrenadeLauncher::GrenadeLauncher() : Weapon(3, 1.5f, 1.7f, 6, "GrenadeLauncher", 0.1f, 3.0f)
 {
 	this->widthWeapon = 15;
 	this->heightWeapon = 25;
@@ -17,9 +17,9 @@ void GrenadeLauncher::Shoot(sf::Vector2f targetProjectile, std::list<Projectile*
 	if (fireRate < 0) {
 		return;
 	}
-	if (couldownFireRate < 0) {
+	if (cooldownFirerate < 0) {
 		listProjectile->push_back(CreateProjectile(targetProjectile, 0.0f, projectileOf));
-		couldownFireRate = fireRate;
+		cooldownFirerate = fireRate;
 		ammo--;
 	}
 }

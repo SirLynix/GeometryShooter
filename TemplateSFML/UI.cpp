@@ -37,6 +37,12 @@ UI::UI(sf::RenderWindow* window, sf::String fontForText, Game* game) : window(wi
 	this->ammo = new sf::Text;
 	this->ammo->setFont(*this->fontForText);
 
+	std::list<PowerUp*>::iterator it = this->game->listpowerUp.begin();
+	while (it != this->game->listpowerUp.end()) {
+		(*it)->namePowerUp.setFont(*this->fontForText);
+		it++;
+	}
+
 	this->textNextWave.setFont(*this->fontForText);
 	this->textNextWave.setCharacterSize(25);
 	this->textNextWave.setOrigin(0, 0);
@@ -133,13 +139,12 @@ void UI::UpdatePosUI()
 
 	float offX = 330.0f;
 	float offY = 52.0f;
-	this->baseCDUI.setPosition(sf::Vector2f( this->UIRectangle->getPosition().x + offX, this->UIRectangle->getPosition().y + offY));
+	this->baseCDUI.setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + offX, this->UIRectangle->getPosition().y + offY));
 	this->dashCDUI.setPosition(sf::Vector2f(this->UIRectangle->getPosition().x + offX, this->UIRectangle->getPosition().y + offY));
 
 	if (game->player->dashCD > 0.f && !game->player->canDash) {
 		this->dashCDUI.setScale(sf::Vector2f(game->player->dashCD / game->player->baseCD, 1));
-	}
-	else {
+	} else {
 		this->dashCDUI.setScale(sf::Vector2f(game->player->dashCD / game->player->baseCD, 1));
 
 	}
@@ -150,7 +155,7 @@ void UI::CheckForWinAndLose()
 	if (game->listEnemy.empty() && game->nbWave >= 7 && game->player->vie > 0) {
 		this->texteWinLose.setString("VICTORY");
 		this->texteWinLose.setPosition(game->player->posX - 265.0f, game->player->posY);
-		
+
 	} else if (game->player->typeMovement == ACTION::DEAD)
 	{
 		this->texteWinLose.setString("YOU DIED");
@@ -168,12 +173,11 @@ void UI::CheckForNextWave()
 		float timeNormalized = (int)(this->game->timeBeforeCallNewWave * 10) / 10.0f;
 		this->textNextWave.setString(sf::String("Next wave : "));
 		this->textNextWave.setPosition(game->player->posX - 850.0f, game->player->posY + 400.0f);
-		this->textNextWaveCountdown.setString(to_string(timeNormalized).substr(0,3));
+		this->textNextWaveCountdown.setString(to_string(timeNormalized).substr(0, 3));
 		this->textNextWaveCountdown.setPosition(game->player->posX - 670.0f, game->player->posY + 400.0f);
 
-		
-	}
-	else
+
+	} else
 	{
 		this->textNextWave.setString(sf::String("Wave "));
 		this->textNextWave.setPosition(sf::Vector2f(this->game->player->posX - this->window->getSize().x / 2 + 120.0f, this->game->player->posY + this->window->getSize().y / 2 - 140));

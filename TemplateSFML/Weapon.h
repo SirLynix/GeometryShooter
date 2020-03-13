@@ -14,13 +14,15 @@ public:
 	float widthWeapon;
 	float heightWeapon;
 	int ammo;
+	int maxAmmo;
 	sf::Text name;
-	float couldownFireRate;
+	float cooldownFirerate;
 	float amplitudeShakeScreen;
 	float timeShake;
 
 public:
-	Weapon(int weaponDamage, float speedBullet, float fireRate, int ammo, sf::String name, float timeShake, float amplitudeShakeScreen);
+	Weapon(int weaponDamage, float speedBullet, float fireRate, int maxAmmo, sf::String name, float timeShake, float amplitudeShakeScreen);
+	Weapon* Clone();
 	virtual void Shoot(sf::Vector2f targetProjectile, std::list<Projectile*>* listProjectile, PROJECTILE_OF projectileOf);
 	virtual Projectile* CreateProjectile(sf::Vector2f targetProjectile, float angleOffset, PROJECTILE_OF projectileOf);
 	void UpdateOrigineProjectile(sf::Vector2f origin);
