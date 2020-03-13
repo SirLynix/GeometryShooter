@@ -14,7 +14,6 @@
 #include "UI.h"
 #include "ShakeScreen.h";
 #include "windows.h"
-#include "Sound.h"
 
 using namespace std;
 using namespace sf;
