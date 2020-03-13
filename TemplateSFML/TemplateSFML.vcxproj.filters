@@ -78,6 +78,9 @@
     <ClInclude Include="ShakeScreen.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="BulletTime.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Archer.cpp">
@@ -144,6 +147,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="ShakeScreen.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletTime.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

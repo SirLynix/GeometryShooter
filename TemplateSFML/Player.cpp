@@ -3,7 +3,6 @@
 #include "Character.h"
 #include "Arena.h"
 #include "Enemy.h"
-#include "Sound.h"
 
 const int radiusPlayer = 20;
 const float PI = 3.14159265359;
